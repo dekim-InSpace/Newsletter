@@ -10,16 +10,16 @@
   /* 화면 폭이 768px 이하(대부분 모바일)일 때만 적용 */
   @media (max-width: 768px) {
     .hero-bg {
-      /* 데스크톱에서는 center -60px,
-         모바일에서는 더 아래 쪽을 보여주도록 0으로 내림 */
+      /* 배경 이미지 위치 (필요하면 center -10px, center 10px 같이 미세 조정 가능) */
       background-position: center 0 !important;
     }
     .hero-header-cell {
-      /* 아래쪽 그라데이션만 있는 영역을 줄이기 위해 패딩 감소 */
-      padding-bottom: 16px !important;
+      /* 위/아래 padding을 같게 해서 내용이 중앙쯤 오도록 */
+      padding: 24px 0 24px 0 !important;
     }
   }
 </style>
+
 
 </head>
 
