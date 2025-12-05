@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>아카이</title>
+<title>아카이브</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -33,9 +33,14 @@
   /* 카드 영역를 조금 띄우기 위한 래퍼 */
   .archive-wrap {
     min-height: 100vh;
-    padding-bottom: 40px;
-    background: radial-gradient(circle at top, rgba(148,163,184,0.25) 0, transparent 55%);
+    padding-bottom: 160px;  /* 기존에 40px 정도였다면 160px로 늘리기 */
+    background: radial-gradient(
+      circle at top,
+      rgba(148,163,184,0.25) 0,
+      transparent 55%
+    );
   }
+
 
   /* 카드 hover 효과 */
   .archive-card {
@@ -90,7 +95,7 @@
     <center>
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:700px; margin:0 auto;">
         <tr>
-          <td style="padding:24px 16px; font-size:22px; font-weight:700; color:#f9fafb;">
+          <td style="padding:24px 16px; font-size:28px; font-weight:700; color:#f9fafb;">
             📚 이전 뉴스레터 모아보기
           </td>
         </tr>
@@ -124,6 +129,9 @@
   let videoDuration = 0;
   let ticking = false;
 
+  const PLAY_RATIO = 0.4;  
+  let targetTime = 0;
+
   video.addEventListener("loadedmetadata", () => {
     videoDuration = video.duration || 0;
   });
@@ -143,7 +151,11 @@
     if (progress < 0) progress = 0;
     if (progress > 1) progress = 1;
 
-    video.currentTime = progress * videoDuration;
+    targetTime = progress * videoDuration * PLAY_RATIO;
+
+    const current = video.currentTime || 0;
+    const lerped = current + (targetTime - current) * 0.25;
+    video.currentTime = lerped;
   }
 
   function onScroll() {
