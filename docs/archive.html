@@ -127,49 +127,57 @@
 <script>
   const video = document.getElementById("bgVideo");
   let videoDuration = 0;
-  let ticking = false;
 
-  const PLAY_RATIO = 0.4;  
-  let targetTime = 0;
+  // 스크롤 진행도(0~1)를 저장하는 전역 값
+  let scrollProgress = 0;
 
+  // 스크롤 한 바퀴로 영상의 몇 %까지만 쓸지
+  const PLAY_RATIO = 0.35;   // 0.35면 영상 앞 35%까지만 사용 (원하면 0.25~0.4 사이로 조절)
+  const SMOOTHING = 0.12;    // 부드러움 정도 (0.05 = 매우 천천히, 0.2 = 빠르게 따라감)
+
+  // 비디오 메타데이터 로드 후 전체 길이 확보
   video.addEventListener("loadedmetadata", () => {
     videoDuration = video.duration || 0;
   });
 
-  function updateVideoByScroll() {
-    if (!videoDuration) return;
-
+  // 스크롤 할 때마다 진행도만 갱신
+  function handleScroll() {
     const doc = document.documentElement;
     const scrollTop = doc.scrollTop || document.body.scrollTop;
     const scrollHeight = doc.scrollHeight || document.body.scrollHeight;
     const clientHeight = doc.clientHeight || window.innerHeight;
 
     const maxScroll = scrollHeight - clientHeight;
-    if (maxScroll <= 0) return;
-
-    let progress = scrollTop / maxScroll;
-    if (progress < 0) progress = 0;
-    if (progress > 1) progress = 1;
-
-    targetTime = progress * videoDuration * PLAY_RATIO;
-
-    const current = video.currentTime || 0;
-    const lerped = current + (targetTime - current) * 0.25;
-    video.currentTime = lerped;
-  }
-
-  function onScroll() {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        updateVideoByScroll();
-        ticking = false;
-      });
-      ticking = true;
+    if (maxScroll <= 0) {
+      scrollProgress = 0;
+      return;
     }
+
+    let p = scrollTop / maxScroll;
+    if (p < 0) p = 0;
+    if (p > 1) p = 1;
+
+    scrollProgress = p;
   }
 
-  window.addEventListener("scroll", onScroll);
-  window.addEventListener("resize", updateVideoByScroll);
+  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("resize", handleScroll);
+
+  // 항상 돌아가는 애니메이션 루프: 현재 time을 target 쪽으로 조금씩 이동
+  function tick() {
+    if (videoDuration) {
+      const targetTime = scrollProgress * videoDuration * PLAY_RATIO;
+      const current = video.currentTime || 0;
+      const next = current + (targetTime - current) * SMOOTHING;
+      video.currentTime = next;
+    }
+    window.requestAnimationFrame(tick);
+  }
+
+  // 초기 한 번 실행
+  handleScroll();
+  window.requestAnimationFrame(tick);
 </script>
+
 </body>
 </html>
