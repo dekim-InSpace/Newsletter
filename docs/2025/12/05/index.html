@@ -13,8 +13,21 @@
 <title>한컴인스페이스 12월 1주차 뉴스레터</title>
 
 <style>
+
+  .hero-mobile {
+    display:none;
+  }
+
   /* 화면 폭이 768px 이하(모바일)일 때 적용 */
   @media (max-width: 768px) {
+    .hero-bg.hero-desktop {
+      display:none !important;
+      mso-hide:all !important;
+    }
+    .hero-mobile {
+      display:table !important;
+      width:100% !important;
+    }
     .hero-bg {
       background-position: center 0 !important;
     }
@@ -42,7 +55,7 @@
 
 <!-- 헤더 -->
 
-<table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
+<table class="hero-bg hero-desktop" width="100%" cellpadding="0" cellspacing="0" border="0"
        style="background-image:url('https://static.wixstatic.com/media/b749e1_60701dc82eb542149d95637ce7a34802~mv2_d_5568_3712_s_4_2.jpg/v1/fill/w_1553,h_1071,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/b749e1_60701dc82eb542149d95637ce7a34802~mv2_d_5568_3712_s_4_2.jpg');
               background-size:cover;
               background-position:center -60px;
@@ -124,6 +137,18 @@
 </table>
 
 
+<table class="hero-mobile" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;">
+  <tr>
+    <td align="center" style="padding:0; margin:0;">
+      <img src="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/05/header-mobile.png"
+           width="700"
+           style="max-width:100%; display:block; border:0; margin:0; padding:0;"
+           alt="InSpace Weekly · 12월 1주차">
+    </td>
+  </tr>
+</table>
+
+
 <!-- 본문 -->
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0 16px 0;">
@@ -184,6 +209,70 @@
 
           <!-- 썸네일 -->
           <td valign="top" width="135" style="padding:0;">
+            <a href="https://www.globalsecurity.org/space/library/news/2025/space-251203-india-pib03.htm" target="_blank" style="text-decoration:none;">
+              <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </a>
+          </td>
+
+          <!-- 제목/부제목 -->
+          <td valign="top" style="padding-left:6px;">
+
+            <div style="font-size:18px; font-weight:700; color:#111;
+                        margin-bottom:4px; line-height:1.35;">
+              인도 의회 질의: 다양한 분야에서의 우주기술 활용
+            </div>
+
+            
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              PARLIAMENT QUESTION: APPLICATIONS OF SPACE TECHNOLOGY IN VARIOUS SECTORS
+            </div>
+
+            <div style="font-size:12px; color:#888; margin-bottom:2px;">
+              2025-12-04
+            </div>
+
+          </td>
+
+        </tr>
+
+        <!-- 요약 -->
+        <tr>
+          <td colspan="2" style="padding-top:12px;">
+            <div style="font-size:14px; color:#333; line-height:1.8;">
+              인도 정부는 우주기술이 농업, 재난 관리, 도시 계획 등 다양한 분야에서 광범위하게 활용되고 있다고 밝혔다. 이를 통해 지리공간 정보와 위성 데이터를 기반으로 한 분석 및 응용이 국가 발전과 효율성 증대에 기여하고 있다.
+            </div>
+          </td>
+        </tr>
+
+        <!-- 원문 링크 -->
+        <tr>
+          <td colspan="2" style="padding-top:6px;">
+            <a href="https://www.globalsecurity.org/space/library/news/2025/space-251203-india-pib03.htm" target="_blank"
+               style="font-size:13px; color:#0066cc; text-decoration:none;">
+              자세히 보기 →
+            </a>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+        <tr>
+
+          <!-- 썸네일 -->
+          <td valign="top" width="135" style="padding:0;">
             <a href="https://www.globenewswire.com/news-release/2025/12/02/3197771/11105/en/Gilat-Receives-Approximately-10-Million-Order-for-Direct-Downlink-Earth-Observation-Solution.html" target="_blank" style="text-decoration:none;">
               <img src="https://ml.globenewswire.com/Resource/Download/3a83f1da-76ec-4c48-9e65-e6ae0139a63b" width="120" height="120"
                    style="display:block; border-radius:14px; object-fit:cover;"
@@ -216,7 +305,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              이스라엘의 위성 네트워크 기술 선도 기업 길랏이 직접 다운링크 지구 관측 솔루션에 대해 약 1,000만 달러 규모의 수주를 발표했다. 이번 수주는 길랏 디펜스의 첨단 역량 포트폴리오를 확장하며, 위성 기반 지리공간 정보 및 데이터 분석 분야에서의 입지를 강화한다.
+              이스라엘의 위성 네트워크 기술 선도 기업 길랏이 직접 다운링크 지구 관측 솔루션에 대해 약 1,000만 달러 규모의 수주를 받았다. 이번 수주는 길랏 디펜스의 첨단 역량 포트폴리오를 확장하는 의미가 있으며, 위성 기반 지리공간 정보 및 데이터 분석 분야에서의 기술적 진보를 반영한다.
             </div>
           </td>
         </tr>
@@ -225,70 +314,6 @@
         <tr>
           <td colspan="2" style="padding-top:6px;">
             <a href="https://www.globenewswire.com/news-release/2025/12/02/3197771/11105/en/Gilat-Receives-Approximately-10-Million-Order-for-Direct-Downlink-Earth-Observation-Solution.html" target="_blank"
-               style="font-size:13px; color:#0066cc; text-decoration:none;">
-              자세히 보기 →
-            </a>
-          </td>
-        </tr>
-
-      </table>
-
-    </td>
-  </tr>
-</table>
-
-<table width="100%" cellpadding="0" cellspacing="0" border="0"
-       style="margin-bottom:28px;">
-  <tr>
-    <td style="padding:0; margin:0;">
-
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-
-        <tr>
-
-          <!-- 썸네일 -->
-          <td valign="top" width="135" style="padding:0;">
-            <a href="http://foreignpolicy.com/2025/12/01/ai-military-climate-dual-use-technology-threat/" target="_blank" style="text-decoration:none;">
-              <img src="https://foreignpolicy.com/wp-content/uploads/2025/11/military-climate-GettyImages-2175714334.jpg?w=1000" width="120" height="120"
-                   style="display:block; border-radius:14px; object-fit:cover;"
-                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
-            </a>
-          </td>
-
-          <!-- 제목/부제목 -->
-          <td valign="top" style="padding-left:6px;">
-
-            <div style="font-size:18px; font-weight:700; color:#111;
-                        margin-bottom:4px; line-height:1.35;">
-              기후 AI에 대한 불편한 진실
-            </div>
-
-            
-            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
-              The Uncomfortable Truth About Climate AI
-            </div>
-
-            <div style="font-size:12px; color:#888; margin-bottom:2px;">
-              2025-12-01
-            </div>
-
-          </td>
-
-        </tr>
-
-        <!-- 요약 -->
-        <tr>
-          <td colspan="2" style="padding-top:12px;">
-            <div style="font-size:14px; color:#333; line-height:1.8;">
-              기후 위협에 대응하기 위해 사용되는 군사 기술들이 종종 더 악의적인 목적으로도 사용되고 있다는 점을 다룬 기사입니다. 지난 20년간 기후 변화는 전 세계 불안정을 초래하며 테러 집단 증가, 영토 분쟁, 대규모 이주를 촉발했습니다. 이러한 상황에서 AI와 군사 기술의 이중적 사용 문제를 조명합니다.
-            </div>
-          </td>
-        </tr>
-
-        <!-- 원문 링크 -->
-        <tr>
-          <td colspan="2" style="padding-top:6px;">
-            <a href="http://foreignpolicy.com/2025/12/01/ai-military-climate-dual-use-technology-threat/" target="_blank"
                style="font-size:13px; color:#0066cc; text-decoration:none;">
               자세히 보기 →
             </a>
@@ -344,7 +369,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              Adsquare의 CEO 겸 공동창업자 Tom Laband와의 인터뷰를 통해 위치 정보가 현대 광고에서 어떻게 핵심 역할을 하게 되었는지, 그리고 프라이버시를 중시하는 환경에서 위치 데이터가 프로그래매틱 광고에 미치는 영향과 활용 방안에 대해 심도 있게 다뤘다. Adsquare는 전 세계적으로 광고주들이 위치 기반 데이터를 활용해 광고 계획, 구매, 최적화를 할 수 있도록 지원하는 기업이다.
+              Adsquare의 CEO 겸 공동창업자 Tom Laband와의 인터뷰를 통해 위치 정보가 현대 광고에서 어떻게 핵심 역할을 하게 되었는지, 그리고 프라이버시를 중시하는 환경에서 위치 데이터가 프로그래매틱 광고에 미치는 영향과 활용 방안에 대해 다뤘다. Adsquare는 전 세계적으로 광고주들이 위치 기반 데이터를 활용해 광고 계획, 구매, 최적화를 할 수 있도록 지원하는 기업이다.
             </div>
           </td>
         </tr>
@@ -413,6 +438,70 @@
 
           <!-- 썸네일 -->
           <td valign="top" width="135" style="padding:0;">
+            <a href="https://smallwarsjournal.com/2025/12/04/war-department-cheap-drones/" target="_blank" style="text-decoration:none;">
+              <img src="https://smallwarsjournal.com/wp-content/uploads/2024/09/og-img.png" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </a>
+          </td>
+
+          <!-- 제목/부제목 -->
+          <td valign="top" style="padding-left:6px;">
+
+            <div style="font-size:18px; font-weight:700; color:#111;
+                        margin-bottom:4px; line-height:1.35;">
+              미 국방부, 30만 대 이상 저가 드론 신속 생산 요청
+            </div>
+
+            
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              War Department Asks Industry to Make More Than 300K Drones, Quickly, Cheaply
+            </div>
+
+            <div style="font-size:12px; color:#888; margin-bottom:2px;">
+              2025-12-04
+            </div>
+
+          </td>
+
+        </tr>
+
+        <!-- 요약 -->
+        <tr>
+          <td colspan="2" style="padding-top:12px;">
+            <div style="font-size:14px; color:#333; line-height:1.8;">
+              미 국방부가 10억 달러 규모의 &#x27;드론 주도권&#x27; 확보 계획을 발표하며, 산업계에 30만 대 이상의 저가 일회용 공격용 드론을 신속하게 생산할 것을 요청했다. 이 계획은 4단계의 &#x27;가틀릿&#x27; 과정을 포함하며, 대량 생산과 비용 효율성을 중점으로 한다.
+            </div>
+          </td>
+        </tr>
+
+        <!-- 원문 링크 -->
+        <tr>
+          <td colspan="2" style="padding-top:6px;">
+            <a href="https://smallwarsjournal.com/2025/12/04/war-department-cheap-drones/" target="_blank"
+               style="font-size:13px; color:#0066cc; text-decoration:none;">
+              자세히 보기 →
+            </a>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+        <tr>
+
+          <!-- 썸네일 -->
+          <td valign="top" width="135" style="padding:0;">
             <a href="https://soldiersystems.net/2025/12/04/world-first-managed-procurement-system-to-enhance-the-success-of-the-drone-industry/" target="_blank" style="text-decoration:none;">
               <img src="https://soldiersystems.net/wp-content/uploads/2025/12/image-1-1.jpg" width="120" height="120"
                    style="display:block; border-radius:14px; object-fit:cover;"
@@ -445,7 +534,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              2025년 12월 3일, 영국 런던에서 독립 드론 자문사인 Drone Major가 글로벌 드론 산업을 위한 최초의 관리형 조달 서비스 플랫폼을 출시했다. 이 플랫폼은 영국의 조달 과정을 지원하고 드론 산업 내 혁신을 촉진하는 데 중점을 두고 있다. 이를 통해 드론 산업의 성공 가능성을 높이고, 효율적인 구매 및 공급망 관리를 가능하게 한다.
+              2025년 12월 3일, 영국 런던에서 독립 드론 자문사인 Drone Major가 글로벌 드론 산업을 위한 최초의 관리형 조달 서비스 플랫폼을 출시했다. 이 플랫폼은 영국의 조달 과정을 지원하고 드론 산업 내 혁신을 촉진하는 데 중점을 두고 있다. 이를 통해 드론 산업의 성공 가능성을 높이고, 효율적인 조달과 기술 발전을 도모할 것으로 기대된다.
             </div>
           </td>
         </tr>
@@ -509,7 +598,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              이 논문은 현대 전력 및 에너지 시스템에서 드론(UAV)을 활용한 점검 임무의 신뢰성을 높이기 위한 프레임워크를 제안한다. 특히 2024년 일본 노토 반도 지진 사례를 분석하여 재난 관리에 드론을 효과적으로 활용하는 방법을 다루며, 전력 인프라의 안전성과 운영 효율성을 개선하는 데 기여한다.
+              이 논문은 현대 전력 및 에너지 시스템에서 드론(UAV)을 활용한 점검 임무의 신뢰성을 높이기 위한 프레임워크를 제안한다. 특히 2024년 일본 노토 반도 지진 사례를 분석하여 재난 관리에 드론을 효과적으로 활용하는 방법을 다루며, 전력 인프라 점검의 자동화와 안전성 향상에 기여할 수 있는 기술적 접근을 소개한다.
             </div>
           </td>
         </tr>
@@ -518,70 +607,6 @@
         <tr>
           <td colspan="2" style="padding-top:6px;">
             <a href="https://www.nature.com/articles/s41598-025-30410-w" target="_blank"
-               style="font-size:13px; color:#0066cc; text-decoration:none;">
-              자세히 보기 →
-            </a>
-          </td>
-        </tr>
-
-      </table>
-
-    </td>
-  </tr>
-</table>
-
-<table width="100%" cellpadding="0" cellspacing="0" border="0"
-       style="margin-bottom:28px;">
-  <tr>
-    <td style="padding:0; margin:0;">
-
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-
-        <tr>
-
-          <!-- 썸네일 -->
-          <td valign="top" width="135" style="padding:0;">
-            <a href="https://soldiersystems.net/2025/12/03/war-department-asks-industry-to-make-more-than-300k-drones-quickly-cheaply/" target="_blank" style="text-decoration:none;">
-              <img src="https://soldiersystems.net/wp-content/uploads/2025/12/image-10.jpg" width="120" height="120"
-                   style="display:block; border-radius:14px; object-fit:cover;"
-                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
-            </a>
-          </td>
-
-          <!-- 제목/부제목 -->
-          <td valign="top" style="padding-left:6px;">
-
-            <div style="font-size:18px; font-weight:700; color:#111;
-                        margin-bottom:4px; line-height:1.35;">
-              미 국방부, 30만 대 이상 드론 신속·저비용 생산 요청
-            </div>
-
-            
-            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
-              War Department Asks Industry to Make More Than 300K Drones, Quickly, Cheaply
-            </div>
-
-            <div style="font-size:12px; color:#888; margin-bottom:2px;">
-              2025-12-03
-            </div>
-
-          </td>
-
-        </tr>
-
-        <!-- 요약 -->
-        <tr>
-          <td colspan="2" style="padding-top:12px;">
-            <div style="font-size:14px; color:#333; line-height:1.8;">
-              미 국방부는 산업계에 30만 대 이상의 드론을 빠르고 저렴하게 생산할 수 있는지 여부를 조사하는 요청을 최근 진행했다. 이는 전쟁부 장관 피트 헤그세스가 추진하는 &#x27;드론 우위&#x27; 목표를 달성하기 위한 구체적인 노력으로, 대규모 드론 생산을 통해 군사적 우위를 확보하려는 전략적 움직임이다.
-            </div>
-          </td>
-        </tr>
-
-        <!-- 원문 링크 -->
-        <tr>
-          <td colspan="2" style="padding-top:6px;">
-            <a href="https://soldiersystems.net/2025/12/03/war-department-asks-industry-to-make-more-than-300k-drones-quickly-cheaply/" target="_blank"
                style="font-size:13px; color:#0066cc; text-decoration:none;">
               자세히 보기 →
             </a>
@@ -642,8 +667,8 @@
 
           <!-- 썸네일 -->
           <td valign="top" width="135" style="padding:0;">
-            <a href="https://siliconangle.com/2025/12/03/openai-acquires-ai-tooling-provider-neptune-enhance-model-training-workflows/" target="_blank" style="text-decoration:none;">
-              <img src="https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2025/12/Neptune.png" width="120" height="120"
+            <a href="https://economictimes.indiatimes.com/tech/artificial-intelligence/dhan-parent-raise-launches-artham-an-india-focused-ai-model-for-capital-markets/articleshow/125761868.cms" target="_blank" style="text-decoration:none;">
+              <img src="https://img.etimg.com/thumb/width-1200,height-900,imgsize-587877,resizemode-75,msid-125761868/tech/artificial-intelligence/dhan-parent-raise-launches-artham-an-india-focused-ai-model-for-capital-markets.jpg" width="120" height="120"
                    style="display:block; border-radius:14px; object-fit:cover;"
                    onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
             </a>
@@ -654,12 +679,12 @@
 
             <div style="font-size:18px; font-weight:700; color:#111;
                         margin-bottom:4px; line-height:1.35;">
-              OpenAI, AI 모델 훈련 워크플로우 향상을 위해 AI 툴링 제공업체 Neptune 인수
+              Dhan 모회사 Raise, 인도 자본시장 특화 AI 모델 &#x27;Artham&#x27; 출시
             </div>
 
             
             <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
-              OpenAI acquires AI tooling provider Neptune to enhance its model training workflows
+              Dhan parent Raise launches Artham, an India-focused AI model for capital markets
             </div>
 
             <div style="font-size:12px; color:#888; margin-bottom:2px;">
@@ -674,7 +699,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              OpenAI가 AI 모델의 개선 영역을 식별하는 플랫폼을 보유한 스타트업 Neptune Labs를 인수한다고 발표했다. 이번 인수를 통해 OpenAI는 AI 모델 훈련 워크플로우를 강화하고 효율성을 높일 계획이다. 인수 조건은 공개되지 않았다.
+              주식 거래 플랫폼 Dhan의 모회사인 Raise Financial Services가 인도 금융 및 자본시장 데이터를 기반으로 훈련된 70억 파라미터 규모의 AI 모델 &#x27;Artham&#x27;을 출시했다. 이 모델은 Dhan, Fuzz, ScanX 등 다양한 플랫폼에 통합되어 시장 인사이트, 뉴스 요약, 실시간 분석 기능을 제공한다.
             </div>
           </td>
         </tr>
@@ -682,7 +707,7 @@
         <!-- 원문 링크 -->
         <tr>
           <td colspan="2" style="padding-top:6px;">
-            <a href="https://siliconangle.com/2025/12/03/openai-acquires-ai-tooling-provider-neptune-enhance-model-training-workflows/" target="_blank"
+            <a href="https://economictimes.indiatimes.com/tech/artificial-intelligence/dhan-parent-raise-launches-artham-an-india-focused-ai-model-for-capital-markets/articleshow/125761868.cms" target="_blank"
                style="font-size:13px; color:#0066cc; text-decoration:none;">
               자세히 보기 →
             </a>
@@ -706,8 +731,8 @@
 
           <!-- 썸네일 -->
           <td valign="top" width="135" style="padding:0;">
-            <a href="https://thechronicle.com.gh/volta-fair-2025-experts-explore-potential-of-ai-in-transforming-small-scale-farming/" target="_blank" style="text-decoration:none;">
-              <img src="https://thechronicle.com.gh/wp-content/uploads/2025/12/Mr-James-Gunu-Volta-Regional-Minister.jpg" width="120" height="120"
+            <a href="https://economictimes.indiatimes.com/tech/technology/palantir-teams-with-nvidia-centerpoint-energy-for-software-to-speed-up-ai-data-center-construction/articleshow/125764614.cms" target="_blank" style="text-decoration:none;">
+              <img src="https://img.etimg.com/thumb/width-1200,height-900,imgsize-60120,resizemode-75,msid-125764614/tech/technology/palantir-teams-with-nvidia-centerpoint-energy-for-software-to-speed-up-ai-data-center-construction.jpg" width="120" height="120"
                    style="display:block; border-radius:14px; object-fit:cover;"
                    onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
             </a>
@@ -718,12 +743,12 @@
 
             <div style="font-size:18px; font-weight:700; color:#111;
                         margin-bottom:4px; line-height:1.35;">
-              Volta Fair 2025: 전문가들이 소규모 농업 혁신을 위한 AI 잠재력 탐구
+              팔란티어, 엔비디아, 센터포인트 에너지, AI 데이터 센터 건설 가속화 위한 소프트웨어 협력
             </div>
 
             
             <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
-              Volta Fair 2025: experts explore potential of AI in transforming small-scale farming
+              Palantir teams with Nvidia, CenterPoint Energy for software to speed up AI data center construction
             </div>
 
             <div style="font-size:12px; color:#888; margin-bottom:2px;">
@@ -738,7 +763,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              Volta 무역 및 투자 박람회(VTIF) 2025의 AI 및 농업 포럼에서는 인공지능(AI)이 소규모 농업을 혁신할 수 있는 가능성을 집중적으로 논의했다. 전문가들은 AI를 활용해 농업 생산성을 높이고, 자원 관리를 최적화하며, 농민들의 의사결정을 지원하는 방안을 모색했다. 이번 포럼은 AI 데이터 플랫폼과 자동화 기술이 농업 분야에 미치는 영향과 미래 발전 방향을 조명했다.
+              팔란티어, 엔비디아, 미국 유틸리티 기업 센터포인트 에너지가 AI 데이터 센터 건설 과정을 가속화하기 위한 AI 기반 소프트웨어 플랫폼 &#x27;체인 리액션(Chain Reaction)&#x27;을 공동 개발한다. 이 플랫폼은 허가, 공급망, 건설 등 복잡한 절차를 간소화하여 AI 데이터 센터 구축을 신속하게 진행할 수 있도록 지원한다.
             </div>
           </td>
         </tr>
@@ -746,7 +771,7 @@
         <!-- 원문 링크 -->
         <tr>
           <td colspan="2" style="padding-top:6px;">
-            <a href="https://thechronicle.com.gh/volta-fair-2025-experts-explore-potential-of-ai-in-transforming-small-scale-farming/" target="_blank"
+            <a href="https://economictimes.indiatimes.com/tech/technology/palantir-teams-with-nvidia-centerpoint-energy-for-software-to-speed-up-ai-data-center-construction/articleshow/125764614.cms" target="_blank"
                style="font-size:13px; color:#0066cc; text-decoration:none;">
               자세히 보기 →
             </a>
@@ -770,8 +795,8 @@
 
           <!-- 썸네일 -->
           <td valign="top" width="135" style="padding:0;">
-            <a href="https://www.redhat.com/en/blog/red-hat-openshift-sandboxed-containers-111-and-red-hat-build-trustee-10-accelerate-confidential-computing-across-hybrid-cloud" target="_blank" style="text-decoration:none;">
-              <img src="https://www.redhat.com/themes/custom/rhdc/img/red-hat-social-share.jpg" width="120" height="120"
+            <a href="https://helpdeskgeek.com/agent-365-and-copilot-how-microsoft-is-rewriting-the-rules-for-at-work/" target="_blank" style="text-decoration:none;">
+              <img src="https://helpdeskgeek.com/wp-content/pictures/2025/11/Copilot.webp" width="120" height="120"
                    style="display:block; border-radius:14px; object-fit:cover;"
                    onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
             </a>
@@ -782,12 +807,12 @@
 
             <div style="font-size:18px; font-weight:700; color:#111;
                         margin-bottom:4px; line-height:1.35;">
-              레드햇 오픈시프트 샌드박스 컨테이너 1.11 및 레드햇 트러스티 1.0, 하이브리드 클라우드 기밀 컴퓨팅 가속화
+              Agent 365와 Copilot: 마이크로소프트가 업무 환경의 규칙을 재정의하다
             </div>
 
             
             <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
-              Red Hat OpenShift sandboxed containers 1.11 and Red Hat build of Trustee 1.0 accelerate confidential computing across the hybrid cloud
+              Agent 365 and Copilot: How Microsoft Is Rewriting the Rules For at Work
             </div>
 
             <div style="font-size:12px; color:#888; margin-bottom:2px;">
@@ -802,7 +827,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              레드햇은 오픈시프트 샌드박스 컨테이너 1.11과 트러스티 1.0의 출시를 발표하며, 하이브리드 클라우드 환경에서 기밀 컴퓨팅을 가속화하는 중요한 이정표를 세웠다. 이번 릴리스는 생산 등급의 기밀 컴퓨팅 지원을 제공하여 데이터 보안과 자동화된 클라우드 운영을 강화한다.
+              마이크로소프트가 AI 에이전트 통합 관리 플랫폼인 Agent 365를 출시하며 업무 환경에서 인공지능 활용 방식을 혁신하고 있다. Agent 365는 다양한 AI 에이전트를 통합 제어하는 플랫폼으로, Copilot과 함께 업무 자동화와 생산성 향상을 가속화한다. 이로써 AI 데이터 플랫폼과 MLOps, 자동화 플랫폼 분야에서 새로운 표준을 제시하고 있다.
             </div>
           </td>
         </tr>
@@ -810,7 +835,7 @@
         <!-- 원문 링크 -->
         <tr>
           <td colspan="2" style="padding-top:6px;">
-            <a href="https://www.redhat.com/en/blog/red-hat-openshift-sandboxed-containers-111-and-red-hat-build-trustee-10-accelerate-confidential-computing-across-hybrid-cloud" target="_blank"
+            <a href="https://helpdeskgeek.com/agent-365-and-copilot-how-microsoft-is-rewriting-the-rules-for-at-work/" target="_blank"
                style="font-size:13px; color:#0066cc; text-decoration:none;">
               자세히 보기 →
             </a>
@@ -903,7 +928,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              한컴인스페이스가 자체 설계·제작한 지구관측용 초소형 위성 &#x27;세종 4호&#x27;가 누리호 4차 발사를 통해 목표 궤도에 안착하고 지상국과 첫 교신에 성공했다. 이로써 한컴인스페이스는 위성 체계 종합 역량을 공식 입증하며 위성 영상 분석 및 위성 시스템 개발 분야에서의 경쟁력을 강화했다. 세종 4호는 600km 고도에서 90분 주기로 지구를 관측하며, AI 기반 데이터 처리 플랫폼과 실시간 운영체제(NEOS RTOS)를 탑재해 고성능 위성 영상 분석이 가능하다.
+              한컴인스페이스가 자체 설계·제작한 초소형 지구관측 위성 &#x27;세종 4호&#x27;가 누리호 4차 발사를 통해 목표 궤도에 안착하고 지상국과 첫 교신에 성공했다. 이로써 한컴인스페이스는 위성 체계 종합 역량을 공식 입증하며 위성 영상 분석 및 위성 시스템 개발 분야에서의 경쟁력을 강화했다. 세종 4호는 600km 고도에서 90분 주기로 지구를 관측하며, 5m 해상도의 광학 영상을 제공한다. 또한 AI 기반 데이터 처리 플랫폼 &#x27;InStation&#x27;을 탑재해 위성 데이터의 실시간 분석과 활용이 가능하다.
             </div>
           </td>
         </tr>
@@ -967,7 +992,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              한화시스템이 대한민국 국방우주 기술 자립을 위해 최초로 순수 국내 기술로 개발하는 위성용 우주반도체 개발에 착수했다. 이번 개발 과제는 국방기술진흥연구소와 협력하여 초소형 위성용 다채널 빔포밍 시스템에 필요한 트랜시버 우주반도체 기술을 목표로 한다. 이 반도체는 군용 저궤도 위성통신의 핵심 소자로, 극한 우주 환경에서 안정적인 지상-우주 간 통신을 지원한다. 또한, 한화시스템은 SAR 위성 등 다양한 위성 영상 기술과 연계해 국방 우주 역량을 강화할 계획이다.
+              한화시스템이 대한민국 국방우주 기술 자립을 위해 최초로 순수 국내 기술로 개발하는 위성용 우주반도체 개발에 착수했다. 국방기술진흥연구소와 협력하여 초소형 위성용 다채널 빔포밍 시스템에 필요한 트랜시버 우주반도체 기술을 개발 중이며, 이는 군 저궤도 위성통신의 핵심 소자로 극한 우주 환경에서 안정적인 위성통신을 가능하게 할 예정이다. 또한 SAR 위성 등 다양한 위성 영상 기술과 연계해 국방 우주 역량 강화에 기여할 전망이다.
             </div>
           </td>
         </tr>
@@ -1031,7 +1056,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              배경훈 부총리 겸 과기정통부 장관이 한화에어로스페이스 대전 연구개발 캠퍼스와 한국항공우주연구원을 방문해 누리호 4차 발사 연구자들을 격려하고 간담회를 가졌다. 한화에어로스페이스는 국방과 우주 분야 연구개발에 집중하며, 다목적 무인차량(ARION-SMET), AI 기반 무기체계, SAR 위성영상 분석 등 첨단 기술을 추진 중이다. 이번 누리호 4차 발사 성공과 관련해 과학유공 표창이 수여되었다.
+              배경훈 부총리 겸 과기정통부 장관이 한화에어로스페이스 대전 연구개발 캠퍼스와 한국항공우주연구원을 방문해 누리호 4차 발사 연구자들을 격려하고 간담회를 가졌다. 한화에어로스페이스는 국방과 우주 분야 연구개발에 집중하며, 다목적 무인차량(ARION-SMET), AI 기반 SAR(합성개구레이더) 영상 분석 등 첨단 기술을 활용하고 있다. 이번 표창은 누리호 4차 발사 성공과 관련 연구개발 성과를 인정받은 것이다.
             </div>
           </td>
         </tr>
@@ -1112,7 +1137,7 @@
 
             <div style="font-size:18px; font-weight:700; color:#111;
                         margin-bottom:4px; line-height:1.35;">
-              복원된 광산 습지 수역 변화 분석
+              재생 광산 습지 수역 변화 위성 분석
             </div>
 
             
@@ -1132,7 +1157,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              이 연구는 캐나다 앨버타의 아타바스카 오일샌드 지역에서 복원된 광산 습지의 수역 변화를 Sentinel-1 SAR과 Sentinel-2 다중분광 영상을 활용해 분석했습니다. 위성 데이터는 고해상도 드론 자료와 비교 검증되어 신뢰성을 확보했으며, 복원 습지와 자연 습지 간의 연간 수역 변동성 차이가 크지 않음을 확인했습니다. 또한 습지의 최대 깊이와 수역 변동성 사이에 일관된 관계가 있음을 밝혀내어 장기 모니터링에 유용한 자동화된 습지 감시 방법을 제시했습니다.
+              이 연구는 캐나다 앨버타 아타바스카 오일샌드 지역의 재생 광산 습지 수역 변화를 Sentinel-1 SAR과 Sentinel-2 다중분광 위성영상을 활용해 분석했습니다. 위성 데이터는 고해상도 UAV 자료와 높은 정확도로 검증되었으며, 재생 습지와 자연 습지 간 수역 변동성에 큰 차이가 없음을 확인했습니다. 또한, 습지의 최대 깊이와 수역 변동성 사이에 일관된 관계가 발견되어 장기 모니터링에 유용한 자동화된 방법을 제시합니다. 이 연구는 재생 광산 지역 습지의 지속 가능성을 평가하는 데 중요한 도구가 될 것입니다.
             </div>
           </td>
         </tr>
@@ -1196,7 +1221,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              이 연구는 드론으로 촬영한 RGB 영상과 U2-Net 인공지능 모델을 결합해 올리브 나무의 생체량을 비파괴적으로 정확히 추정하는 방법을 제안했습니다. 기존 수작업 측정의 한계를 극복하고, 나무 높이와 지름, 수관 면적을 활용한 새로운 모델을 개발하여 경제적 수확량과 탄소 저장량 평가에 활용할 수 있습니다. 이 기술은 대규모 올리브 재배지에서 효율적이고 신뢰성 있는 생체량 산출을 가능하게 합니다.
+              본 연구는 드론 촬영 영상과 AI 모델(U2-Net)을 결합해 올리브 나무의 생체량을 비파괴적으로 정확하게 추정하는 방법을 제안했습니다. 이를 통해 나무의 지름, 높이, 수관 면적 등 다양한 생리적 지표를 활용한 새로운 생체량 모델을 개발했으며, 기존 수작업 측정의 한계를 극복했습니다. 이 기술은 올리브 나무의 생산량 예측과 탄소 흡수량 평가에 중요한 기초 자료를 제공합니다.
             </div>
           </td>
         </tr>
@@ -1240,7 +1265,7 @@
 
             <div style="font-size:18px; font-weight:700; color:#111;
                         margin-bottom:4px; line-height:1.35;">
-              물리기반 머신러닝으로 작물 잎면적지수 정확도 향상
+              물리 기반 머신러닝으로 작물 잎 면적지수 정확도 향상
             </div>
 
             
@@ -1260,7 +1285,7 @@
         <tr>
           <td colspan="2" style="padding-top:12px;">
             <div style="font-size:14px; color:#333; line-height:1.8;">
-              본 연구는 작물 잎면적지수(LAI)를 정확히 측정하기 위해 물리 모델과 머신러닝을 결합한 새로운 방법을 제안합니다. Sentinel-2B 위성 데이터를 활용해 10m 해상도에서 LAI를 추정하고, 불확실성까지 정량화하여 결과의 신뢰도를 높였습니다. 중국 내 두 지역에서 검증한 결과, 모델이 다른 지역에도 잘 적용됨을 확인했습니다. 이 방법은 농작물 성장 모니터링과 수확량 예측에 유용한 정보를 제공합니다.
+              본 연구는 작물 잎 면적지수(LAI)를 정확히 측정하기 위해 물리 모델과 머신러닝을 결합한 새로운 방법을 제안합니다. Sentinel-2B 위성 데이터를 활용해 10m 해상도에서 LAI를 추정하며, 불확실성도 함께 평가하여 신뢰도를 높였습니다. 중국 내 두 지역에서 검증한 결과, 모델은 다양한 환경에서도 안정적인 성능을 보였습니다. 이 방법은 농작물 성장 모니터링과 수확량 예측에 유용하게 활용될 수 있습니다.
             </div>
           </td>
         </tr>
