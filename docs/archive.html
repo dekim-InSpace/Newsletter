@@ -1,396 +1,410 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>아카이브</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>한컴인스페이스 뉴스레터 아카이브</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","맑은 고딕",system-ui,sans-serif;
-    background:#0b1120;
-    color:#e5e7eb;
-  }
-
-  .bg-video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    opacity: 0.5;
-  }
-
-  .archive-wrap {
-    min-height: 100vh;
-    padding: 40px 16px 64px 16px;
-    background:
-      radial-gradient(circle at top,
-        rgba(148,163,184,0.25) 0,
-        transparent 55%);
-  }
-
-  .filter-wrap {
-    margin: 0 16px 12px 16px;
-  }
-
-  .filter-group-label {
-    font-size:13px;
-    color:#cbd5f5;
-    margin-bottom:6px;
-    opacity:0.8;
-  }
-
-  .chips-row {
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-bottom:6px;
-  }
-
-  .chip-base {
-    border-radius:9999px;
-    border:1px solid rgba(148,163,184,0.6);
-    background:rgba(15,23,42,0.6);
-    color:#e5e7eb;
-    font-size:13px;
-    padding:6px 12px;
-    cursor:pointer;
-    outline:none;
-    white-space:nowrap;
-    transition:background 0.18s ease, border-color 0.18s ease, transform 0.12s ease, box-shadow 0.12s ease;
-  }
-
-  .chip-base:hover {
-    background:rgba(30,64,175,0.7);
-    border-color:#60a5fa;
-    box-shadow:0 0 0 1px rgba(15,23,42,0.4);
-    transform:translateY(-1px);
-  }
-
-  .chip-base.active {
-    background:#2563eb;
-    border-color:#2563eb;
-    color:#ffffff;
-    box-shadow:0 0 0 1px rgba(15,23,42,0.4);
-  }
-
-  .archive-card {
-      display:block;
-      text-decoration:none;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.55);
-      padding:18px 20px;
-      background:rgba(255,255,255,0.18);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow:0 10px 28px rgba(15,23,42,0.6);
-      transition:transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
-  }
-
-  .archive-card:hover {
-      transform:translateY(-4px);
-      background:rgba(255,255,255,0.32);
-      box-shadow:0 18px 40px rgba(15,23,42,0.85);
-      border-color:rgba(255,255,255,0.95);
-  }
-
-  .archive-card-label {
-    font-size:17px;
-    font-weight:600;
-    color:#ffffff;
-    margin-bottom:4px;
-  }
-
-  .archive-card-date {
-    font-size:13px;
-    color:#e5e7eb;
-  }
-
-  @media (max-width: 768px) {
-    .archive-card {
-      padding:14px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .bg-video {
-      display: none;
-    }
-
+  <style>
     body {
-      background:
-        url('https://hancom-inspace.github.io/Weekly-Newsletter/assets/archive_bg_fallback.png')
-        center top / cover no-repeat;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 45%, #020617 100%);
       color: #e5e7eb;
     }
 
     .archive-wrap {
-      background: radial-gradient(
-        circle at top,
-        rgba(148,163,184,0.18) 0,
-        transparent 55%
-      );
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 32px 16px 48px 16px;
     }
-  }
-</style>
+
+    .archive-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .archive-subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 24px;
+    }
+
+    /* chips 줄 */
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid rgba(248, 250, 252, 0.4); /* 살짝 흰색 테두리 */
+      background: rgba(15, 23, 42, 0.55);         /* 반투명 남색 느낌 */
+      color: #e5e7eb;
+      padding: 4px 14px;
+      font-size: 13px;
+      line-height: 1.4;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .chip:hover {
+      background: rgba(59, 130, 246, 0.22);       /* hover 시 파란기 살짝 */
+      border-color: rgba(96, 165, 250, 0.85);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35);
+    }
+
+    .chip--active {
+      background: #2563eb;                       /* 클릭 시 파란색 */
+      border-color: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.7);
+    }
+
+    /* 아카이브 테이블 */
+    .archive-table-wrap {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.75),
+        0 0 0 1px rgba(15, 23, 42, 0.9) inset;
+      overflow: hidden;
+    }
+
+    table.archive-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .archive-table thead tr {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .archive-table th,
+    .archive-table td {
+      padding: 10px 14px;
+    }
+
+    .archive-table th {
+      text-align: left;
+      font-size: 12px;
+      color: #9ca3af;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .archive-table tbody tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .archive-table tbody tr:nth-child(odd) {
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .archive-table tbody tr:hover {
+      background: rgba(30, 64, 175, 0.5);
+    }
+
+    .archive-date {
+      width: 110px;
+      white-space: nowrap;
+      color: #cbd5f5;
+      font-size: 13px;
+    }
+
+    .archive-label .archive-link {
+      color: #e5e7eb;
+      text-decoration: none;
+    }
+
+    .archive-label .archive-link:hover {
+      text-decoration: underline;
+      color: #bfdbfe;
+    }
+
+    .archive-empty {
+      padding: 32px 14px;
+      font-size: 14px;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .archive-wrap {
+        padding: 24px 12px 36px 12px;
+      }
+      .archive-title {
+        font-size: 20px;
+      }
+      .archive-date {
+        width: 96px;
+      }
+      .archive-table th,
+      .archive-table td {
+        padding: 8px 10px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <video id="bgVideo" class="bg-video" preload="auto" muted playsinline>
-    <source src="https://hancom-inspace.github.io/Weekly-Newsletter/assets/archive_bg.mp4" type="video/mp4" />
-  </video>
-
   <div class="archive-wrap">
-    <center>
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:700px; margin:0 auto;">
-        <tr>
-          <td style="padding:60px 16px 30px 16px; font-size:28px; font-weight:700; color:#f9fafb;">
-            📚 이전 뉴스레터 다시보기
-          </td>
-        </tr>
+    <div class="archive-title">한컴인스페이스 뉴스레터 아카이브</div>
+    <div class="archive-subtitle">
+      주차별 뉴스레터를 연도 / 월 단위로 빠르게 찾아볼 수 있습니다.
+    </div>
 
-        <!-- 필터 영역 -->
-        <tr>
-          <td>
-            <div class="filter-wrap">
-              <div id="year-chips" class="chips-row"></div>
+    <!-- ✅ 여기: 전체 / 연도 / 월 칩이 들어가는 곳 -->
+    <div id="archive-chips" class="chips-row"></div>
 
-              <div id="month-chips" class="chips-row"></div>
-            </div>
-          </td>
-        </tr>
-
-        <!-- 카드 리스트 -->
-        <tr>
-          <td style="padding:4px 16px 8px 16px;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-                
-        <tr class="archive-row" data-year="2025" data-month="12">
-          <td style="padding-bottom:16px;">
-            <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/09/index.html" class="archive-card">
-              <div class="archive-card-label">
+    <div class="archive-table-wrap">
+      <table class="archive-table">
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>뉴스레터</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr class="archive-row"
+              data-year="2025"
+              data-month="12">
+            <td class="archive-date">2025.12.09</td>
+            <td class="archive-label">
+              <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/09/index.html" target="_blank" class="archive-link">
                 12월 2주차 뉴스레터
-              </div>
-              <div class="archive-card-date">
-                업로드: 2025.12.09
-              </div>
-            </a>
-          </td>
-        </tr>
+              </a>
+            </td>
+          </tr>
         
-
-        <tr class="archive-row" data-year="2025" data-month="12">
-          <td style="padding-bottom:16px;">
-            <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/08/index.html" class="archive-card">
-              <div class="archive-card-label">
+          <tr class="archive-row"
+              data-year="2025"
+              data-month="12">
+            <td class="archive-date">2025.12.08</td>
+            <td class="archive-label">
+              <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/08/index.html" target="_blank" class="archive-link">
                 12월 2주차 뉴스레터
-              </div>
-              <div class="archive-card-date">
-                업로드: 2025.12.08
-              </div>
-            </a>
-          </td>
-        </tr>
+              </a>
+            </td>
+          </tr>
         
-
-        <tr class="archive-row" data-year="2025" data-month="12">
-          <td style="padding-bottom:16px;">
-            <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/05/index.html" class="archive-card">
-              <div class="archive-card-label">
+          <tr class="archive-row"
+              data-year="2025"
+              data-month="12">
+            <td class="archive-date">2025.12.05</td>
+            <td class="archive-label">
+              <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/05/index.html" target="_blank" class="archive-link">
                 12월 1주차 뉴스레터
-              </div>
-              <div class="archive-card-date">
-                업로드: 2025.12.05
-              </div>
-            </a>
-          </td>
-        </tr>
+              </a>
+            </td>
+          </tr>
         
-              </tbody>
-            </table>
-          </td>
-        </tr>
+        </tbody>
       </table>
-    </center>
+    </div>
   </div>
 
   <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var rows = Array.prototype.slice.call(document.querySelectorAll('.archive-row'));
-  var chipsContainer = document.getElementById('month-chips');
-  if (!rows.length || !chipsContainer) return;
-
-  // 각 row에서 연/월 추출해서 data-year, data-month 저장
-  rows.forEach(function(row) {
-    var ym = row.getAttribute('data-ym') || '';
-    var parts = ym.split('.');
-    if (parts.length >= 2) {
-      row.dataset.year = parts[0];
-      row.dataset.month = parts[1];
+  (function() {
+    var rows = Array.prototype.slice.call(
+      document.querySelectorAll('.archive-row')
+    );
+    if (!rows.length) {
+      return;
     }
-  });
 
-  var yearSet = new Set();
-  rows.forEach(function(row) {
-    if (row.dataset.year) {
-      yearSet.add(row.dataset.year);
+    var chipsWrap = document.getElementById('archive-chips');
+    if (!chipsWrap) {
+      return;
     }
-  });
-  var years = Array.from(yearSet).sort().reverse(); // 최신 연도 우선
 
-  var currentYear = null;
-  var currentMonth = null;
-
-  function clearChips() {
-    while (chipsContainer.firstChild) {
-      chipsContainer.removeChild(chipsContainer.firstChild);
-    }
-  }
-
-  function createChip(label, chipType, year, month) {
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'month-chip';
-    btn.textContent = label;
-    btn.dataset.chipType = chipType || '';
-    if (year) btn.dataset.year = year;
-    if (month) btn.dataset.month = month;
-
-    btn.addEventListener('click', function() {
-      if (btn.dataset.chipType === 'all') {
-        handleAllClick();
-      } else if (btn.dataset.chipType === 'year') {
-        handleYearClick(btn.dataset.year);
-      } else if (btn.dataset.chipType === 'month') {
-        handleMonthClick(btn.dataset.month);
-      }
-    });
-
-    return btn;
-  }
-
-  function setActiveChip(targetType, targetYear, targetMonth) {
-    var chips = chipsContainer.querySelectorAll('.month-chip');
-    chips.forEach(function(chip) {
-      var type = chip.dataset.chipType;
-      var y = chip.dataset.year || null;
-      var m = chip.dataset.month || null;
-
-      var isActive = false;
-      if (targetType === 'all' && type === 'all') {
-        isActive = true;
-      } else if (targetType === 'year' && type === 'year' && y === targetYear) {
-        isActive = true;
-      } else if (targetType === 'month' && type === 'month' && m === targetMonth) {
-        isActive = true;
-      }
-
-      if (isActive) {
-        chip.classList.add('active');
-      } else {
-        chip.classList.remove('active');
-      }
-    });
-  }
-
-  function applyFilter() {
+    // 사용 가능한 연도 목록 만들기
+    var yearSet = {};
     rows.forEach(function(row) {
-      var match = true;
-
-      if (currentYear && row.dataset.year !== currentYear) {
-        match = false;
-      }
-      if (currentMonth && row.dataset.month !== currentMonth) {
-        match = false;
-      }
-
-      row.style.display = match ? '' : 'none';
-    });
-  }
-
-  function showOnlyYearLevelControls() {
-    var chips = chipsContainer.querySelectorAll('.month-chip');
-    chips.forEach(function(chip) {
-      var type = chip.dataset.chipType;
-      if (type === 'month') {
-        chip.style.display = 'none';
-      } else {
-        chip.style.display = '';
+      var y = row.getAttribute('data-year');
+      if (y) {
+        yearSet[y] = true;
       }
     });
-  }
 
-  function showAllControls() {
-    var chips = chipsContainer.querySelectorAll('.month-chip');
-    chips.forEach(function(chip) {
-      chip.style.display = '';
+    var years = Object.keys(yearSet).sort(function(a, b) {
+      return parseInt(b, 10) - parseInt(a, 10); // 최신 연도 먼저
     });
-  }
 
-  function handleAllClick() {
-    currentYear = null;
-    currentMonth = null;
-    setActiveChip('all');
-    applyFilter();
-    showOnlyYearLevelControls();   // 전체 모드: 월 칩 숨김
-  }
+    var currentYear = null;
+    var currentMonth = null;
 
-  function handleYearClick(year) {
-    currentYear = year;
-    currentMonth = null;
-    setActiveChip('year', year, null);
-    applyFilter();
-    showAllControls();             // 연도 선택 시: 월 칩 표시
-  }
-
-  function handleMonthClick(month) {
-    // 연도가 아직 선택 안 되어 있으면 가장 최신 연도로 고정
-    if (!currentYear && years.length) {
-      currentYear = years[0];
+    function createChip(label, options) {
+      options = options || {};
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = label;
+      btn.className = 'chip';
+      if (options.type) {
+        btn.setAttribute('data-type', options.type);
+      }
+      if (options.value != null) {
+        btn.setAttribute('data-value', String(options.value));
+      }
+      return btn;
     }
-    currentMonth = month;
-    setActiveChip('month', null, month);
-    applyFilter();
-    showAllControls();
-  }
 
-  function buildChips() {
-    clearChips();
+    function clearActiveChips() {
+      var chips = chipsWrap.querySelectorAll('.chip');
+      Array.prototype.forEach.call(chips, function(c) {
+        c.classList.remove('chip--active');
+      });
+    }
 
-    // 1) 전체 칩
-    var allChip = createChip('전체', 'all');
-    chipsContainer.appendChild(allChip);
+    function showOnlyYearLevelControls() {
+      var yearChips = chipsWrap.querySelectorAll('.chip[data-type="year"]');
+      var monthChips = chipsWrap.querySelectorAll('.chip[data-type="month"]');
 
-    // 2) 연도 칩들
-    years.forEach(function(year) {
-      var yChip = createChip(year + '년', 'year', year, null);
-      chipsContainer.appendChild(yChip);
+      Array.prototype.forEach.call(yearChips, function(c) {
+        c.style.display = 'inline-flex';
+      });
+      Array.prototype.forEach.call(monthChips, function(c) {
+        c.style.display = 'none';
+      });
+    }
+
+    function showAllControls() {
+      var yearChips = chipsWrap.querySelectorAll('.chip[data-type="year"]');
+      var monthChips = chipsWrap.querySelectorAll('.chip[data-type="month"]');
+
+      Array.prototype.forEach.call(yearChips, function(c) {
+        c.style.display = 'inline-flex';
+      });
+      Array.prototype.forEach.call(monthChips, function(c) {
+        c.style.display = 'inline-flex';
+      });
+    }
+
+    function applyFilter() {
+      rows.forEach(function(row) {
+        var y = row.getAttribute('data-year');
+        var m = row.getAttribute('data-month');
+
+        var show = true;
+
+        if (currentYear !== null && String(currentYear) !== String(y)) {
+          show = false;
+        }
+
+        if (currentMonth !== null && String(currentMonth) !== String(m)) {
+          show = false;
+        }
+
+        row.style.display = show ? '' : 'none';
+      });
+    }
+
+    function handleAllClick() {
+      currentYear = null;
+      currentMonth = null;
+      clearActiveChips();
+
+      var allChip = chipsWrap.querySelector('.chip[data-type="all"]');
+      if (allChip) {
+        allChip.classList.add('chip--active');
+      }
+
+      showOnlyYearLevelControls();
+      applyFilter();
+    }
+
+    function handleYearClick(year) {
+      currentYear = year;
+      currentMonth = null;
+      clearActiveChips();
+
+      var yearChip = chipsWrap.querySelector(
+        '.chip[data-type="year"][data-value="' + year + '"]'
+      );
+      if (yearChip) {
+        yearChip.classList.add('chip--active');
+      }
+
+      showAllControls();
+      applyFilter();
+    }
+
+    function handleMonthClick(month) {
+      // 연도가 선택 안 된 상태에서 월을 누르면 가장 최신 연도로 자동
+      if (currentYear === null && years.length > 0) {
+        currentYear = years[0];
+      }
+
+      currentMonth = month;
+      clearActiveChips();
+
+      var yearChip = chipsWrap.querySelector(
+        '.chip[data-type="year"][data-value="' + currentYear + '"]'
+      );
+      if (yearChip) {
+        yearChip.classList.add('chip--active');
+      }
+
+      var monthChip = chipsWrap.querySelector(
+        '.chip[data-type="month"][data-value="' + month + '"]'
+      );
+      if (monthChip) {
+        monthChip.classList.add('chip--active');
+      }
+
+      showAllControls();
+      applyFilter();
+    }
+
+    // ---------- 칩 실제 생성 부분 ----------
+
+    // 1) 전체
+    var allChip = createChip('전체', { type: 'all' });
+    allChip.addEventListener('click', function() {
+      handleAllClick();
+    });
+    chipsWrap.appendChild(allChip);
+
+    // 2) 연도 칩
+    years.forEach(function(y) {
+      var chip = createChip(y + '년', { type: 'year', value: y });
+      chip.addEventListener('click', function() {
+        handleYearClick(y);
+      });
+      chipsWrap.appendChild(chip);
     });
 
-    // 3) 월 칩들 (1~12, 처음에는 숨겨두되 DOM에는 넣어둠)
+    // 3) 월 칩 (1~12월)
     for (var m = 1; m <= 12; m++) {
-      var mm = String(m).padStart(2, '0'); // "01" ~ "12"
       var label = m + '월';
-      var mChip = createChip(label, 'month', null, mm);
-      mChip.style.display = 'none'; // 초기에는 숨김
-      chipsContainer.appendChild(mChip);
+      var chip = createChip(label, { type: 'month', value: String(m) });
+      (function(mm) {
+        chip.addEventListener('click', function() {
+          handleMonthClick(mm);
+        });
+      })(String(m));
+      chipsWrap.appendChild(chip);
     }
-  }
 
-  buildChips();
-  handleAllClick(); // 첫 진입 시: 전체 모드 (연도 칩만 보이고, 월 칩은 숨김)
-});
+    // 처음 들어왔을 때 상태:
+    //  - "전체" 칩이 활성화
+    //  - 연도 칩만 보이고, 월 칩은 숨겨진 상태
+    handleAllClick();
+  })();
   </script>
-
 </body>
 </html>
