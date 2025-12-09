@@ -27,22 +27,63 @@
     height: 100%;
     object-fit: cover;
     z-index: -1;
-    opacity: 0.5; /* 너무 튀면 값 줄이거나 늘려도 됨 */
+    opacity: 0.5;
   }
 
-  /* 카드 영역를 조금 띄우기 위한 래퍼 */
   .archive-wrap {
     min-height: 100vh;
-    padding-bottom: 160px;  /* 기존에 40px 정도였다면 160px로 늘리기 */
-    background: radial-gradient(
-      circle at top,
-      rgba(148,163,184,0.25) 0,
-      transparent 55%
-    );
+    padding: 40px 16px 64px 16px;
+    background:
+      radial-gradient(circle at top,
+        rgba(148,163,184,0.25) 0,
+        transparent 55%);
   }
 
+  .month-filter-wrap {
+    margin: 0 16px 12px 16px;
+  }
 
-  /* 카드 hover 효과 */
+  .month-filter-label {
+    font-size:13px;
+    color:#cbd5f5;
+    margin-bottom:6px;
+    opacity:0.8;
+  }
+
+  .month-chips {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .month-chip {
+    border-radius:9999px;
+    border:1px solid rgba(148,163,184,0.6);
+    background:rgba(15,23,42,0.6);
+    color:#e5e7eb;
+    font-size:13px;
+    padding:6px 12px;
+    cursor:pointer;
+    outline:none;
+    white-space:nowrap;
+    transition:background 0.18s ease, border-color 0.18s ease, transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .month-chip:hover {
+    background:rgba(30,64,175,0.7);
+    border-color:#60a5fa;
+    box-shadow:0 0 0 1px rgba(15,23,42,0.4);
+    transform:translateY(-1px);
+  }
+
+  .month-chip.active {
+    background:#2563eb;
+    border-color:#2563eb;
+    color:#ffffff;
+    box-shadow:0 0 0 1px rgba(15,23,42,0.4);
+  }
+
+  /* 카드 영역 */
   .archive-card {
       display:block;
       text-decoration:none;
@@ -81,30 +122,25 @@
     color:#e5e7eb;
   }
 
-
   @media (max-width: 768px) {
     .archive-card {
       padding:14px;
     }
   }
 
-
   /* 모바일 전용: 배경 비디오 숨기고 이미지로 대체 */
   @media (max-width: 768px) {
-    /* 비디오 안 보이게 */
     .bg-video {
       display: none;
     }
 
-    /* 모바일에서는 이미지 배경 사용 */
     body {
       background:
         url('https://hancom-inspace.github.io/Weekly-Newsletter/assets/archive_bg_fallback.png')
         center top / cover no-repeat;
-      color: #e5e7eb; /* 텍스트 색 유지 */
+      color: #e5e7eb;
     }
 
-    /* 그라디언트가 너무 세면 살짝 줄이기 (선택 사항) */
     .archive-wrap {
       background: radial-gradient(
         circle at top,
@@ -113,9 +149,6 @@
       );
     }
   }
-
-
-
 </style>
 </head>
 
@@ -125,21 +158,33 @@
     <source src="https://hancom-inspace.github.io/Weekly-Newsletter/assets/archive_bg.mp4" type="video/mp4" />
   </video>
 
-  <!-- 기존 UI 래퍼 (예전 구조 그대로 유지) -->
+  <!-- 기존 UI 래퍼 -->
   <div class="archive-wrap">
     <center>
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:700px; margin:0 auto;">
         <tr>
-          <td style="padding:60px 16px 40px 16px; font-size:28px; font-weight:700; color:#f9fafb;">
+          <td style="padding:60px 16px 12px 16px; font-size:28px; font-weight:700; color:#f9fafb;">
             📚 이전 뉴스레터 다시보기
           </td>
         </tr>
 
+        <!-- 월별 필터 (지메일 느낌 칩 버튼) -->
         <tr>
-          <td style="padding:0 16px 40px 16px;">
+          <td>
+            <div class="month-filter-wrap">
+              <div class="month-filter-label">월별로 보기</div>
+              <div id="month-chips" class="month-chips"></div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- 카드 리스트 -->
+        <tr>
+          <td style="padding:4px 16px 8px 16px;">
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
-              
-        <tr>
+              <tbody>
+                
+        <tr class="archive-row" data-ym="2025.12">
           <td style="padding-bottom:16px;">
             <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/09/index.html" class="archive-card">
               <div class="archive-card-label">
@@ -153,7 +198,7 @@
         </tr>
         
 
-        <tr>
+        <tr class="archive-row" data-ym="2025.12">
           <td style="padding-bottom:16px;">
             <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/08/index.html" class="archive-card">
               <div class="archive-card-label">
@@ -167,7 +212,7 @@
         </tr>
         
 
-        <tr>
+        <tr class="archive-row" data-ym="2025.12">
           <td style="padding-bottom:16px;">
             <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/05/index.html" class="archive-card">
               <div class="archive-card-label">
@@ -180,6 +225,7 @@
           </td>
         </tr>
         
+              </tbody>
             </table>
           </td>
         </tr>
@@ -187,60 +233,78 @@
     </center>
   </div>
 
-<script>
-  const video = document.getElementById("bgVideo");
-  let videoDuration = 0;
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var rows = Array.prototype.slice.call(document.querySelectorAll('.archive-row'));
+    var chipsContainer = document.getElementById('month-chips');
+    if (!rows.length || !chipsContainer) return;
 
-  // 스크롤 진행도(0~1)를 저장하는 전역 값
-  let scrollProgress = 0;
+    // 1) 데이터에서 월 목록 추출 (YYYY.MM 형태)
+    var monthSet = new Set();
+    rows.forEach(function(row) {
+      var ym = row.getAttribute('data-ym');
+      if (ym) monthSet.add(ym);
+    });
 
-  // 스크롤 한 바퀴로 영상의 몇 %까지만 쓸지
-  const PLAY_RATIO = 0.35;   // 0.35면 영상 앞 35%까지만 사용 (원하면 0.25~0.4 사이로 조절)
-  const SMOOTHING = 0.12;    // 부드러움 정도 (0.05 = 매우 천천히, 0.2 = 빠르게 따라감)
+    var months = Array.from(monthSet).sort().reverse(); // 최신 월이 앞으로 오도록 정렬
 
-  // 비디오 메타데이터 로드 후 전체 길이 확보
-  video.addEventListener("loadedmetadata", () => {
-    videoDuration = video.duration || 0;
+    function formatLabel(ym) {
+      // "YYYY.MM" → "YYYY년 M월"
+      var parts = ym.split('.');
+      if (parts.length === 2) {
+        var year = parts[0];
+        var month = parts[1].replace(/^0/, '');
+        return year + '년 ' + month + '월';
+      }
+      return ym;
+    }
+
+    function createChip(ym, label) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'month-chip';
+      btn.setAttribute('data-ym', ym);
+      btn.textContent = label;
+      btn.addEventListener('click', function() {
+        setActiveMonth(ym);
+      });
+      return btn;
+    }
+
+    function setActiveMonth(ym) {
+      var chips = document.querySelectorAll('.month-chip');
+      chips.forEach(function(chip) {
+        if (chip.getAttribute('data-ym') === ym) {
+          chip.classList.add('active');
+        } else {
+          chip.classList.remove('active');
+        }
+      });
+
+      rows.forEach(function(row) {
+        var rowYm = row.getAttribute('data-ym');
+        if (ym === 'all' || rowYm === ym) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // "전체" 칩 추가
+    var allChip = createChip('all', '전체');
+    allChip.classList.add('active');
+    chipsContainer.appendChild(allChip);
+
+    // 개별 월 칩 추가 (최신월 → 과거월 순)
+    months.forEach(function(ym) {
+      chipsContainer.appendChild(createChip(ym, formatLabel(ym)));
+    });
+
+    // 초기 상태: 전체 보기
+    setActiveMonth('all');
   });
-
-  // 스크롤 할 때마다 진행도만 갱신
-  function handleScroll() {
-    const doc = document.documentElement;
-    const scrollTop = doc.scrollTop || document.body.scrollTop;
-    const scrollHeight = doc.scrollHeight || document.body.scrollHeight;
-    const clientHeight = doc.clientHeight || window.innerHeight;
-
-    const maxScroll = scrollHeight - clientHeight;
-    if (maxScroll <= 0) {
-      scrollProgress = 0;
-      return;
-    }
-
-    let p = scrollTop / maxScroll;
-    if (p < 0) p = 0;
-    if (p > 1) p = 1;
-
-    scrollProgress = p;
-  }
-
-  window.addEventListener("scroll", handleScroll);
-  window.addEventListener("resize", handleScroll);
-
-  // 항상 돌아가는 애니메이션 루프: 현재 time을 target 쪽으로 조금씩 이동
-  function tick() {
-    if (videoDuration) {
-      const targetTime = scrollProgress * videoDuration * PLAY_RATIO;
-      const current = video.currentTime || 0;
-      const next = current + (targetTime - current) * SMOOTHING;
-      video.currentTime = next;
-    }
-    window.requestAnimationFrame(tick);
-  }
-
-  // 초기 한 번 실행
-  handleScroll();
-  window.requestAnimationFrame(tick);
-</script>
+  </script>
 
 </body>
 </html>
