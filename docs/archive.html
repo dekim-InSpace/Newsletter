@@ -168,14 +168,21 @@
           </td>
         </tr>
 
-        <!-- 월별 필터 (지메일 느낌 칩 버튼) -->
+        <!-- 필터 영역 -->
         <tr>
           <td>
             <div class="month-filter-wrap">
+              <div class="month-filter-label">년도</div>
+              <div id="year-chips" class="month-chips"></div>
+            </div>
+
+            <div class="month-filter-wrap" style="margin-top:8px;">
+              <div class="month-filter-label">월</div>
               <div id="month-chips" class="month-chips"></div>
             </div>
           </td>
         </tr>
+
 
         <!-- 카드 리스트 -->
         <tr>
@@ -183,7 +190,7 @@
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tbody>
                 
-        <tr class="archive-row" data-ym="2025.12">
+        <tr class="archive-row" data-year="2025" data-month="12">
           <td style="padding-bottom:16px;">
             <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/09/index.html" class="archive-card">
               <div class="archive-card-label">
@@ -197,7 +204,7 @@
         </tr>
         
 
-        <tr class="archive-row" data-ym="2025.12">
+        <tr class="archive-row" data-year="2025" data-month="12">
           <td style="padding-bottom:16px;">
             <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/08/index.html" class="archive-card">
               <div class="archive-card-label">
@@ -211,7 +218,7 @@
         </tr>
         
 
-        <tr class="archive-row" data-ym="2025.12">
+        <tr class="archive-row" data-year="2025" data-month="12">
           <td style="padding-bottom:16px;">
             <a href="https://hancom-inspace.github.io/Weekly-Newsletter/2025/12/05/index.html" class="archive-card">
               <div class="archive-card-label">
@@ -234,74 +241,86 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var rows = Array.prototype.slice.call(document.querySelectorAll('.archive-row'));
-    var chipsContainer = document.getElementById('month-chips');
-    if (!rows.length || !chipsContainer) return;
+    var rows = Array.prototype.slice.call(
+      document.querySelectorAll('.archive-row')
+    );
+    var yearContainer = document.getElementById('year-chips');
+    var monthContainer = document.getElementById('month-chips');
 
-    // 1) 데이터에서 월 목록 추출 (YYYY.MM 형태)
-    var monthSet = new Set();
+    if (!rows.length || !yearContainer || !monthContainer) return;
+
+    // --- 데이터에서 "년도" 목록 추출 ---
+    var yearSet = new Set();
     rows.forEach(function(row) {
-      var ym = row.getAttribute('data-ym');
-      if (ym) monthSet.add(ym);
+      var y = row.getAttribute('data-year');
+      if (y) yearSet.add(y);
     });
+    var years = Array.from(yearSet).sort().reverse(); // 최신 년도 먼저
 
-    var months = Array.from(monthSet).sort().reverse(); // 최신 월이 앞으로 오도록 정렬
+    var activeYear = 'all';
+    var activeMonth = 'all';
 
-    function formatLabel(ym) {
-      // "YYYY.MM" → "YYYY년 M월"
-      var parts = ym.split('.');
-      if (parts.length === 2) {
-        var year = parts[0];
-        var month = parts[1].replace(/^0/, '');
-        return year + '년 ' + month + '월';
-      }
-      return ym;
-    }
-
-    function createChip(ym, label) {
+    function createChip(container, value, label, group) {
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'month-chip';
-      btn.setAttribute('data-ym', ym);
+      btn.dataset.value = value;
+      btn.dataset.group = group;
       btn.textContent = label;
+
       btn.addEventListener('click', function() {
-        setActiveMonth(ym);
+        if (group === 'year') {
+          activeYear = value;
+        } else {
+          activeMonth = value;
+        }
+        updateActiveChips();
+        applyFilter();
       });
-      return btn;
+
+      container.appendChild(btn);
     }
 
-    function setActiveMonth(ym) {
-      var chips = document.querySelectorAll('.month-chip');
-      chips.forEach(function(chip) {
-        if (chip.getAttribute('data-ym') === ym) {
-          chip.classList.add('active');
-        } else {
-          chip.classList.remove('active');
-        }
-      });
+    function updateActiveChips() {
+      var yearChips = document.querySelectorAll('.month-chip[data-group="year"]');
+      var monthChips = document.querySelectorAll('.month-chip[data-group="month"]');
 
+      yearChips.forEach(function(chip) {
+        chip.classList.toggle('active', chip.dataset.value === activeYear);
+      });
+      monthChips.forEach(function(chip) {
+        chip.classList.toggle('active', chip.dataset.value === activeMonth);
+      });
+    }
+
+    function applyFilter() {
       rows.forEach(function(row) {
-        var rowYm = row.getAttribute('data-ym');
-        if (ym === 'all' || rowYm === ym) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
+        var y = row.getAttribute('data-year');
+        var m = row.getAttribute('data-month');
+
+        var okYear = (activeYear === 'all' || y === activeYear);
+        var okMonth = (activeMonth === 'all' || m === activeMonth);
+
+        row.style.display = (okYear && okMonth) ? '' : 'none';
       });
     }
 
-    // "전체" 칩 추가
-    var allChip = createChip('all', '전체');
-    allChip.classList.add('active');
-    chipsContainer.appendChild(allChip);
-
-    // 개별 월 칩 추가 (최신월 → 과거월 순)
-    months.forEach(function(ym) {
-      chipsContainer.appendChild(createChip(ym, formatLabel(ym)));
+    // --- 년도 칩 만들기 ---
+    createChip(yearContainer, 'all', '전체', 'year');
+    years.forEach(function(y) {
+      createChip(yearContainer, y, y + '년', 'year');
     });
 
-    // 초기 상태: 전체 보기
-    setActiveMonth('all');
+    // --- 월 칩 만들기 (항상 1~12 + 전체) ---
+    createChip(monthContainer, 'all', '전체', 'month');
+    for (var i = 1; i <= 12; i++) {
+      var v = String(i).padStart(2, '0'); // "01".."12"
+      createChip(monthContainer, v, i + '월', 'month');
+    }
+
+    // 초기 상태: 모두 보기
+    updateActiveChips();
+    applyFilter();
   });
   </script>
 
