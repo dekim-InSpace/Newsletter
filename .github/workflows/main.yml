@@ -36,5 +36,5 @@ jobs:
         GMAIL_USER: ${{ secrets.GMAIL_USER }}
         GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         TO_EMAIL: ${{ secrets.TO_EMAIL }}
-      run: |
-        python 뉴스레터_자동화_수정.py
+        run: |
+          python 뉴스레터_자동화.py
