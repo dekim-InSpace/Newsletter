@@ -5255,8 +5255,6 @@ if IN_COLAB:
     except Exception as e:
         print("[경고] Colab에서 newsletter.py 버전 업로드 중 오류 발생:", e)
 
-get_ipython().run_cell_magic('writefile', 'newsletter.py', '!python newsletter.py\n')
-
 # ============================
 # 🔗 GitHub 연동 설정 (Colab 전용)
 # ============================
@@ -5287,8 +5285,6 @@ if IN_COLAB:
 
     print("✅ Colab Secrets에서 API 키 로드 완료")
 
-get_ipython().run_cell_magic('writefile', 'newsletter.py', '')
-
 # ============================
 # 🔗 GitHub 연동 설정 (Colab 전용)
 # ============================
@@ -5318,8 +5314,6 @@ if IN_COLAB:
     os.environ["TO_EMAIL_TEST"] = userdata.get('TO_EMAIL_TEST')  # 🔹 새로 추가
 
     print("✅ Colab Secrets에서 API 키 로드 완료")
-
-get_ipython().run_cell_magic('writefile', 'newsletter.py', '')
 
 # ============================
 # 🔗 GitHub 연동 설정 (Colab 전용)
@@ -5414,8 +5408,6 @@ except:
     
 if IN_COLAB:
     get_ipython().run_line_magic('%writefile', 'newsletter.py')
-
-get_ipython().run_cell_magic('writefile', 'newsletter.py', '')
 
 get_ipython().system('ls -la /content/*.py')
 
@@ -11765,6 +11757,262 @@ if IN_COLAB:
     except Exception as e:
         print(f"❌ GitHub 업로드 중 오류 발생: {e}")
         import traceback
+        traceback.print_exc()
+else:
+    print("\n⚠️ GitHub 자동 업로드는 Colab 환경에서만 실행됩니다.")
+
+"""# **11. GitHub 자동 업로드 (Colab 전용)**"""
+
+# ============================
+# 11. GitHub 자동 업로드 (Colab 전용)
+# ============================
+if IN_COLAB:
+    print("\n" + "="*70)
+    print("📤 GitHub에 코드 자동 업로드 중...")
+    print("="*70)
+
+    try:
+        import base64
+        from datetime import timezone, timedelta
+
+        # KST 정의
+        KST = timezone(timedelta(hours=9))
+        now_kst = datetime.now(KST)
+        timestamp_str = now_kst.strftime("%Y_%m_%d_%H_%M_%S")
+
+        # GitHub API 설정
+        GITHUB_OWNER = "hancom-inspace"
+        GITHUB_REPO = "Weekly-Newsletter"
+        GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+
+        if not GITHUB_TOKEN:
+            print("❌ GITHUB_TOKEN이 설정되지 않았습니다.")
+        else:
+            # 🔥 핵심: IPython에서 실행된 모든 코드 수집
+            print("📝 실행된 코드 수집 중...")
+
+            from IPython import get_ipython
+            ip = get_ipython()
+
+            all_cells = []
+            In = ip.user_ns.get('In', [])
+
+            # --- 추가: 제거할 패턴 정의 ---
+            DROP_LINE_PATTERNS = [
+            ]
+            DROP_CELL_PATTERNS = [
+                "%%writefile",   # 혹시 매직이 그대로 남아있을 때
+                "%writefile",
+            ]
+
+            def _sanitize_cell(cell_code: str) -> str:
+                """셀 단위 정리: writefile 매직/자동생성 라인 제거"""
+                if not cell_code:
+                    return ""
+
+                # 셀 전체가 writefile 용도면 통째로 버림
+                stripped = cell_code.strip()
+                for p in DROP_CELL_PATTERNS:
+                    if stripped.startswith(p):
+                        return ""
+
+                # 셀 내부에 섞여있는 writefile 관련 라인만 제거
+                cleaned_lines = []
+                for line in cell_code.splitlines():
+                    if any(p in line for p in DROP_LINE_PATTERNS):
+                        continue
+                    cleaned_lines.append(line)
+
+                # 끝에 공백 줄 정리
+                cleaned = "\n".join(cleaned_lines).rstrip()
+                return cleaned
+
+            # In은 리스트이므로 인덱스로 접근
+            for i, cell_code in enumerate(In):
+                if i == 0:  # 첫 번째는 빈 문자열이므로 스킵
+                    continue
+                if cell_code and cell_code.strip():
+                    cleaned = _sanitize_cell(cell_code)
+                    if cleaned.strip():
+                        all_cells.append(cleaned)
+
+            # 전체 코드 결합
+            file_content = '\n\n'.join(all_cells)
+
+            # 파일 크기 체크
+            file_size_mb = len(file_content.encode('utf-8')) / (1024 * 1024)
+            print(f"📦 수집된 코드: {len(all_cells)}개 셀, {file_size_mb:.2f} MB")
+
+"""# **11. GitHub 자동 업로드 (Colab 전용)**"""
+
+# ============================
+# 11. GitHub 자동 업로드 (Colab 전용)
+# ============================
+if IN_COLAB:
+    print("\n" + "=" * 70)
+    print("📤 GitHub에 코드 자동 업로드 중...")
+    print("=" * 70)
+
+    try:
+        import base64
+        from datetime import timezone, timedelta
+
+        # KST 정의
+        KST = timezone(timedelta(hours=9))
+        now_kst = datetime.now(KST)
+        timestamp_str = now_kst.strftime("%Y_%m_%d_%H_%M_%S")
+
+        # GitHub API 설정
+        GITHUB_OWNER = "hancom-inspace"
+        GITHUB_REPO = "Weekly-Newsletter"
+        GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+
+        if not GITHUB_TOKEN:
+            print("❌ GITHUB_TOKEN이 설정되지 않았습니다.")
+        else:
+            # 🔥 핵심: IPython에서 실행된 모든 코드 수집
+            print("📝 실행된 코드 수집 중...")
+
+            from IPython import get_ipython
+            ip = get_ipython()
+
+            all_cells = []
+            In = ip.user_ns.get("In", [])
+
+            # --- 제거할 패턴 정의 ---
+            DROP_LINE_PATTERNS = [
+            ]
+            DROP_CELL_PATTERNS = [
+                "%%writefile",
+                "%writefile",
+            ]
+
+            def _sanitize_cell(cell_code: str) -> str:
+                """셀 단위 정리: writefile 매직/자동생성 라인 제거"""
+                if not cell_code:
+                    return ""
+
+                stripped = cell_code.strip()
+
+                # 셀 전체가 writefile 용도면 통째로 버림
+                for p in DROP_CELL_PATTERNS:
+                    if stripped.startswith(p):
+                        return ""
+
+                # 셀 내부에 섞여있는 writefile 관련 라인만 제거
+                cleaned_lines = []
+                for line in cell_code.splitlines():
+                    if any(p in line for p in DROP_LINE_PATTERNS):
+                        continue
+                    cleaned_lines.append(line)
+
+                return "\n".join(cleaned_lines).rstrip()
+
+            # In은 리스트이므로 인덱스로 접근
+            for i, cell_code in enumerate(In):
+                if i == 0:  # 첫 번째는 빈 문자열이므로 스킵
+                    continue
+                if cell_code and cell_code.strip():
+                    cleaned = _sanitize_cell(cell_code)
+                    if cleaned.strip():
+                        all_cells.append(cleaned)
+
+            # 전체 코드 결합
+            file_content = "\n\n".join(all_cells)
+
+            # 파일 크기 체크
+            file_size_mb = len(file_content.encode("utf-8")) / (1024 * 1024)
+            print(f"📦 수집된 코드: {len(all_cells)}개 셀, {file_size_mb:.2f} MB")
+
+            if len(file_content.strip()) == 0:
+                print("❌ 수집된 코드가 없습니다. 'In' 변수를 확인하세요.")
+            elif file_size_mb > 1:
+                print(f"⚠️ 파일이 너무 큽니다 ({file_size_mb:.2f}MB). 1MB 제한.")
+            else:
+                # Base64 인코딩
+                encoded_content = base64.b64encode(file_content.encode("utf-8")).decode("utf-8")
+
+                # GitHub API 헤더
+                headers = {
+                    "Authorization": f"token {GITHUB_TOKEN}",
+                    "Accept": "application/vnd.github.v3+json",
+                }
+
+                # 1️⃣ 메인 파일 업데이트 (newsletter.py)
+                print("\n📤 메인 파일 업로드 중...")
+                main_file_path = "newsletter.py"
+                main_url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/contents/{main_file_path}"
+
+                # 기존 파일의 SHA 가져오기
+                response = requests.get(main_url, headers=headers)
+                if response.status_code == 200:
+                    sha = response.json()["sha"]
+                    print(f"✓ 기존 파일 발견 (SHA: {sha[:7]}...)")
+                else:
+                    sha = None
+                    print("✓ 새 파일 생성")
+
+                # 파일 업로드/업데이트
+                commit_message = f"Update newsletter.py - {now_kst.strftime('%Y-%m-%d %H:%M:%S')} KST"
+                payload = {
+                    "message": commit_message,
+                    "content": encoded_content,
+                }
+                if sha:
+                    payload["sha"] = sha
+
+                response = requests.put(main_url, headers=headers, json=payload)
+
+                if response.status_code in [200, 201]:
+                    print(f"✅ 메인 파일 업로드 성공: {main_file_path}")
+                    print(f"   파일 크기: {file_size_mb:.2f} MB")
+                else:
+                    print(f"❌ 메인 파일 업로드 실패: {response.status_code}")
+                    print(f"   응답: {response.text[:300]}")
+
+                # 2️⃣ 버전 폴더에 날짜별 파일 업로드
+                print("\n📤 버전 파일 업로드 중...")
+                version_file_path = f"versions/newsletter_{timestamp_str}.py"
+                version_url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/contents/{version_file_path}"
+
+                # versions 폴더 확인
+                versions_check_url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/contents/versions"
+                versions_response = requests.get(versions_check_url, headers=headers)
+                if versions_response.status_code == 404:
+                    print("📁 versions 폴더 생성 중...")
+                    gitkeep_url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/contents/versions/.gitkeep"
+                    gitkeep_payload = {
+                        "message": "Create versions folder",
+                        "content": base64.b64encode(b"").decode("utf-8"),
+                    }
+                    requests.put(gitkeep_url, headers=headers, json=gitkeep_payload)
+                    time.sleep(1)
+
+                # 버전 파일 업로드
+                commit_message_version = f"Add version: newsletter_{timestamp_str}.py"
+                payload_version = {
+                    "message": commit_message_version,
+                    "content": encoded_content,
+                }
+
+                response_version = requests.put(version_url, headers=headers, json=payload_version)
+
+                if response_version.status_code in [200, 201]:
+                    print(f"✅ 버전 파일 업로드 성공: {version_file_path}")
+                else:
+                    print(f"❌ 버전 파일 업로드 실패: {response_version.status_code}")
+                    print(f"   응답: {response_version.text[:300]}")
+
+                print("\n" + "=" * 70)
+                print("🎉 GitHub 업로드 완료!")
+                print(f"📁 메인 파일: https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}/blob/main/{main_file_path}")
+                print(f"📁 버전 파일: https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}/blob/main/{version_file_path}")
+                print("=" * 70)
+
+    except Exception as e:
+        print(f"❌ GitHub 업로드 중 오류 발생: {e}")
+        import traceback
+
         traceback.print_exc()
 else:
     print("\n⚠️ GitHub 자동 업로드는 Colab 환경에서만 실행됩니다.")
