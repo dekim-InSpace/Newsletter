@@ -185,7 +185,7 @@
 </head>
 
 <body>
-  <div class="bg-image" aria-hidden="true"></div>
+  <div class="bg-image"></div>
 
   <video id="bgVideo" class="bg-video" preload="auto" muted playsinline>
     <source src="https://hancom-inspace.github.io/Weekly-Newsletter/assets/archive_bg.mp4" type="video/mp4" />
@@ -223,7 +223,7 @@
 
               
           <div class="archive-card-insight">
-            이번 주에는 지리공간 정보의 전략적 가치 부상이 가속되며, AI와 정밀 위치기술이 공간 인텔리전스 전환을 촉진하고 있습니다.
+            이번 주에는 위성·지리공간 정보가 AI 융합을 통해 전략적 인프라로 전환되는 흐름이 가속되며 국가 안보와 산업 경쟁력 강화에 기여하고 있습니다.
           </div>
         
 
@@ -363,6 +363,9 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // =========================================================
+    // 1) 연/월 필터(기존 코드)
+    // =========================================================
     var rows = Array.prototype.slice.call(document.querySelectorAll('.archive-row'));
     var yearContainer = document.getElementById('year-chips');
     var monthContainer = document.getElementById('month-chips');
@@ -508,8 +511,64 @@
     }
 
     updateView();
+
+    // =========================================================
+    // 2) 스크롤 → 배경 비디오 프레임(추가 코드)
+    // =========================================================
+    var video = document.getElementById('bgVideo');
+    if (!video) return;
+
+    // 스크롤 기반이므로 자동재생이 필수는 아니며, 멈춘 상태로 두고 currentTime만 이동
+    try { video.pause(); } catch (e) {}
+
+    var duration = 0;
+    var ready = false;
+
+    function calcAndApply() {
+      if (!ready || !duration) return;
+
+      var doc = document.documentElement;
+      var scrollTop = window.pageYOffset || doc.scrollTop || 0;
+      var maxScroll = (doc.scrollHeight - window.innerHeight);
+
+      var p = (maxScroll > 0) ? (scrollTop / maxScroll) : 0;
+      if (p < 0) p = 0;
+      if (p > 1) p = 1;
+
+      var t = p * duration;
+
+      try { video.currentTime = t; } catch (e) {}
+    }
+
+    function onMetaReady() {
+      duration = video.duration || 0;
+      ready = duration > 0;
+      calcAndApply(); // 진입 시 즉시 동기화
+    }
+
+    video.addEventListener('loadedmetadata', onMetaReady);
+    if (video.readyState >= 1) onMetaReady();
+
+    var ticking = false;
+    window.addEventListener(
+      'scroll',
+      function() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(function() {
+          ticking = false;
+          calcAndApply();
+        });
+      },
+      { passive: true }
+    );
+
+    window.addEventListener('resize', function() {
+      calcAndApply();
+    });
   });
 </script>
+
 
 </body>
 </html>
