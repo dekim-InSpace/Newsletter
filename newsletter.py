@@ -2946,7 +2946,7 @@ else:
 # 
 # # **08 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[44]:
+# In[59]:
 
 
 # ============================
@@ -4292,16 +4292,31 @@ def generate_weekly_focus_insight(
     ctx["research"]["extra"] = [_research_payload(a) for a in research_extra_top]
 
     system = (
-        "너는 글로벌 항공우주·방산·위성·AI 기술 동향을 분석하는 리서치 애널리스트다. "
-        "입력으로 주간 뉴스와 최신 연구동향 요약이 주어진다. "
-        "이번 주 세계와 산업 전반에서 두드러지는 기술적·전략적 흐름을 "
-        "1~3줄의 한국어 인사이트로 정리하라. "
-        "특정 기업이나 조직을 직접 지칭하지 말고, "
-        "존댓말 서술형 문체를 사용해 "
-        "‘~되고 있습니다’, ‘~하고 있습니다’, ‘~로 보입니다’와 같은 표현으로 작성하라. "
-        "불릿이나 번호는 사용하지 말고, "
-        "과장되거나 단정적인 예측은 피하고 차분한 분석 톤을 유지하라."
+        "너는 글로벌 산업·기술 변화를 구조적으로 해석하는 시니어 리서치 애널리스트입니다. "
+        "입력으로 해당 주의 뉴스와 연구동향 요약이 주어집니다. "
+        "출력은 메인 뉴스레터에 들어갈 'Weekly Focus Insight'입니다. "
+
+        "이 인사이트는 단순 요약이나 현상 나열이 아니라, "
+        "여러 사건과 기술 변화를 하나의 관점으로 묶어 해석하는 분석 문단이어야 합니다. "
+
+        "다음 기준을 반드시 지키세요: "
+        "1) 글 전체는 하나의 중심 논지(throughline)를 가져야 합니다. "
+        "   (예: '지리공간 정보가 기술을 넘어 전략 자산으로 전환되고 있다') "
+        "2) 각 문장은 앞 문장의 원인·결과·의미 확장 관계로 연결되어야 하며, "
+        "   독립적인 요약 문장을 나열하지 않습니다. "
+        "3) 'A도 일어나고 B도 일어나고 C도 일어난다' 식의 병렬 나열은 금지합니다. "
+        "4) 최소 한 번 이상 '이로 인해 / 그 결과 / 이에 따라 / 이러한 흐름은'과 같은 "
+        "   인과 또는 구조적 연결 표현을 사용합니다. "
+        "5) 변화의 의미가 드러나도록 "
+        "   '기술 → 전략', '도구 → 인프라', '운영 → 거버넌스'와 같은 전환 관점을 포함합니다. "
+        "6) 특정 기업이나 조직(한컴인스페이스 등)을 직접 지칭하지 않습니다. "
+        "7) 존댓말 서술형으로 2~3문장으로 작성합니다. "
+
+        "불릿, 번호, 단순 요약체, 과장되거나 단정적인 예측은 사용하지 않습니다."
     )
+
+
+
 
     user = json.dumps(ctx, ensure_ascii=False)
 
@@ -4344,11 +4359,26 @@ def summarize_insight_for_archive(one_to_three_lines: str) -> str:
     # 2) GPT로 "한 문장" 압축
     try:
         system = (
-            "너는 주간 산업/기술 동향을 한 문장으로 요약하는 에디터다. "
-            "입력 텍스트를 바탕으로 '이번 주 흐름'을 1문장 한국어로 요약하라. "
-            "특정 회사(한컴인스페이스 등)를 직접 지칭하지 말고, "
-            "존댓말(합니다/됩니다) 톤으로 작성하라. "
-            "과장/추측/불릿/번호 금지."
+            "너는 주간 산업/기술 흐름을 아카이브 카드용 '한 문장'으로 만드는 에디터입니다. "
+            "입력은 주간 인사이트(1~3줄)이며, 출력은 한국어 존댓말 1문장(마침표 1개)입니다. "
+            "\n\n"
+            "[필수 규칙]\n"
+            "1) 반드시 동향 동사(강화/가속/확산/부상/전환/재편 중 1개 이상)를 포함해, "
+            "‘무엇이 어떻게 변하고 있는지’를 흐름 중심으로 말합니다.\n"
+            "2) 주제 나열(예: ‘A와 B와 C’)이나 메타 설명(예: ‘~를 다룹니다/소개합니다/요약합니다/전반적으로’)은 금지합니다.\n"
+            "3) 특정 기업/조직/브랜드(한컴인스페이스 등) 직접 지칭은 금지합니다.\n"
+            "4) 과장, 단정적 예측, 과도한 결론, 불릿/번호는 금지합니다.\n"
+            "5) 80자 이내의 한 문장으로 작성합니다.\n"
+            "\n"
+            "[권장 구성]\n"
+            "‘이번 주에는 [핵심 흐름]이 [강화/가속/확산/부상]되고 있으며, [이유/방향]이 함께 나타나고 있습니다.’\n"
+            "\n"
+            "[좋은 예]\n"
+            "‘이번 주에는 실시간 공간정보와 무인체계 결합 흐름이 강화되며, 군·상업 활용 확산이 두드러지고 있습니다.’\n"
+            "\n"
+            "[나쁜 예]\n"
+            "‘이번 주에는 위성, 드론, AI를 다룹니다.’\n"
+            "‘A와 B가 소개되었습니다.’"
         )
         user = src
 
@@ -4361,12 +4391,15 @@ def summarize_insight_for_archive(one_to_three_lines: str) -> str:
             temperature=0.3,
         )
         text = (resp.output[0].content[0].text or "").strip()
+
+        MAX_ARCHIVE_INSIGHT_CHARS = 150
+
         # 한 문장만 사용
         text = text.replace("\n", " ").strip()
         if not text:
             return fallback
-        if len(text) > 140:
-            text = text[:137].rstrip() + "…"
+        if len(text) > MAX_ARCHIVE_INSIGHT_CHARS:
+            text = text[:MAX_ARCHIVE_INSIGHT_CHARS-1].rstrip() + "…"
         return text
     except Exception as e:
         print(f"[WARN] Archive 1줄 Insight 생성 실패: {e}")
@@ -4489,8 +4522,9 @@ def build_archive_page_html(archive_items):
     transition:background 0.18s ease, border-color 0.18s ease, transform 0.12s ease, box-shadow 0.12s ease;
   }}
 
+
   /* ✅ Weekly Focus Insight(아카이브 카드용) */
-  .archive-card-insight {{
+  .archive-card-insight{{
     font-size:13px;
     line-height:1.45;
     color:#cbd5e1;
@@ -4498,10 +4532,15 @@ def build_archive_page_html(archive_items):
     opacity:0.92;
 
     display:-webkit-box;
-    -webkit-line-clamp:2;        /* 2줄 제한 */
+    -webkit-line-clamp:2;
     -webkit-box-orient:vertical;
     overflow:hidden;
+
+    /* ✅ 단어 중간 줄바꿈 방지 */
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }}
+
 
   .chip-base:hover {{
     background:rgba(30,64,175,0.7);
@@ -5338,10 +5377,20 @@ today_item = {
     "insight": weekly_focus_insight_card,
 }
 
+# ✅ 같은 URL이 있으면 "스킵"이 아니라 "업데이트" (기존 카드에 insight를 채워 넣기)
+found = None
+for item in archive_items:
+    if item.get("url") == today_item["url"]:
+        found = item
+        break
 
-# 같은 URL이 이미 있으면 중복으로 추가하지 않음
-already_exists = any(item.get("url") == today_item["url"] for item in archive_items)
-if not already_exists:
+if found:
+    # 기존 항목을 최신 값으로 갱신 (insight 포함)
+    found.update(today_item)
+
+    # (선택) 최신 항목이 리스트 맨 앞에 오도록 정렬 유지
+    archive_items = [found] + [x for x in archive_items if x is not found]
+else:
     archive_items.insert(0, today_item)
 
 # archive.html 생성
@@ -5401,7 +5450,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[45]:
+# In[60]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -5454,7 +5503,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[46]:
+# In[61]:
 
 
 # ============================
