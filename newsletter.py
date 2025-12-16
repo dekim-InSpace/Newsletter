@@ -2942,7 +2942,7 @@ else:
 # 
 # # **08 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[28]:
+# In[32]:
 
 
 # ============================
@@ -4938,7 +4938,7 @@ weekly_focus_html = f"""
       <tr><td style="font-size:14px; font-weight:800; color:#111827;">
         {WEEKLY_FOCUS_TITLE}
       </td></tr>
-      <tr><td style="font-size:14px; color:#374151; line-height:1.7; padding-top:8px; white-space:pre-line;">
+      <tr><td style="font-size:14px; color:#374151; line-height:1.7; padding-top:5px; white-space:pre-line; word-break: keep-all; overflow-wrap: break-word;">
         {h(weekly_focus_insight) if weekly_focus_insight else "이번 주 포커스 인사이트를 생성하지 못했습니다."}
       </td></tr>
     </table>
@@ -5341,7 +5341,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[29]:
+# In[33]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -5394,7 +5394,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[30]:
+# In[34]:
 
 
 # ============================
@@ -5684,7 +5684,7 @@ else:
     pass
 
 
-# In[26]:
+# In[ ]:
 
 
 
