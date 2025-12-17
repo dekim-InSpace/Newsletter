@@ -407,7 +407,7 @@
       var targetTime = 0;
       var smoothTime = 0;
       var animating = false;
-
+      
       function calcTargetTimeFromScroll() {
         if (!ready || !duration) return;
       
@@ -415,22 +415,18 @@
         var scrollTop = window.pageYOffset || doc.scrollTop || 0;
         var maxScroll = (doc.scrollHeight - window.innerHeight);
       
-        // 0~1 스크롤 진행률
         var p = (maxScroll > 0) ? (scrollTop / maxScroll) : 0;
         if (p < 0) p = 0;
         if (p > 1) p = 1;
       
-        // 스크롤 최상단 = 영상 처음 / 최하단 = 영상 끝
         var desired = p * duration;
       
-        // 끝 프레임 안정화 (선택)
         var END_MARGIN = 0.03;
         if (desired > duration - END_MARGIN) desired = duration - END_MARGIN;
         if (desired < 0) desired = 0;
       
         targetTime = desired;
       
-        // 스크롤 속도 기반 스무딩 조절
         if (!window.__bgScrubState) {
           window.__bgScrubState = { lastScrollTop: scrollTop, lastTs: performance.now() };
         }
