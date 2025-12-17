@@ -4734,12 +4734,42 @@ def build_archive_page_html(archive_items):
         var scrollTop = window.pageYOffset || doc.scrollTop || 0;
         var maxScroll = (doc.scrollHeight - window.innerHeight);
 
+        // 0~1 스크롤 진행률
         var p = (maxScroll > 0) ? (scrollTop / maxScroll) : 0;
         if (p < 0) p = 0;
         if (p > 1) p = 1;
 
-        var eased = Math.pow(p, EASE_GAMMA);
-        targetTime = eased * duration * SCRUB_PORTION;
+        // 스크롤 최상단 = 영상 처음 / 최하단 = 영상 끝
+        var desired = p * duration;
+
+        // 끝 프레임 안정화 (선택)
+        var END_MARGIN = 0.03;
+        if (desired > duration - END_MARGIN) desired = duration - END_MARGIN;
+        if (desired < 0) desired = 0;
+
+        targetTime = desired;
+
+        // 스크롤 속도 기반 스무딩 조절
+        if (!window.__bgScrubState) {{
+          window.__bgScrubState = {{ lastScrollTop: scrollTop, lastTs: performance.now() }};
+        }}
+
+        var st = window.__bgScrubState;
+        var now = performance.now();
+        var dt = Math.max(1, now - st.lastTs);
+        var ds = Math.abs(scrollTop - st.lastScrollTop);
+
+        var v = ds / dt; // px/ms
+
+        var minS = 0.06;
+        var maxS = 0.28;
+        var dynamic = minS + (v * 0.10);
+        if (dynamic > maxS) dynamic = maxS;
+
+        SMOOTHING = dynamic;
+
+        st.lastScrollTop = scrollTop;
+        st.lastTs = now;
       }}
 
       function applyTime(t) {{
@@ -4995,7 +5025,7 @@ ARCHIVE_PAGE_PATH = "docs/archive.html"
 ARCHIVE_PAGE_URL = f"{BASE_URL}/archive.html"
 
 # ▼ 아카이브 상단 스크롤 비디오(mp4) 경로 (여기에 네 영상 URL 넣기)
-ARCHIVE_VIDEO_URL = "https://hancom-inspace.github.io/Weekly-Newsletter/assets/archive_bg.mp4"
+ARCHIVE_VIDEO_URL = "https://hancom-inspace.github.io/Weekly-Newsletter/assets/archivebgvideo.mp4"
 
 # ▼ 아카이브 데이터를 JSON 파일로도 관리 (매번 깃허브 폴더를 읽어서 갱신)
 ARCHIVE_JSON_PATH = "docs/archive.json"
