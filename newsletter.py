@@ -9,7 +9,7 @@
 
 # # **01-1 설치 & import**
 
-# In[34]:
+# In[50]:
 
 
 # ============================
@@ -45,7 +45,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[35]:
+# In[51]:
 
 
 # ============================
@@ -87,7 +87,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[36]:
+# In[52]:
 
 
 # ============================================================
@@ -109,7 +109,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (날짜, 주제, 키워드, 상수)**
 
-# In[37]:
+# In[53]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -267,11 +267,11 @@ TOPIC_KEYWORDS = {
 
 
 # 1차 후보 개수 (토픽당 NewsAPI에서 넉넉히 가져오기)
-ARTICLES_PER_TOPIC_RAW = 50
+ARTICLES_PER_TOPIC_RAW = 100
 
 # 언어별 목표 개수 (한글 30% : 영어 70%)
-ARTICLES_PER_LANG_KO = 15   # 한글: 30%
-ARTICLES_PER_LANG_EN = 45   # 영어: 70%
+ARTICLES_PER_LANG_KO = 30   # 한글: 30%
+ARTICLES_PER_LANG_EN = 70   # 영어: 70%
 
 # 최종 뉴스레터에 반드시 보여줄 개수
 ARTICLES_PER_TOPIC_FINAL = 3
@@ -282,7 +282,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[38]:
+# In[54]:
 
 
 # ============================
@@ -606,7 +606,8 @@ def _rate_limit(api_name: str):
 def _call_with_backoff(api_name, fn, *args, **kwargs):
     """
     429/일시 오류(5xx/타임아웃/too many request 류) 시 지수 백오프.
-    실패 시 [] 반환(수집 파이프라인을 멈추지 않기 위함).
+    최종 실패 시 raise 해서 call_api_guarded가 403/429를 감지하고
+    circuit breaker를 열 수 있게 함.
     """
     max_tries = 5
     delay = 0.8
@@ -615,6 +616,7 @@ def _call_with_backoff(api_name, fn, *args, **kwargs):
         _rate_limit(api_name)
         try:
             return fn(*args, **kwargs) or []
+
         except requests.exceptions.HTTPError as e:
             resp = getattr(e, "response", None)
             status = getattr(resp, "status_code", None)
@@ -627,7 +629,8 @@ def _call_with_backoff(api_name, fn, *args, **kwargs):
                 continue
 
             print(f"[WARN] {api_name} HTTP error (status={status}): {e}")
-            return []
+            raise
+
         except Exception as e:
             msg = str(e).lower()
             retriable = ("too many" in msg) or ("429" in msg) or ("timeout" in msg) or ("temporar" in msg)
@@ -637,31 +640,198 @@ def _call_with_backoff(api_name, fn, *args, **kwargs):
                 continue
 
             print(f"[WARN] {api_name} error: {e}")
-            return []
+            raise
 
+
+# ============================
+# ✅ (NEW) Query OR bundler + Run budgets + Circuit breaker (+ Topic budgets)
+# ============================
+
+from typing import List
+from collections import defaultdict
+
+def build_or_query(keywords: List[str], max_terms: int = 18) -> str:
+    """
+    OR 쿼리 생성.
+    - 너무 긴 쿼리/과도한 term을 피하기 위해 max_terms로 컷
+    - 공백 포함 키워드는 따옴표로 감싸 정확도 유지
+    """
+    terms = []
+    for kw in keywords:
+        kw = str(kw).strip()
+        if not kw:
+            continue
+        if " " in kw:
+            terms.append(f'"{kw}"')
+        else:
+            terms.append(kw)
+
+    terms = terms[:max_terms]
+    if not terms:
+        return ""
+    return " OR ".join(terms)
+
+def chunk_keywords_for_1to2_calls(keywords: List[str], max_terms_per_call: int = 18) -> List[List[str]]:
+    """
+    "언어당 1~2회 호출"을 강제하기 위한 키워드 청킹.
+    - max_terms_per_call 기준으로 1~2개 청크만 반환
+    """
+    keywords = [k for k in (keywords or []) if str(k).strip()]
+    if not keywords:
+        return []
+    first = keywords[:max_terms_per_call]
+    rest = keywords[max_terms_per_call:(max_terms_per_call * 2)]
+    chunks = [first]
+    if rest:
+        chunks.append(rest)
+    return chunks  # 최대 2개
+
+
+# ---- 실행(run) 단위 Budget / Circuit Breaker 상태 ----
+_RUN_API_BUDGETS_DEFAULT = {
+    # 요청 주신 실행당 호출 예산 예시
+    "mediastack": 25,
+    "serpapi": 60,
+    "gnews": 30,
+    "newsapi_everything": 60,
+    "newsapi_top": 10,
+    "currents": 25,
+    "newsdata": 25,
+}
+
+# ---- 토픽(topic) 단위 Budget (호출 수 상한을 “토픽별로도” 명확화) ----
+_TOPIC_API_BUDGETS_DEFAULT = {
+    # OR 1~2회/언어(ko/en) 기준: 대략 4회 + 버퍼
+    "gnews": 6,
+    "newsapi_everything": 6,
+
+    # pass2 보조 소스는 낮게
+    "mediastack": 3,
+    "serpapi": 3,
+    "currents": 3,
+    "newsdata": 3,
+
+    # 토픽당 1회만 의도
+    "newsapi_top": 1,
+}
+
+_CB_DEFAULT = {
+    # 연속 403/429가 이 횟수 이상이면 해당 실행 동안 오픈(open)
+    "threshold": 2,
+}
+
+def _get_run_state():
+    state = getattr(_get_run_state, "_state", None)
+    if state is None:
+        state = {
+            "budget_left": dict(_RUN_API_BUDGETS_DEFAULT),
+            "topic_budget_left": defaultdict(lambda: dict(_TOPIC_API_BUDGETS_DEFAULT)),
+            "cb": {},  # api_name -> {"open": bool, "consec_403_429": int}
+        }
+        setattr(_get_run_state, "_state", state)
+    return state
+
+def reset_run_state():
+    """실행(run) 시작 시 호출(선택)."""
+    state = _get_run_state()
+    state["budget_left"] = dict(_RUN_API_BUDGETS_DEFAULT)
+    state["topic_budget_left"] = defaultdict(lambda: dict(_TOPIC_API_BUDGETS_DEFAULT))
+    state["cb"] = {}
+
+def _cb_get(api_name: str) -> dict:
+    st = _get_run_state()
+    cb = st["cb"].get(api_name)
+    if cb is None:
+        cb = {"open": False, "consec_403_429": 0}
+        st["cb"][api_name] = cb
+    return cb
+
+def _cb_on_result(api_name: str, status_code, success: bool):
+    cb = _cb_get(api_name)
+    if success:
+        cb["consec_403_429"] = 0
+        return
+    if status_code in (403, 429):
+        cb["consec_403_429"] += 1
+        if cb["consec_403_429"] >= _CB_DEFAULT["threshold"]:
+            cb["open"] = True
+
+def _budget_can_call(api_name: str) -> bool:
+    st = _get_run_state()
+    left = st["budget_left"].get(api_name)
+    if left is None:
+        return True
+    return left > 0
+
+def _budget_decrement(api_name: str, n: int = 1):
+    st = _get_run_state()
+    if api_name not in st["budget_left"]:
+        return
+    st["budget_left"][api_name] = max(0, st["budget_left"][api_name] - n)
+
+def _topic_budget_can_call(topic_id: int, api_name: str) -> bool:
+    st = _get_run_state()
+    tb = st["topic_budget_left"][topic_id]
+    left = tb.get(api_name)
+    if left is None:
+        return True
+    return left > 0
+
+def _topic_budget_decrement(topic_id: int, api_name: str, n: int = 1):
+    st = _get_run_state()
+    tb = st["topic_budget_left"][topic_id]
+    if api_name not in tb:
+        return
+    tb[api_name] = max(0, tb[api_name] - n)
+
+def call_api_guarded(api_name: str, fn, *args, topic_id=None, **kwargs):
+    """
+    - (1) circuit breaker open이면 스킵
+    - (2) run budget 0이면 스킵
+    - (3) topic budget 0이면 스킵 (topic_id 제공 시)
+    - (4) 호출 시도하면 run/topic budget 차감
+    - (5) 403/429 연속이면 cb open
+    """
+    cb = _cb_get(api_name)
+    if cb.get("open"):
+        return []
+
+    if not _budget_can_call(api_name):
+        return []
+
+    if topic_id is not None and not _topic_budget_can_call(topic_id, api_name):
+        return []
+
+    # top-level call 기준으로 1 차감
+    _budget_decrement(api_name, 1)
+    if topic_id is not None:
+        _topic_budget_decrement(topic_id, api_name, 1)
+
+    try:
+        out = _call_with_backoff(api_name, fn, *args, **kwargs) or []
+        _cb_on_result(api_name, status_code=None, success=True)
+        return out
+    except requests.exceptions.HTTPError as e:
+        status = getattr(getattr(e, "response", None), "status_code", None)
+        _cb_on_result(api_name, status_code=status, success=False)
+        return []
+    except Exception:
+        return []
+
+
+# ============================
+# ✅ collect_articles_for_topic (교체)
+#   - 2-pass 유지
+#   - NewsAPI OR: 언어당 1~2회
+#   - GNews도 OR: 언어당 1~2회 (기존 키워드별 호출 제거)
+#   - top-headlines: 토픽당 1회 + guarded + pass2에서만 보강
+#   - run budget + topic budget + circuit breaker
+# ============================
 
 def collect_articles_for_topic(topic_id, keywords):
-    collected_ko = []  # 한글 기사 저장
-    collected_en = []  # 영어 기사 저장
+    collected_ko = []
+    collected_en = []
     seen_urls = set()
-
-    # -----------------------------
-    # ✅ 토픽당 top-headlines 1회만 호출(한글 보강용)
-    # -----------------------------
-    top_headlines_cache = []
-    try:
-        # 필요하면 page_size를 20~30 사이에서 조정
-        top_headlines_cache = _call_with_backoff("newsapi_top", search_news_topheadlines_kr, page_size=20)
-    except Exception as e:
-        print(f"[WARN] topic {topic_id} top-headlines 1회 수집 실패: {e}")
-        top_headlines_cache = []
-
-    # top-headlines 필터링용 토큰(너무 짧은 토큰은 제외)
-    topic_tokens = set()
-    for kw in keywords:
-        for tok in str(kw).lower().split():
-            if len(tok) >= 2:
-                topic_tokens.add(tok)
 
     def _need(lang):
         if lang == "ko":
@@ -671,12 +841,31 @@ def collect_articles_for_topic(topic_id, keywords):
     def _target_list(lang):
         return collected_ko if lang == "ko" else collected_en
 
+    # top-headlines 필터링용 토큰(너무 짧은 토큰은 제외)
+    topic_tokens = set()
+    for kw in keywords:
+        for tok in str(kw).lower().split():
+            if len(tok) >= 2:
+                topic_tokens.add(tok)
+
+    # -----------------------------
+    # ✅ 토픽당 top-headlines 1회만 호출(한글 보강용)
+    #    - 반드시 guarded로 호출해 run/topic 예산 + CB 적용
+    # -----------------------------
+    top_headlines_cache = []
+    top_headlines_cache = call_api_guarded(
+        "newsapi_top",
+        search_news_topheadlines_kr,
+        page_size=20,
+        topic_id=topic_id,
+    )
+
     # -----------------------------
     # ✅ 2-pass 전략
-    #   - pass1: 빠르게 “핵심 키워드 소수 + 상위 소스 위주”로 채우기
-    #   - pass2: 부족분만 “나머지 키워드 + 보조 소스 + top-headlines 캐시”로 보강
+    #   - pass1: 키워드 소수(2개) + 메인 소스(GNews/NewsAPI OR)로 크게 채우기
+    #   - pass2: 부족분만 보조 소스 + top-headlines 캐시
     # -----------------------------
-    PASS1_KW_N = 4  # 토픽 키워드가 많으므로 1차는 상위 N개만 사용(필요시 4~10 조정)
+    PASS1_KW_N = 2
     pass_plan = [
         {
             "name": "pass1",
@@ -685,188 +874,220 @@ def collect_articles_for_topic(topic_id, keywords):
         },
         {
             "name": "pass2",
-            "kws": keywords[PASS1_KW_N:],
-            "sources": ("gnews", "newsapi_everything", "mediastack", "serpapi", "currents", "newsdata", "topheadlines_cache"),
+            "kws": keywords,  # pass2는 전체
+            "sources": (
+                "gnews",
+                "newsapi_everything",
+                "mediastack",
+                "serpapi",
+                "currents",
+                "newsdata",
+                "topheadlines_cache",
+            ),
         },
     ]
 
     for plan in pass_plan:
-        # 두 언어 모두 목표를 채웠으면 종료
         if _need("ko") <= 0 and _need("en") <= 0:
             break
 
-        for kw in plan["kws"]:
-            # 두 언어 모두 목표를 채웠으면 키워드 루프도 종료
-            if _need("ko") <= 0 and _need("en") <= 0:
-                break
+        for lang in LANGUAGES:
+            remaining = _need(lang)
+            if remaining <= 0:
+                continue
 
-            for lang in LANGUAGES:
-                remaining = _need(lang)
-                if remaining <= 0:
-                    continue
+            tier_articles = []
 
-                tier_articles = []
+            # -------------------------------------------------
+            # 1) ✅ GNews OR 묶음: 언어당 1~2회 호출
+            # -------------------------------------------------
+            if "gnews" in plan["sources"] and len(tier_articles) < remaining:
+                gnews_chunks = chunk_keywords_for_1to2_calls(plan["kws"], max_terms_per_call=18)
+                for chunk in gnews_chunks:
+                    if len(tier_articles) >= remaining:
+                        break
+                    q_or = build_or_query(chunk, max_terms=18)
+                    if not q_or:
+                        continue
 
-                # 1) GNews
-                if "gnews" in plan["sources"]:
+                    rem_chunk = remaining - len(tier_articles)
                     tier_articles.extend(
-                        _call_with_backoff(
+                        call_api_guarded(
                             "gnews",
                             search_news_gnews,
-                            kw,
+                            q_or,
                             DATE_FROM,
                             DATE_TO,
                             language=lang,
-                            page_size=min(remaining, 30),  # 한 번에 과도 요청 방지(필요시 조정)
+                            page_size=min(rem_chunk, 50),
+                            topic_id=topic_id,
                         )
                     )
 
-                # 2) NewsAPI everything
-                if len(tier_articles) < remaining and "newsapi_everything" in plan["sources"]:
-                    rem2 = remaining - len(tier_articles)
+            # -------------------------------------------------
+            # 2) ✅ NewsAPI everything OR 묶음: 언어당 1~2회 호출
+            # -------------------------------------------------
+            if "newsapi_everything" in plan["sources"] and len(tier_articles) < remaining:
+                newsapi_chunks = chunk_keywords_for_1to2_calls(plan["kws"], max_terms_per_call=18)
+
+                for chunk in newsapi_chunks:
+                    if len(tier_articles) >= remaining:
+                        break
+
+                    q_or = build_or_query(chunk, max_terms=18)
+                    if not q_or:
+                        continue
+
+                    rem_chunk = remaining - len(tier_articles)
                     tier_articles.extend(
-                        _call_with_backoff(
+                        call_api_guarded(
                             "newsapi_everything",
                             search_news_newsapi,
-                            kw,
+                            q_or,
                             DATE_FROM,
                             DATE_TO,
                             language=lang,
-                            page_size=min(rem2, 50),
+                            page_size=min(rem_chunk, 50),
+                            topic_id=topic_id,
                         )
                     )
 
-                # 3) 보조 소스들(pass2에서만)
-                if len(tier_articles) < remaining and "mediastack" in plan["sources"]:
-                    rem3 = remaining - len(tier_articles)
+            # -------------------------------------------------
+            # 3) 보조 소스들(pass2에서만) — budget으로 상한이 강하게 걸림
+            # -------------------------------------------------
+            if plan["name"] == "pass2" and len(tier_articles) < remaining:
+                # mediastack
+                rem3 = remaining - len(tier_articles)
+                if "mediastack" in plan["sources"] and rem3 > 0:
                     tier_articles.extend(
-                        _call_with_backoff(
+                        call_api_guarded(
                             "mediastack",
                             search_news_mediastack,
-                            kw,
+                            plan["kws"][0] if plan["kws"] else "",
                             DATE_FROM,
                             DATE_TO,
                             language=lang,
                             page_size=min(rem3, 30),
+                            topic_id=topic_id,
                         )
                     )
 
-                if len(tier_articles) < remaining and "serpapi" in plan["sources"]:
-                    rem4 = remaining - len(tier_articles)
+                # serpapi
+                rem4 = remaining - len(tier_articles)
+                if "serpapi" in plan["sources"] and rem4 > 0:
                     tier_articles.extend(
-                        _call_with_backoff(
+                        call_api_guarded(
                             "serpapi",
                             search_news_serpapi,
-                            kw,
+                            plan["kws"][0] if plan["kws"] else "",
                             DATE_FROM,
                             DATE_TO,
                             language=lang,
                             page_size=min(rem4, 10),
+                            topic_id=topic_id,
                         )
                     )
 
-                if len(tier_articles) < remaining and "currents" in plan["sources"]:
-                    rem5 = remaining - len(tier_articles)
+                # currents
+                rem5 = remaining - len(tier_articles)
+                if "currents" in plan["sources"] and rem5 > 0:
                     tier_articles.extend(
-                        _call_with_backoff(
+                        call_api_guarded(
                             "currents",
                             search_news_currents,
-                            kw,
+                            plan["kws"][0] if plan["kws"] else "",
                             DATE_FROM,
                             DATE_TO,
                             language=lang,
                             page_size=min(rem5, 50),
+                            topic_id=topic_id,
                         )
                     )
 
-                if len(tier_articles) < remaining and "newsdata" in plan["sources"]:
-                    rem6 = remaining - len(tier_articles)
+                # newsdata
+                rem6 = remaining - len(tier_articles)
+                if "newsdata" in plan["sources"] and rem6 > 0:
                     tier_articles.extend(
-                        _call_with_backoff(
+                        call_api_guarded(
                             "newsdata",
                             search_news_newsdata,
-                            kw,
+                            plan["kws"][0] if plan["kws"] else "",
                             DATE_FROM,
                             DATE_TO,
                             language=lang,
-                            page_size=min(rem6, 10),  # newsdata는 size 제한이 있으니 보수적으로
+                            page_size=min(rem6, 10),
+                            topic_id=topic_id,
                         )
                     )
 
-                # 4) ✅ 토픽당 1회 받아둔 top-headlines 캐시를 "pass2에서만" 보강
-                #    (기존처럼 키워드마다 호출하지 않음)
-                if (
-                    len(tier_articles) < remaining
-                    and lang == "ko"
-                    and "topheadlines_cache" in plan["sources"]
-                    and top_headlines_cache
-                ):
-                    for art in top_headlines_cache:
-                        title_text = str(art.get("title", "")).lower()
-                        if not title_text:
-                            continue
-                        # topic_tokens 중 하나라도 제목에 포함되면 관련 기사로 간주
-                        if any(tok in title_text for tok in topic_tokens):
-                            tier_articles.append(art)
-
-                # -----------------------------
-                # 공통 후처리: URL 중복 제거 + 날짜 필터 + 기본 필터
-                # (기존 로직 최대한 유지)
-                # -----------------------------
-                for a in tier_articles:
-                    # 언어별 목표 개수 체크
-                    if lang == "ko" and len(collected_ko) >= ARTICLES_PER_LANG_KO:
-                        break
-                    if lang == "en" and len(collected_en) >= ARTICLES_PER_LANG_EN:
-                        break
-
-                    url = a.get("url")
-                    if not url or url in seen_urls:
+            # -------------------------------------------------
+            # 4) ✅ top-headlines 캐시 보강: pass2에서만
+            # -------------------------------------------------
+            if (
+                plan["name"] == "pass2"
+                and len(tier_articles) < remaining
+                and lang == "ko"
+                and "topheadlines_cache" in plan["sources"]
+                and top_headlines_cache
+            ):
+                for art in top_headlines_cache:
+                    title_text = str(art.get("title", "")).lower()
+                    if not title_text:
                         continue
+                    if any(tok in title_text for tok in topic_tokens):
+                        tier_articles.append(art)
 
-                    published_at_raw = a.get("publishedAt")
+            # -----------------------------
+            # 공통 후처리: URL 중복 제거 + 날짜 필터 + 기본 필터
+            # -----------------------------
+            for a in tier_articles:
+                if lang == "ko" and len(collected_ko) >= ARTICLES_PER_LANG_KO:
+                    break
+                if lang == "en" and len(collected_en) >= ARTICLES_PER_LANG_EN:
+                    break
 
-                    # 1) published_at이 아예 없는 경우
-                    if not published_at_raw:
+                url = a.get("url")
+                if not url or url in seen_urls:
+                    continue
+
+                published_at_raw = a.get("publishedAt")
+
+                if not published_at_raw:
+                    published_dt = datetime.fromisoformat(DATE_TO).date()
+                else:
+                    try:
+                        parsed = dateparser.parse(published_at_raw)
+                        if parsed is None:
+                            raise ValueError("parsed is None")
+                        published_dt = parsed.date()
+                    except Exception:
                         published_dt = datetime.fromisoformat(DATE_TO).date()
-                    else:
-                        # 2) 날짜 문자열 파싱
-                        try:
-                            parsed = dateparser.parse(published_at_raw)
-                            if parsed is None:
-                                raise ValueError("parsed is None")
-                            published_dt = parsed.date()
-                        except Exception:
-                            published_dt = datetime.fromisoformat(DATE_TO).date()
 
-                    # 3) 날짜 범위 필터 적용 (7일 범위)
-                    from_dt = datetime.fromisoformat(DATE_FROM).date()
-                    to_dt = datetime.fromisoformat(DATE_TO).date()
-                    if not (from_dt <= published_dt <= to_dt):
-                        continue
+                from_dt = datetime.fromisoformat(DATE_FROM).date()
+                to_dt = datetime.fromisoformat(DATE_TO).date()
+                if not (from_dt <= published_dt <= to_dt):
+                    continue
 
-                    # 4) 광고/튜토리얼 등 1차 필터
-                    if not is_basic_newsworthy(a):
-                        continue
+                if not is_basic_newsworthy(a):
+                    continue
 
-                    # 5) 최종 채택
-                    seen_urls.add(url)
-                    article_data = {
-                        "topic_seed": topic_id,
-                        "source_name": a.get("source", {}).get("name"),
-                        "author": a.get("author"),
-                        "original_title": a.get("title"),
-                        "description": a.get("description"),
-                        "content": a.get("content"),
-                        "url": url,
-                        "published_at": str(published_dt),
-                    }
-                    _target_list(lang).append(article_data)
+                seen_urls.add(url)
+                article_data = {
+                    "topic_seed": topic_id,
+                    "source_name": a.get("source", {}).get("name"),
+                    "author": a.get("author"),
+                    "original_title": a.get("title"),
+                    "description": a.get("description"),
+                    "content": a.get("content"),
+                    "url": url,
+                    "published_at": str(published_dt),
+                }
+                _target_list(lang).append(article_data)
 
-    # 최종 결과: 한글 + 영어 합치기
     collected = collected_ko + collected_en
     print(f"  └ 주제 {topic_id}: 한글 {len(collected_ko)}개, 영어 {len(collected_en)}개 수집됨")
     return collected
+
 
 
 
@@ -890,7 +1111,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[39]:
+# In[55]:
 
 
 # ============================
@@ -924,7 +1145,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[40]:
+# In[56]:
 
 
 # ============================
@@ -1155,16 +1376,24 @@ def process_single_article(idx_row):
     if not keep:
         return None
 
-    # 4) 결과 반환
+    # GPT 결과에서 topic_final 우선 사용, 없으면 seed fallback
+    topic_seed = row.get("topic_seed")
+
+    topic_final = result.get("topic_final", topic_seed)
+    try:
+        topic_final = int(topic_final)
+    except Exception:
+        topic_final = topic_seed
+
     return {
-        "topic_seed": row.get("topic_seed"),
-        "topic_final": row.get("topic_seed"),               # ← 추가!
+        "topic_seed": topic_seed,
+        "topic_final": topic_final,   # ✅ GPT 분류 반영
         "korean_summary": result.get("summary_ko", ""),
         "english_summary": "",
         "title_ko": result.get("title_ko", ""),
         "summary_ko": result.get("summary_ko", ""),
-        "title_en": "",                                      # ← 추가!
-        "summary_en": "",                                    # ← 추가!
+        "title_en": "",
+        "summary_en": "",
         "original_title": row.get("original_title"),
         "description": row.get("description"),
         "url": url,
@@ -1172,6 +1401,7 @@ def process_single_article(idx_row):
         "source_name": row.get("source_name"),
         "reason": result.get("reason"),
     }
+
 
 # 병렬 처리 실행
 print(f"\n총 {len(df_raw)}개 기사를 병렬 처리합니다 (동시 처리: 20개)...")
@@ -1225,7 +1455,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[41]:
+# In[57]:
 
 
 # ============================
@@ -1348,7 +1578,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[42]:
+# In[58]:
 
 
 # ============================
@@ -1682,7 +1912,7 @@ print("\n" + "="*60 + "\n")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[43]:
+# In[59]:
 
 
 # ============================================
@@ -2119,7 +2349,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-1 썸네일 추출 (기본 썸네일 포함)**
 
-# In[44]:
+# In[60]:
 
 
 # ============================
@@ -2537,7 +2767,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **07-2 최신 연구동향 추가**
 
-# In[45]:
+# In[61]:
 
 
 # ============================================
@@ -2936,7 +3166,7 @@ else:
 # 
 # # **08 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[46]:
+# In[62]:
 
 
 # ============================
@@ -5663,7 +5893,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[47]:
+# In[63]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -5716,7 +5946,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[48]:
+# In[64]:
 
 
 # ============================
