@@ -9,7 +9,7 @@
 
 # # **01-1 설치 & import**
 
-# In[18]:
+# In[34]:
 
 
 # ============================
@@ -45,7 +45,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[19]:
+# In[35]:
 
 
 # ============================
@@ -87,7 +87,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[20]:
+# In[36]:
 
 
 # ============================================================
@@ -109,7 +109,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (날짜, 주제, 키워드, 상수)**
 
-# In[21]:
+# In[37]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -187,204 +187,91 @@ TOPIC_ICON = {
     4: "🛰️",   # 위성영상
 }
 
-# 영어 + 한글 키워드 혼합
+# 영어 + 한글 키워드 혼합 (✅ 정리본)
 TOPIC_KEYWORDS = {
     1: [
-        # 기존 키워드
+        # GeoINT / Geospatial / GIS / Location Intelligence
         "geospatial intelligence", "GeoINT",
-        "geospatial analytics security",
-        "geospatial data national security",
-        "지리공간 정보",
-        "위성 이미지 분석",
-        "OSINT 위성",
-        "위성 기반 정보전",
+        "geospatial analytics", "location intelligence",
+        "geospatial data", "geospatial mapping",
+        "GIS platform", "geospatial security",
+        "OSINT geospatial", "satellite intelligence",
 
-        # 🔹 범위를 넓히는 추가 키워드들
-        "geospatial analytics",
-        "geospatial data",
-        "geospatial mapping",
-        "location intelligence",
-        "mapping platform",
-        "map intelligence",
-
-        "geospatial startup",
-        "geospatial company",
-        "geospatial SaaS",
-
-        # ✅ 한글 키워드 대폭 확장
-        "지리공간 정보", "위성 이미지 분석", "OSINT 위성",
-        "공간정보", "지리정보시스템", "GIS 플랫폼",
-        "위치 기반 서비스", "위성영상 분석", "공간 데이터",
-        "지도 서비스", "위치정보 기술", "공간정보 산업",
-        "국토정보", "지적정보", "측량 기술",  # 🆕 추가
+        "지리공간 정보", "공간정보",
+        "지리정보시스템", "GIS 플랫폼",
+        "위치 기반 서비스", "공간 데이터",
+        "지도 서비스", "국토정보",
+        "측량 기술",
     ],
+
     2: [
+        # Drone / UAV-UAS / UAM + regulation + operations
         "drone industry",
-        "UAV UAS technology",
-        "urban air mobility",
-        "drone regulation",
-        "드론 산업",
-        "무인기",
-        "도심 항공 모빌리티",
-        "UAM 규제",
-        "드론 방산",
-
-        # 산업별 드론 활용
-        "commercial drone",
-        "enterprise drone",
-        "industrial drone",
-        "drone services",
-        "drone inspection",
-        "drone surveillance",
-        "drone monitoring",
-
-        "drone in logistics",
-        "drone delivery",
-        "warehouse drone",
-        "last mile delivery drone",
-
-        "drone in agriculture",
-        "agricultural drone",
-        "precision agriculture drone",
-
-        "drone energy inspection",
-        "power line inspection drone",
-        "oil gas drone inspection",
-
-        # ✅ 한글 드론 키워드 확장
-        "드론 산업", "무인기", "도심 항공 모빌리티",
-        "드론 배송", "물류 드론", "농업 드론",
-        "드론 규제", "드론 안전", "드론 기술",
-        "UAM 서비스", "에어택시", "하늘길",  # 🆕 추가
-        "드론 스타트업", "드론 시장", "드론 정책",  # 🆕 추가
-
-        # 드론 플랫폼 / 소프트웨어
-        "drone software platform",
-        "drone data platform",
-        "UAS management",
-        "fleet management drone",
-        "drone analytics",
-
-        "BVLOS drone",
-        "drone autonomy",
+        "UAV technology", "UAS technology",
+        "urban air mobility", "UAM",
+        "drone regulation", "BVLOS drone",
         "autonomous drone",
-        "drone AI navigation",
 
-        "drone startup",
-        "drone company",
-        "UAS startup"
+        "drone delivery", "drone inspection",
+        "drone surveillance",
+
+        "드론 산업", "무인기",
+        "도심 항공 모빌리티", "UAM 규제",
+        "드론 규제", "드론 배송",
+        "드론 점검", "드론 방산",
     ],
+
     3: [
-        # 기존 키워드
-        "AI data platform",
-        "AI analytics platform",
+        # Enterprise AI / Data+Analytics Platform / MLOps / GenAI Ops
+        "AI data platform", "data analytics platform",
         "MLOps platform",
-        "data automation platform",
-        "AI 데이터 플랫폼",
-        "MLOps",
-        "데이터 분석 플랫폼",
-        "AI 분석 플랫폼",
-
-        # 새로 추가하는 키워드들 (AI 기사 폭 넓히기)
-        "AI infrastructure",
-        "AI cloud platform",
-        "LLM platform",
-        "large language model platform",
-        "enterprise AI platform",
-        "enterprise AI",
-        "gen AI platform",
-        "generative AI platform",
-        "generative AI for business",
-        "RAG platform",
-        "retrieval augmented generation",
-        "vector database",
-        "feature store",
-        "model deployment",
-        "model serving",
+        "enterprise AI", "enterprise AI platform",
+        "generative AI platform", "LLM platform",
+        "RAG platform", "retrieval augmented generation",
         "LLMOps",
+        "vector database", "feature store",
+        "model deployment", "model serving",
+        "AI infrastructure", "AI cloud platform",
 
-        # 한국어 키워드 (국내 기사 대비)
-        "AI 인프라",
-        "AI 클라우드 플랫폼",
-        "LLM 플랫폼",
-        "대규모 언어모델",
-        "엔터프라이즈 AI",
-        "기업용 AI",
-        "생성형 AI 플랫폼",
-        "생성형 AI 인프라",
+        "AI 데이터 플랫폼", "데이터 분석 플랫폼",
+        "MLOps",
+        "엔터프라이즈 AI", "기업용 AI",
+        "생성형 AI 플랫폼", "LLM 플랫폼",
         "RAG 플랫폼",
         "벡터 데이터베이스",
-        "모델 배포",
-        "모델 서빙",
-        "LLM 운영",
-
-         # 좀 더 범용적인 AI 비즈니스/엔터프라이즈 키워드 추가
-        "enterprise AI",
-        "AI strategy",
-        "AI adoption",
-        "AI transformation",
-        "AI in business",
-        "AI for enterprises",
-        "AI for industry",
-        "AI automation",
-
-        "인공지능 전략",
-        "기업 AI 도입",
-        "AI 업무 자동화",
-        "엔터프라이즈 AI 도입"
-
-        # ✅ 한글 AI 키워드 확장
-        "AI 데이터 플랫폼", "MLOps", "인공지능 인프라",
-        "기업 AI", "생성형 AI", "AI 도입",
-        "AI 클라우드", "LLM 플랫폼", "AI 전략",
-        "AI 혁신", "디지털 전환", "AI 자동화",  # 🆕 추가
-        "기업용 AI", "산업 AI", "AI 서비스",  # 🆕 추가
+        "모델 배포", "모델 서빙",
+        "AI 인프라", "AI 클라우드 플랫폼",
+        "AI 업무 자동화", "디지털 전환",
     ],
 
     4: [
-        "satellite imagery processing",
+        # Satellite imagery / EO / SAR-Optical-Hyperspectral / Remote Sensing
+        "satellite imagery analysis", "satellite imagery processing",
         "SAR satellite analytics",
         "optical satellite imagery analysis",
         "hyperspectral satellite data",
-        "위성 영상",
-        "SAR 위성",
-        "광학 위성 영상",
-        "하이퍼스펙트럴 영상",
-        "위성 이미지 분석",
-
-        # 위성 데이터 산업 / 서비스
-        "satellite data platform",
+        "earth observation data", "EO data platform",
         "satellite data analytics",
-        "earth observation data",
-        "EO data platform",
-        "space data analytics",
-
-        "satellite imagery services",
         "commercial satellite imagery",
-        "satellite data services",
+        "remote sensing analytics",
 
-
-        # 산업별 위성 활용
-        "satellite data for agriculture",
-        "satellite data for insurance",
-        "satellite data for climate",
-        "satellite data for energy",
-        "satellite data for supply chain",
-
-        # ✅ 한글 위성 키워드 확장
-        "위성 영상", "SAR 위성", "광학 위성 영상",
-        "위성 데이터", "지구관측", "위성정보",
-        "위성영상 분석", "원격탐사", "우주 산업",  # 🆕 추가
-        "위성 서비스", "위성 기술", "위성 활용",  # 🆕 추가
-    ]
+        "위성 영상", "위성영상 분석",
+        "위성 이미지 분석",
+        "SAR 위성", "광학 위성 영상",
+        "하이퍼스펙트럴 영상",
+        "지구관측", "원격탐사",
+        "위성 데이터", "위성 데이터 플랫폼",
+        "위성 서비스",
+    ],
 }
 
+
 # 1차 후보 개수 (토픽당 NewsAPI에서 넉넉히 가져오기)
-ARTICLES_PER_TOPIC_RAW = 100
+ARTICLES_PER_TOPIC_RAW = 50
 
 # 언어별 목표 개수 (한글 30% : 영어 70%)
-ARTICLES_PER_LANG_KO = 30   # 한글: 30%
-ARTICLES_PER_LANG_EN = 70   # 영어: 70%
+ARTICLES_PER_LANG_KO = 15   # 한글: 30%
+ARTICLES_PER_LANG_EN = 45   # 영어: 70%
 
 # 최종 뉴스레터에 반드시 보여줄 개수
 ARTICLES_PER_TOPIC_FINAL = 3
@@ -395,7 +282,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[22]:
+# In[38]:
 
 
 # ============================
@@ -660,7 +547,7 @@ def search_news_topheadlines_kr(page_size=50):
         "apiKey": NEWSAPI_KEY,
     }
 
-    r = requests.get(url, params=params)
+    r = requests.get(url, params=params, timeout=10)
     r.raise_for_status()
     return r.json().get("articles", [])
 
@@ -683,201 +570,304 @@ def is_basic_newsworthy(article):
             return False
     return True
 
+# ============================
+# ✅ Rate-limit + Backoff helpers (추가)
+# ============================
+
+# API별 최소 호출 간격(초) - 보수적으로 시작해서 안정화 후 줄이세요.
+_API_MIN_INTERVAL_SEC = {
+    "gnews": 0.35,
+    "newsapi_everything": 0.35,
+    "mediastack": 0.5,
+    "serpapi": 0.7,
+    "currents": 0.5,
+    "newsdata": 0.7,
+    "newsapi_top": 0.35,
+}
+
+def _rate_limit(api_name: str):
+    """프로세스 단위(=런타임)로 API별 최소 호출 간격을 강제."""
+    state = getattr(_rate_limit, "_state", None)
+    if state is None:
+        state = {"last_call": {}}
+        setattr(_rate_limit, "_state", state)
+
+    now = time.monotonic()
+    last = state["last_call"].get(api_name, 0.0)
+    min_itv = _API_MIN_INTERVAL_SEC.get(api_name, 0.3)
+
+    wait = (last + min_itv) - now
+    if wait > 0:
+        time.sleep(wait)
+
+    state["last_call"][api_name] = time.monotonic()
+
+
+def _call_with_backoff(api_name, fn, *args, **kwargs):
+    """
+    429/일시 오류(5xx/타임아웃/too many request 류) 시 지수 백오프.
+    실패 시 [] 반환(수집 파이프라인을 멈추지 않기 위함).
+    """
+    max_tries = 5
+    delay = 0.8
+
+    for attempt in range(1, max_tries + 1):
+        _rate_limit(api_name)
+        try:
+            return fn(*args, **kwargs) or []
+        except requests.exceptions.HTTPError as e:
+            resp = getattr(e, "response", None)
+            status = getattr(resp, "status_code", None)
+            msg = str(e).lower()
+
+            retriable = (status in (429, 500, 502, 503, 504)) or ("too many" in msg)
+            if retriable and attempt < max_tries:
+                time.sleep(delay)
+                delay *= 2
+                continue
+
+            print(f"[WARN] {api_name} HTTP error (status={status}): {e}")
+            return []
+        except Exception as e:
+            msg = str(e).lower()
+            retriable = ("too many" in msg) or ("429" in msg) or ("timeout" in msg) or ("temporar" in msg)
+            if retriable and attempt < max_tries:
+                time.sleep(delay)
+                delay *= 2
+                continue
+
+            print(f"[WARN] {api_name} error: {e}")
+            return []
+
 
 def collect_articles_for_topic(topic_id, keywords):
     collected_ko = []  # 한글 기사 저장
     collected_en = []  # 영어 기사 저장
     seen_urls = set()
 
+    # -----------------------------
+    # ✅ 토픽당 top-headlines 1회만 호출(한글 보강용)
+    # -----------------------------
+    top_headlines_cache = []
+    try:
+        # 필요하면 page_size를 20~30 사이에서 조정
+        top_headlines_cache = _call_with_backoff("newsapi_top", search_news_topheadlines_kr, page_size=20)
+    except Exception as e:
+        print(f"[WARN] topic {topic_id} top-headlines 1회 수집 실패: {e}")
+        top_headlines_cache = []
+
+    # top-headlines 필터링용 토큰(너무 짧은 토큰은 제외)
+    topic_tokens = set()
     for kw in keywords:
-        for lang in LANGUAGES:
-            # 언어별 목표 개수 확인
-            if lang == "ko":
-                if len(collected_ko) >= ARTICLES_PER_LANG_KO:
+        for tok in str(kw).lower().split():
+            if len(tok) >= 2:
+                topic_tokens.add(tok)
+
+    def _need(lang):
+        if lang == "ko":
+            return max(0, ARTICLES_PER_LANG_KO - len(collected_ko))
+        return max(0, ARTICLES_PER_LANG_EN - len(collected_en))
+
+    def _target_list(lang):
+        return collected_ko if lang == "ko" else collected_en
+
+    # -----------------------------
+    # ✅ 2-pass 전략
+    #   - pass1: 빠르게 “핵심 키워드 소수 + 상위 소스 위주”로 채우기
+    #   - pass2: 부족분만 “나머지 키워드 + 보조 소스 + top-headlines 캐시”로 보강
+    # -----------------------------
+    PASS1_KW_N = 4  # 토픽 키워드가 많으므로 1차는 상위 N개만 사용(필요시 4~10 조정)
+    pass_plan = [
+        {
+            "name": "pass1",
+            "kws": keywords[:PASS1_KW_N],
+            "sources": ("gnews", "newsapi_everything"),
+        },
+        {
+            "name": "pass2",
+            "kws": keywords[PASS1_KW_N:],
+            "sources": ("gnews", "newsapi_everything", "mediastack", "serpapi", "currents", "newsdata", "topheadlines_cache"),
+        },
+    ]
+
+    for plan in pass_plan:
+        # 두 언어 모두 목표를 채웠으면 종료
+        if _need("ko") <= 0 and _need("en") <= 0:
+            break
+
+        for kw in plan["kws"]:
+            # 두 언어 모두 목표를 채웠으면 키워드 루프도 종료
+            if _need("ko") <= 0 and _need("en") <= 0:
+                break
+
+            for lang in LANGUAGES:
+                remaining = _need(lang)
+                if remaining <= 0:
                     continue
-                remaining = ARTICLES_PER_LANG_KO - len(collected_ko)
-                target_list = collected_ko
-            else:  # "en"
-                if len(collected_en) >= ARTICLES_PER_LANG_EN:
-                    continue
-                remaining = ARTICLES_PER_LANG_EN - len(collected_en)
-                target_list = collected_en
 
-            tier_articles = []
+                tier_articles = []
 
-            # -----------------------------
-            # 1️⃣ 1순위: GNews
-            # -----------------------------
-            try:
-                gnews_list = search_news_gnews(
-                    kw,
-                    DATE_FROM,
-                    DATE_TO,
-                    language=lang,
-                    page_size=remaining,
-                )
-                tier_articles.extend(gnews_list or [])
-            except Exception as e:
-                print(f"[WARN] GNews error (kw={kw}, lang={lang}): {e}")
-
-            # -----------------------------
-            # 2️⃣ 2순위: NewsAPI + MediaStack
-            #    (GNews에서 부족하면)
-            # -----------------------------
-            if len(tier_articles) < remaining:
-                rem2 = remaining - len(tier_articles)
-
-                # 2-1) NewsAPI
-                try:
-                    newsapi_list = search_news_newsapi(
-                        kw,
-                        DATE_FROM,
-                        DATE_TO,
-                        language=lang,
-                        page_size=rem2,
-                    )
-                    tier_articles.extend(newsapi_list or [])
-                except Exception as e:
-                    print(f"[WARN] NewsAPI error (kw={kw}, lang={lang}): {e}")
-
-                # 2-2) MediaStack
-                if len(tier_articles) < remaining:
-                    rem3 = remaining - len(tier_articles)
-                    try:
-                        mediastack_list = search_news_mediastack(
+                # 1) GNews
+                if "gnews" in plan["sources"]:
+                    tier_articles.extend(
+                        _call_with_backoff(
+                            "gnews",
+                            search_news_gnews,
                             kw,
                             DATE_FROM,
                             DATE_TO,
                             language=lang,
-                            page_size=rem3,
+                            page_size=min(remaining, 30),  # 한 번에 과도 요청 방지(필요시 조정)
                         )
-                        tier_articles.extend(mediastack_list or [])
-                    except Exception as e:
-                        print(f"[WARN] MediaStack error (kw={kw}, lang={lang}): {e}")
-
-            # -----------------------------
-            # 3️⃣ 3순위: SerpAPI + Currents + NewsData.io
-            #    (그래도 부족할 때)
-            # -----------------------------
-            if len(tier_articles) < remaining:
-                rem4 = remaining - len(tier_articles)
-
-                # SerpAPI
-                try:
-                    serp_list = search_news_serpapi(
-                        kw,
-                        DATE_FROM,
-                        DATE_TO,
-                        language=lang,
-                        page_size=min(rem4, 10),
                     )
-                    tier_articles.extend(serp_list or [])
-                except Exception as e:
-                    print(f"[WARN] SerpAPI error (kw={kw}, lang={lang}): {e}")
 
-                # Currents
-                if len(tier_articles) < remaining:
+                # 2) NewsAPI everything
+                if len(tier_articles) < remaining and "newsapi_everything" in plan["sources"]:
+                    rem2 = remaining - len(tier_articles)
+                    tier_articles.extend(
+                        _call_with_backoff(
+                            "newsapi_everything",
+                            search_news_newsapi,
+                            kw,
+                            DATE_FROM,
+                            DATE_TO,
+                            language=lang,
+                            page_size=min(rem2, 50),
+                        )
+                    )
+
+                # 3) 보조 소스들(pass2에서만)
+                if len(tier_articles) < remaining and "mediastack" in plan["sources"]:
+                    rem3 = remaining - len(tier_articles)
+                    tier_articles.extend(
+                        _call_with_backoff(
+                            "mediastack",
+                            search_news_mediastack,
+                            kw,
+                            DATE_FROM,
+                            DATE_TO,
+                            language=lang,
+                            page_size=min(rem3, 30),
+                        )
+                    )
+
+                if len(tier_articles) < remaining and "serpapi" in plan["sources"]:
+                    rem4 = remaining - len(tier_articles)
+                    tier_articles.extend(
+                        _call_with_backoff(
+                            "serpapi",
+                            search_news_serpapi,
+                            kw,
+                            DATE_FROM,
+                            DATE_TO,
+                            language=lang,
+                            page_size=min(rem4, 10),
+                        )
+                    )
+
+                if len(tier_articles) < remaining and "currents" in plan["sources"]:
                     rem5 = remaining - len(tier_articles)
-                    try:
-                        curr_list = search_news_currents(
+                    tier_articles.extend(
+                        _call_with_backoff(
+                            "currents",
+                            search_news_currents,
                             kw,
                             DATE_FROM,
                             DATE_TO,
                             language=lang,
                             page_size=min(rem5, 50),
                         )
-                        tier_articles.extend(curr_list or [])
-                    except Exception as e:
-                        print(f"[WARN] Currents error (kw={kw}, lang={lang}): {e}")
+                    )
 
-                # NewsData.io (기존 함수 재사용)
-                if len(tier_articles) < remaining:
+                if len(tier_articles) < remaining and "newsdata" in plan["sources"]:
                     rem6 = remaining - len(tier_articles)
-                    try:
-                        newsdata_list = search_news_newsdata(
+                    tier_articles.extend(
+                        _call_with_backoff(
+                            "newsdata",
+                            search_news_newsdata,
                             kw,
                             DATE_FROM,
                             DATE_TO,
                             language=lang,
-                            page_size=rem6,
+                            page_size=min(rem6, 10),  # newsdata는 size 제한이 있으니 보수적으로
                         )
-                        tier_articles.extend(newsdata_list or [])
-                    except Exception as e:
-                        print(f"[WARN] NewsData.io error (kw={kw}, lang={lang}): {e}")
+                    )
 
-            # 🆕 한글 키워드일 때 top-headlines 추가 수집
-            if lang == "ko" and any('\uac00' <= ch <= '\ud7a3' for ch in kw):
-                try:
-                    extra_kr = search_news_topheadlines_kr(page_size=10)
-                    # 키워드 필터링 (관련성 체크)
-                    for art in extra_kr:
-                        title_text = str(art.get('title', '')).lower()
-                        if any(k.lower() in title_text for k in kw.split()):
+                # 4) ✅ 토픽당 1회 받아둔 top-headlines 캐시를 "pass2에서만" 보강
+                #    (기존처럼 키워드마다 호출하지 않음)
+                if (
+                    len(tier_articles) < remaining
+                    and lang == "ko"
+                    and "topheadlines_cache" in plan["sources"]
+                    and top_headlines_cache
+                ):
+                    for art in top_headlines_cache:
+                        title_text = str(art.get("title", "")).lower()
+                        if not title_text:
+                            continue
+                        # topic_tokens 중 하나라도 제목에 포함되면 관련 기사로 간주
+                        if any(tok in title_text for tok in topic_tokens):
                             tier_articles.append(art)
-                except Exception as e:
-                    print(f"[WARN] top-headlines 보강 실패: {e}")
 
+                # -----------------------------
+                # 공통 후처리: URL 중복 제거 + 날짜 필터 + 기본 필터
+                # (기존 로직 최대한 유지)
+                # -----------------------------
+                for a in tier_articles:
+                    # 언어별 목표 개수 체크
+                    if lang == "ko" and len(collected_ko) >= ARTICLES_PER_LANG_KO:
+                        break
+                    if lang == "en" and len(collected_en) >= ARTICLES_PER_LANG_EN:
+                        break
 
-            # -----------------------------
-            # 공통 후처리: URL 중복 제거 + 날짜 필터 + 기본 필터
-            # -----------------------------
-            for a in tier_articles:
-                # 언어별 목표 개수 체크
-                if lang == "ko" and len(collected_ko) >= ARTICLES_PER_LANG_KO:
-                    break
-                if lang == "en" and len(collected_en) >= ARTICLES_PER_LANG_EN:
-                    break
+                    url = a.get("url")
+                    if not url or url in seen_urls:
+                        continue
 
-                url = a.get("url")
-                if not url or url in seen_urls:
-                    continue
+                    published_at_raw = a.get("publishedAt")
 
-                published_at_raw = a.get("publishedAt")
-
-                # 1) published_at이 아예 없는 경우
-                if not published_at_raw:
-                    # ✅ 날짜 정보가 없으면 언어 구분 없이 오늘 날짜로 간주
-                    published_dt = datetime.fromisoformat(DATE_TO).date()
-                    # continue 제거 → 모든 언어 살림
-                else:
-                    # 2) 날짜 문자열이 이상한 경우를 대비한 try/except
-                    try:
-                        parsed = dateparser.parse(published_at_raw)
-                        if parsed is None:
-                            raise ValueError("parsed is None")
-                        published_dt = parsed.date()
-                    except Exception:
-                        # ✅ 파싱 실패 시 언어 구분 없이 오늘 날짜 사용
+                    # 1) published_at이 아예 없는 경우
+                    if not published_at_raw:
                         published_dt = datetime.fromisoformat(DATE_TO).date()
+                    else:
+                        # 2) 날짜 문자열 파싱
+                        try:
+                            parsed = dateparser.parse(published_at_raw)
+                            if parsed is None:
+                                raise ValueError("parsed is None")
+                            published_dt = parsed.date()
+                        except Exception:
+                            published_dt = datetime.fromisoformat(DATE_TO).date()
 
-                # 3) 날짜 범위 필터 적용 (7일 범위)
-                from_dt = datetime.fromisoformat(DATE_FROM).date()
-                to_dt = datetime.fromisoformat(DATE_TO).date()
-                if not (from_dt <= published_dt <= to_dt):
-                    continue
+                    # 3) 날짜 범위 필터 적용 (7일 범위)
+                    from_dt = datetime.fromisoformat(DATE_FROM).date()
+                    to_dt = datetime.fromisoformat(DATE_TO).date()
+                    if not (from_dt <= published_dt <= to_dt):
+                        continue
 
-                # 4) 광고/튜토리얼 등 1차 필터
-                if not is_basic_newsworthy(a):
-                    continue
+                    # 4) 광고/튜토리얼 등 1차 필터
+                    if not is_basic_newsworthy(a):
+                        continue
 
-                # 5) 최종 채택 (언어별 리스트에 추가)
-                seen_urls.add(url)
-                article_data = {
-                    "topic_seed": topic_id,
-                    "source_name": a.get("source", {}).get("name"),
-                    "author": a.get("author"),
-                    "original_title": a.get("title"),
-                    "description": a.get("description"),
-                    "content": a.get("content"),
-                    "url": url,
-                    "published_at": str(published_dt),
-                }
-                target_list.append(article_data)
+                    # 5) 최종 채택
+                    seen_urls.add(url)
+                    article_data = {
+                        "topic_seed": topic_id,
+                        "source_name": a.get("source", {}).get("name"),
+                        "author": a.get("author"),
+                        "original_title": a.get("title"),
+                        "description": a.get("description"),
+                        "content": a.get("content"),
+                        "url": url,
+                        "published_at": str(published_dt),
+                    }
+                    _target_list(lang).append(article_data)
 
     # 최종 결과: 한글 + 영어 합치기
     collected = collected_ko + collected_en
     print(f"  └ 주제 {topic_id}: 한글 {len(collected_ko)}개, 영어 {len(collected_en)}개 수집됨")
     return collected
+
 
 
 
@@ -900,7 +890,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[23]:
+# In[39]:
 
 
 # ============================
@@ -934,7 +924,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[24]:
+# In[40]:
 
 
 # ============================
@@ -1235,7 +1225,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[25]:
+# In[41]:
 
 
 # ============================
@@ -1358,7 +1348,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[26]:
+# In[42]:
 
 
 # ============================
@@ -1692,7 +1682,7 @@ print("\n" + "="*60 + "\n")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[27]:
+# In[43]:
 
 
 # ============================================
@@ -2129,7 +2119,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-1 썸네일 추출 (기본 썸네일 포함)**
 
-# In[28]:
+# In[44]:
 
 
 # ============================
@@ -2547,7 +2537,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **07-2 최신 연구동향 추가**
 
-# In[29]:
+# In[45]:
 
 
 # ============================================
@@ -2946,7 +2936,7 @@ else:
 # 
 # # **08 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[30]:
+# In[46]:
 
 
 # ============================
@@ -5673,7 +5663,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[31]:
+# In[47]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -5726,7 +5716,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[32]:
+# In[48]:
 
 
 # ============================
