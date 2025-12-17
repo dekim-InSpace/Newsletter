@@ -5205,7 +5205,7 @@ weekly_focus_html = f"""
               {WEEKLY_FOCUS_TITLE}
             </div>
 
-            <div style="font-size:14px; color:#374151; line-height:1.7; font-weight:500;
+            <div style="font-size:14px; color:#000000; line-height:1.7; font-weight:500;
                         padding-top:10px; word-break: keep-all; overflow-wrap: break-word;">
               {weekly_focus_body_html if weekly_focus_insight else "이번 주 포커스 인사이트를 생성하지 못했습니다."}
             </div>
