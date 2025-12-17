@@ -5201,7 +5201,7 @@ weekly_focus_html = f"""
           <div style="background:rgba(255,255,255,0.65);
                       padding:15px;">
 
-            <div style="font-size:20px; font-weight:800; color:#111827;">
+            <div style="font-size:20px; font-weight:800; color:#000000;">
               {WEEKLY_FOCUS_TITLE}
             </div>
 
