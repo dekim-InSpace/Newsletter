@@ -3801,7 +3801,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 # 
 # # **08 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[59]:
+# In[63]:
 
 
 # ============================
@@ -6237,6 +6237,7 @@ newsletter_html = f"""
     }}
   }}
 
+
   /* ===============================
      메인 배경 스크롤 비디오
      =============================== */
@@ -6296,8 +6297,8 @@ newsletter_html = f"""
 
     background: #f3f4f6;
 
-  font-family: "Pretendard", -apple-system, BlinkMacSystemFont,
-               "Apple SD Gothic Neo", "맑은 고딕", system-ui, sans-serif;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont,
+                "Apple SD Gothic Neo", "맑은 고딕", system-ui, sans-serif;
   }}
 
 
@@ -6309,16 +6310,6 @@ newsletter_html = f"""
     flex-shrink: 0;
   }}
 
-  body {{
-    letter-spacing: -0.01em;
-    font-weight: 400;
-  }}
-  .main-title,
-  .topic-title,
-  h1,h2,h3 {{
-    letter-spacing: -0.015em;
-    font-weight: 700;
-  }}
 
 </style>
 
@@ -6326,9 +6317,8 @@ newsletter_html = f"""
 
 </head>
 
-<body style="margin:0; padding:0; background:transparent;
-             font-family:-apple-system,BlinkMacSystemFont,
-             'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;">
+<body style="margin:0; padding:0; background:#f3f4f6;
+             font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","맑은 고딕",system-ui,sans-serif;">
 
 
 <!-- (NEW) 메인 배경 레이어: 이메일에서는 JS가 안 돌아 display:none 그대로라 영상/이미지가 “안 보임(흰색 유지)” -->
@@ -6729,7 +6719,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[60]:
+# In[64]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -6782,7 +6772,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[61]:
+# In[65]:
 
 
 # ============================
