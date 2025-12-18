@@ -9,7 +9,7 @@
 
 # # **01-1 설치 & import**
 
-# In[ ]:
+# In[1]:
 
 
 # ============================
@@ -35,17 +35,21 @@ if IN_COLAB:
     os.environ["MEDIASTACK_API_KEY"] = userdata.get('MEDIASTACK_API_KEY')
     os.environ["SERPAPI_KEY"] = userdata.get('SERPAPI_KEY')
     os.environ["CURRENTS_API_KEY"] = userdata.get('CURRENTS_API_KEY')
+    os.environ["NAVER_CLIENT_ID"] = userdata.get('NAVER_CLIENT_ID')
+    os.environ["NAVER_CLIENT_SECRET"] = userdata.get('NAVER_CLIENT_SECRET')
+
     os.environ["GMAIL_USER"] = userdata.get('GMAIL_USER')
     os.environ["GMAIL_APP_PASSWORD"] = userdata.get('GMAIL_APP_PASSWORD')
     os.environ["TO_EMAIL"] = userdata.get('TO_EMAIL')
-    os.environ["TO_EMAIL_TEST"] = userdata.get('TO_EMAIL_TEST')  # 🔹 새로 추가
+    os.environ["TO_EMAIL_TEST"] = userdata.get('TO_EMAIL_TEST')
+
 
     print("✅ Colab Secrets에서 API 키 로드 완료")
 
 
 # # **01-2 라이브러리 설치**
 
-# In[ ]:
+# In[2]:
 
 
 # ============================
@@ -59,6 +63,8 @@ import time
 import json
 import requests
 import pandas as pd
+import difflib
+import re
 
 from datetime import datetime, timedelta, timezone
 
@@ -87,7 +93,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[ ]:
+# In[3]:
 
 
 # ============================================================
@@ -101,6 +107,9 @@ GNEWS_API_KEY = os.environ.get("GNEWS_API_KEY")
 MEDIASTACK_API_KEY = os.environ.get("MEDIASTACK_API_KEY")
 SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
 CURRENTS_API_KEY = os.environ.get("CURRENTS_API_KEY")
+NAVER_CLIENT_ID = os.environ.get("NAVER_CLIENT_ID")
+NAVER_CLIENT_SECRET = os.environ.get("NAVER_CLIENT_SECRET")
+
 
 
 NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
@@ -109,7 +118,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (날짜, 주제, 키워드, 상수)**
 
-# In[ ]:
+# In[4]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -282,7 +291,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[ ]:
+# In[5]:
 
 
 # ============================
@@ -431,6 +440,183 @@ def search_news_currents(query, from_date, to_date, language=None, page_size=30)
         })
     return articles
 
+import xml.etree.ElementTree as ET
+from html import unescape
+
+def search_news_google_rss_kr(query, from_date, to_date, language=None, page_size=30):
+    """
+    Google News RSS Search (KR/KO fallback)
+    - hl=ko, gl=KR, ceid=KR:ko 고정
+    - RSS는 date 파라미터가 약하므로, 받아온 뒤 from/to로 로컬 필터
+    """
+    # Google News RSS search endpoint
+    # q는 URL 파라미터로 들어가므로 requests params를 사용
+    url = "https://news.google.com/rss/search"
+
+    params = {
+        "q": query,
+        "hl": "ko",
+        "gl": "KR",
+        "ceid": "KR:ko",
+    }
+
+    try:
+        r = requests.get(url, params=params, timeout=10)
+        r.raise_for_status()
+    except Exception as e:
+        print(f"[WARN] GoogleRSS error (q={query}): {e}")
+        return []
+
+    # XML 파싱
+    try:
+        root = ET.fromstring(r.text)
+    except Exception as e:
+        print(f"[WARN] GoogleRSS XML parse error: {e}")
+        return []
+
+    # 날짜 필터 준비
+    try:
+        dt_from = dateparser.parse(from_date).date()
+        dt_to = dateparser.parse(to_date).date()
+    except Exception:
+        dt_from = None
+        dt_to = None
+
+    items = root.findall(".//item")
+    articles = []
+
+    for it in items:
+        title = it.findtext("title") or ""
+        link = it.findtext("link") or ""
+        pub_date = it.findtext("pubDate") or ""
+        desc = it.findtext("description") or ""
+
+        # description은 HTML이 섞이므로 unescape + 태그 대충 제거
+        desc = unescape(desc)
+        desc = re.sub(r"<[^>]+>", " ", desc)
+        desc = re.sub(r"\s+", " ", desc).strip()
+
+        # pubDate 파싱 & 범위 필터
+        if pub_date:
+            try:
+                d = dateparser.parse(pub_date)
+                if d is not None:
+                    d_date = d.date()
+                    if dt_from and d_date < dt_from:
+                        continue
+                    if dt_to and d_date > dt_to:
+                        continue
+            except Exception:
+                pass
+
+        if not link:
+            continue
+
+        articles.append({
+            "source": {"name": "Google News RSS (KR)"},
+            "author": None,
+            "title": unescape(title).strip(),
+            "description": desc,
+            "content": "",
+            "url": link.strip(),
+            "publishedAt": pub_date,
+        })
+
+        if len(articles) >= page_size:
+            break
+
+    return articles
+
+def search_news_naver(query, from_date, to_date, language=None, page_size=30):
+    """
+    Naver Search API - News (KR fallback)
+    - query: UTF-8
+    - sort=date (최신순)
+    - display: 최대 100 (네이버 제한)
+    """
+    if not NAVER_CLIENT_ID or not NAVER_CLIENT_SECRET:
+        # 키 없으면 조용히 스킵 (로그만)
+        print("[WARN] Naver API keys missing: NAVER_CLIENT_ID / NAVER_CLIENT_SECRET")
+        return []
+
+    url = "https://openapi.naver.com/v1/search/news.json"
+
+    display = max(1, min(int(page_size), 100))
+    params = {
+        "query": query,
+        "display": display,
+        "start": 1,
+        "sort": "date",
+    }
+
+    headers = {
+        "X-Naver-Client-Id": NAVER_CLIENT_ID,
+        "X-Naver-Client-Secret": NAVER_CLIENT_SECRET,
+    }
+
+    try:
+        r = requests.get(url, params=params, headers=headers, timeout=10)
+        r.raise_for_status()
+        data = r.json()
+    except Exception as e:
+        print(f"[WARN] Naver error (q={query}): {e}")
+        return []
+
+    # 날짜 필터 준비
+    try:
+        dt_from = dateparser.parse(from_date).date()
+        dt_to = dateparser.parse(to_date).date()
+    except Exception:
+        dt_from = None
+        dt_to = None
+
+    items = data.get("items") or []
+    articles = []
+
+    for it in items:
+        # title/description은 HTML 태그가 들어있음
+        title = unescape(it.get("title") or "")
+        title = re.sub(r"<[^>]+>", " ", title)
+        title = re.sub(r"\s+", " ", title).strip()
+
+        desc = unescape(it.get("description") or "")
+        desc = re.sub(r"<[^>]+>", " ", desc)
+        desc = re.sub(r"\s+", " ", desc).strip()
+
+        link = (it.get("originallink") or it.get("link") or "").strip()
+        pub_date = it.get("pubDate") or ""
+
+        # pubDate 필터
+        if pub_date:
+            try:
+                d = dateparser.parse(pub_date)
+                if d is not None:
+                    d_date = d.date()
+                    if dt_from and d_date < dt_from:
+                        continue
+                    if dt_to and d_date > dt_to:
+                        continue
+            except Exception:
+                pass
+
+        if not link:
+            continue
+
+        articles.append({
+            "source": {"name": "Naver News Search"},
+            "author": None,
+            "title": title,
+            "description": desc,
+            "content": "",
+            "url": link,
+            "publishedAt": pub_date,
+        })
+
+
+        if len(articles) >= page_size:
+            break
+
+    return articles
 
 def search_news_gnews(query, from_date, to_date, language=None, page_size=30):
     """
@@ -583,6 +769,8 @@ _API_MIN_INTERVAL_SEC = {
     "currents": 0.5,
     "newsdata": 0.7,
     "newsapi_top": 0.35,
+    "google_rss_kr": 0.5,
+    "naver_news": 0.8,
 }
 
 def _rate_limit(api_name: str):
@@ -697,6 +885,8 @@ _RUN_API_BUDGETS_DEFAULT = {
     "newsapi_top": 10,
     "currents": 25,
     "newsdata": 25,
+    "google_rss_kr": 30,
+    "naver_news": 20,
 }
 
 # ---- 토픽(topic) 단위 Budget (호출 수 상한을 “토픽별로도” 명확화) ----
@@ -828,6 +1018,31 @@ def call_api_guarded(api_name: str, fn, *args, topic_id=None, **kwargs):
 #   - run budget + topic budget + circuit breaker
 # ============================
 
+def _build_ko_query_for_local_sources(topic_keywords, fallback_query):
+    """
+    KO 전용 소스(Naver/Google RSS)용 쿼리 축소:
+    - 한글 키워드만 최대 5개 OR로 묶어 길이/에러 리스크 줄임
+    - 한글 키워드가 없으면 fallback_query 사용
+    """
+    ko_terms = []
+    for k in topic_keywords:
+        s = str(k)
+        if any('\uac00' <= ch <= '\ud7a3' for ch in s):
+            ko_terms.append(s)
+
+    ko_terms = ko_terms[:5]
+    if ko_terms:
+        # 공백 포함 키워드는 따옴표 처리
+        parts = [f"\"{t}\"" if " " in t else t for t in ko_terms]
+        return " OR ".join(parts)
+
+    # fallback도 너무 길면 첫 토큰만
+    fb = str(fallback_query or "").strip()
+    if len(fb) > 80:
+        fb = fb.split(" OR ")[0].strip()
+    return fb
+
+
 def collect_articles_for_topic(topic_id, keywords):
     collected_ko = []
     collected_en = []
@@ -860,32 +1075,36 @@ def collect_articles_for_topic(topic_id, keywords):
         topic_id=topic_id,
     )
 
-    # -----------------------------
-    # ✅ 2-pass 전략
-    #   - pass1: 키워드 소수(2개) + 메인 소스(GNews/NewsAPI OR)로 크게 채우기
-    #   - pass2: 부족분만 보조 소스 + top-headlines 캐시
-    # -----------------------------
+
     PASS1_KW_N = 2
+
+    # -------------------------------------------------
+    # ✅ 언어별 소스 완전 분리 (중요)
+    #   - en: 기존 6개 뉴스 API만 사용
+    #   - ko: Google KR RSS + Naver + (선택) NewsAPI top-headlines 캐시만 사용
+    # -------------------------------------------------
     pass_plan = [
         {
             "name": "pass1",
             "kws": keywords[:PASS1_KW_N],
-            "sources": ("gnews", "newsapi_everything"),
+            "en_sources": ("gnews", "newsapi_everything"),
+            "ko_sources": ("google_rss_kr", "naver_news", "topheadlines_cache"),
         },
         {
             "name": "pass2",
             "kws": keywords,  # pass2는 전체
-            "sources": (
+            "en_sources": (
                 "gnews",
                 "newsapi_everything",
                 "mediastack",
                 "serpapi",
                 "currents",
                 "newsdata",
-                "topheadlines_cache",
             ),
+            "ko_sources": ("google_rss_kr", "naver_news", "topheadlines_cache"),
         },
     ]
+
 
     for plan in pass_plan:
         if _need("ko") <= 0 and _need("en") <= 0:
@@ -893,6 +1112,10 @@ def collect_articles_for_topic(topic_id, keywords):
 
         for lang in LANGUAGES:
             remaining = _need(lang)
+
+            # ✅ 언어별 실행 소스 선택 (완전 분리)
+            active_sources = plan["ko_sources"] if lang == "ko" else plan["en_sources"]
+
             if remaining <= 0:
                 continue
 
@@ -901,7 +1124,7 @@ def collect_articles_for_topic(topic_id, keywords):
             # -------------------------------------------------
             # 1) ✅ GNews OR 묶음: 언어당 1~2회 호출
             # -------------------------------------------------
-            if "gnews" in plan["sources"] and len(tier_articles) < remaining:
+            if "gnews" in active_sources and len(tier_articles) < remaining:
                 gnews_chunks = chunk_keywords_for_1to2_calls(plan["kws"], max_terms_per_call=18)
                 for chunk in gnews_chunks:
                     if len(tier_articles) >= remaining:
@@ -927,7 +1150,7 @@ def collect_articles_for_topic(topic_id, keywords):
             # -------------------------------------------------
             # 2) ✅ NewsAPI everything OR 묶음: 언어당 1~2회 호출
             # -------------------------------------------------
-            if "newsapi_everything" in plan["sources"] and len(tier_articles) < remaining:
+            if "newsapi_everything" in active_sources and len(tier_articles) < remaining:
                 newsapi_chunks = chunk_keywords_for_1to2_calls(plan["kws"], max_terms_per_call=18)
 
                 for chunk in newsapi_chunks:
@@ -953,12 +1176,51 @@ def collect_articles_for_topic(topic_id, keywords):
                     )
 
             # -------------------------------------------------
+            # ✅ (이동됨) 한국 전용 백업: Google News RSS (KR) + Naver Search API
+            #    - ko 수량 부족 시에만 호출
+            #    - pass1에서도 실행되도록 pass2 블록 밖으로 이동
+            # -------------------------------------------------
+            if lang == "ko" and len(tier_articles) < remaining:
+                # (a) Google News RSS (KR)
+                rem_kr = remaining - len(tier_articles)
+                if "google_rss_kr" in active_sources and rem_kr > 0:
+                    tier_articles.extend(
+                        call_api_guarded(
+                            "google_rss_kr",
+                            search_news_google_rss_kr,
+                            plan["kws"][0] if plan["kws"] else "",
+                            DATE_FROM,
+                            DATE_TO,
+                            language=lang,
+                            page_size=min(rem_kr, 30),
+                            topic_id=topic_id,
+                        )
+                    )
+
+                # (b) Naver News Search API
+                rem_kr2 = remaining - len(tier_articles)
+                if "naver_news" in active_sources and rem_kr2 > 0:
+                    tier_articles.extend(
+                        call_api_guarded(
+                            "naver_news",
+                            search_news_naver,
+                            plan["kws"][0] if plan["kws"] else "",
+                            DATE_FROM,
+                            DATE_TO,
+                            language=lang,
+                            page_size=min(rem_kr2, 30),
+                            topic_id=topic_id,
+                        )
+                    )
+
+
+            # -------------------------------------------------
             # 3) 보조 소스들(pass2에서만) — budget으로 상한이 강하게 걸림
             # -------------------------------------------------
             if plan["name"] == "pass2" and len(tier_articles) < remaining:
                 # mediastack
                 rem3 = remaining - len(tier_articles)
-                if "mediastack" in plan["sources"] and rem3 > 0:
+                if "mediastack" in active_sources and rem3 > 0:
                     tier_articles.extend(
                         call_api_guarded(
                             "mediastack",
@@ -974,7 +1236,7 @@ def collect_articles_for_topic(topic_id, keywords):
 
                 # serpapi
                 rem4 = remaining - len(tier_articles)
-                if "serpapi" in plan["sources"] and rem4 > 0:
+                if "serpapi" in active_sources and rem4 > 0:
                     tier_articles.extend(
                         call_api_guarded(
                             "serpapi",
@@ -990,7 +1252,7 @@ def collect_articles_for_topic(topic_id, keywords):
 
                 # currents
                 rem5 = remaining - len(tier_articles)
-                if "currents" in plan["sources"] and rem5 > 0:
+                if "currents" in active_sources and rem5 > 0:
                     tier_articles.extend(
                         call_api_guarded(
                             "currents",
@@ -1006,7 +1268,7 @@ def collect_articles_for_topic(topic_id, keywords):
 
                 # newsdata
                 rem6 = remaining - len(tier_articles)
-                if "newsdata" in plan["sources"] and rem6 > 0:
+                if "newsdata" in active_sources and rem6 > 0:
                     tier_articles.extend(
                         call_api_guarded(
                             "newsdata",
@@ -1020,6 +1282,43 @@ def collect_articles_for_topic(topic_id, keywords):
                         )
                     )
 
+                # -------------------------------------------------
+                # 6) ✅ (추가) 한국 전용 백업: Google News RSS (KR) + Naver Search API
+                #    - ko 수량 부족 시에만 호출
+                # -------------------------------------------------
+                if lang == "ko" and len(tier_articles) < remaining:
+                    # (a) Google News RSS (KR)
+                    rem_kr = remaining - len(tier_articles)
+                    if "google_rss_kr" in active_sources and rem_kr > 0:
+                        tier_articles.extend(
+                            call_api_guarded(
+                                "google_rss_kr",
+                                search_news_google_rss_kr,
+                                plan["kws"][0] if plan["kws"] else "",
+                                DATE_FROM,
+                                DATE_TO,
+                                language=lang,
+                                page_size=min(rem_kr, 30),
+                                topic_id=topic_id,
+                            )
+                        )
+
+                    # (b) Naver News Search API
+                    rem_kr2 = remaining - len(tier_articles)
+                    if "naver_news" in active_sources and rem_kr2 > 0:
+                        tier_articles.extend(
+                            call_api_guarded(
+                                "naver_news",
+                                search_news_naver,
+                                plan["kws"][0] if plan["kws"] else "",
+                                DATE_FROM,
+                                DATE_TO,
+                                language=lang,
+                                page_size=min(rem_kr2, 30),
+                                topic_id=topic_id,
+                            )
+                        )
+
             # -------------------------------------------------
             # 4) ✅ top-headlines 캐시 보강: pass2에서만
             # -------------------------------------------------
@@ -1027,7 +1326,7 @@ def collect_articles_for_topic(topic_id, keywords):
                 plan["name"] == "pass2"
                 and len(tier_articles) < remaining
                 and lang == "ko"
-                and "topheadlines_cache" in plan["sources"]
+                and "topheadlines_cache" in active_sources
                 and top_headlines_cache
             ):
                 for art in top_headlines_cache:
@@ -1111,7 +1410,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[ ]:
+# In[6]:
 
 
 # ============================
@@ -1134,18 +1433,41 @@ def calculate_language_ratio(articles):
 
 
 def is_korean_article(article_dict):
-    """기사가 한글인지 판단"""
-    text = " ".join([
-        str(article_dict.get("original_title") or ""),
-        str(article_dict.get("title_ko") or ""),
-        str(article_dict.get("summary_ko") or ""),
-    ])
+    """기사가 한글인지 판단 (원문 기반)
+
+    title_ko / summary_ko 는 GPT가 생성한 한글 요약이므로
+    언어 판별에 사용하면 모든 기사가 한글로 오판정됨.
+    반드시 '원문 텍스트'만 기준으로 판별한다.
+
+    또한, 최종 dict 스키마(df_row_to_article)가 사용하는
+    orig_title 키도 지원한다.
+    """
+    # ✅ (최소 안전장치) pandas Series 들어와도 dict로 변환
+    if hasattr(article_dict, "to_dict") and not isinstance(article_dict, dict):
+        article_dict = article_dict.to_dict()
+
+    if not isinstance(article_dict, dict):
+        return False
+
+    # ✅ 원문 title 후보 키들 (우선순위 순)
+    title = (
+        article_dict.get("original_title")
+        or article_dict.get("orig_title")
+        or article_dict.get("title")
+        or ""
+    )
+
+    # ✅ 원문 보조 텍스트 후보 키들
+    description = article_dict.get("description") or ""
+    content = article_dict.get("content") or ""
+
+    text = " ".join([str(title), str(description), str(content)])
     return any('\uac00' <= ch <= '\ud7a3' for ch in text)
 
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[ ]:
+# In[7]:
 
 
 # ============================
@@ -1455,7 +1777,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[ ]:
+# In[8]:
 
 
 # ============================
@@ -1578,7 +1900,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[ ]:
+# In[9]:
 
 
 # ============================
@@ -1742,12 +2064,7 @@ for topic_num in [1, 2, 3, 4]:
 
         for idx in topic_indices:
             row = df_final.loc[idx]
-            text = " ".join([
-                str(row.get("original_title") or ""),
-                str(row.get("title_ko") or ""),
-                str(row.get("summary_ko") or ""),
-            ])
-            is_korean = any('\uac00' <= ch <= '\ud7a3' for ch in text)
+            is_korean = is_korean_article(row.to_dict())
 
             bonus = korean_bonus if is_korean else english_bonus
             df_final.at[idx, "priority"] += bonus
@@ -1800,6 +2117,78 @@ def df_row_to_article(row, topic_num):
         "summary": row["summary_ko"],
         "priority": row.get("priority", 0),
     }
+
+
+# ============================
+# 토픽별 언어 쿼터 강제 선택 설정
+# ============================
+TARGET_ENGLISH_RATIO_QUOTA = 70     # EN 70% / KO 30%
+MAX_ARTICLES_PER_TOPIC_LANG_QUOTA = 40  # 토픽당 최대 기사 수
+
+def apply_language_quota_per_topic(
+    topic_df: pd.DataFrame,
+    target_english_ratio: int = TARGET_ENGLISH_RATIO_QUOTA,
+    max_total: int = MAX_ARTICLES_PER_TOPIC_LANG_QUOTA
+) -> pd.DataFrame:
+    """
+    priority 기준으로 토픽 내 기사들을 EN/KO 쿼터로 강제 선택한다.
+    """
+
+    if topic_df is None or len(topic_df) == 0:
+        return topic_df
+
+    # 1) priority 기준 정렬
+    topic_df = topic_df.sort_values(
+        ["priority", "published_at_dt"],
+        ascending=[False, False]
+    ).copy()
+
+    # 2) 최대 개수 제한
+    if max_total is not None and len(topic_df) > max_total:
+        topic_df = topic_df.head(max_total).copy()
+
+    # 3) 언어 판별 (원문 기반)
+    topic_df["_is_ko"] = topic_df.apply(
+        lambda r: is_korean_article(r.to_dict()), axis=1
+    )
+
+    ko_df = topic_df[topic_df["_is_ko"]].copy()
+    en_df = topic_df[~topic_df["_is_ko"]].copy()
+
+    total = len(topic_df)
+    en_target = int(round(total * (target_english_ratio / 100.0)))
+    ko_target = total - en_target
+
+    # 4) 목표 수만큼 우선 선택
+    en_sel = en_df.head(en_target)
+    ko_sel = ko_df.head(ko_target)
+
+    # 5) 부족한 쪽 보충
+    if len(en_sel) < en_target:
+        ko_sel = pd.concat([
+            ko_sel,
+            ko_df.iloc[len(ko_sel):len(ko_sel) + (en_target - len(en_sel))]
+        ])
+
+    if len(ko_sel) < ko_target:
+        en_sel = pd.concat([
+            en_sel,
+            en_df.iloc[len(en_sel):len(en_sel) + (ko_target - len(ko_sel))]
+        ])
+
+    selected = pd.concat([en_sel, ko_sel], ignore_index=True)
+
+    # 6) 최종 정렬
+    selected = selected.sort_values(
+        ["priority", "published_at_dt"],
+        ascending=[False, False]
+    )
+
+    # 7) 임시 컬럼 제거
+    selected.drop(columns=["_is_ko"], inplace=True, errors="ignore")
+
+    return selected
+
 
 for topic_num in [1, 2, 3, 4]:
     topic_df = df_final[df_final["topic_final"] == topic_num].copy()
@@ -1854,6 +2243,16 @@ for topic_num in [1, 2, 3, 4]:
             dedup_rows.append(row)
 
     topic_df = pd.DataFrame(dedup_rows)
+
+    # 토픽별 EN/KO 비율 쿼터 강제 적용
+    topic_df = apply_language_quota_per_topic(topic_df)
+
+    if len(topic_df) == 0:
+        print(f"[경고] 토픽 {topic_num}에 기사가 없습니다.")
+        topic_main_articles[topic_num] = []
+        topic_extra_articles[topic_num] = []
+        continue
+
 
 
     if len(topic_df) == 0:
@@ -1912,7 +2311,7 @@ print("\n" + "="*60 + "\n")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[ ]:
+# In[10]:
 
 
 # ============================================
@@ -2349,7 +2748,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-1 썸네일 추출 (기본 썸네일 포함)**
 
-# In[ ]:
+# In[11]:
 
 
 # ============================
@@ -2767,7 +3166,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **07-2 최신 연구동향 추가**
 
-# In[ ]:
+# In[12]:
 
 
 # ============================================
@@ -3166,7 +3565,7 @@ else:
 # 
 # # **08 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[ ]:
+# In[13]:
 
 
 # ============================
@@ -4398,7 +4797,7 @@ def build_research_more_page_html(extra_articles, date_range, newsletter_date):
 # ============================================================
 # Weekly Focus Insight (주간 포커스 인사이트)
 # - 입력: 주제별 뉴스(우선순위 상위 10개) + 연구동향(상위 10개)
-# - 출력: 1~3줄 한국어 조언(문장형)
+# - 출력: 3~5줄 한국어 조언(문장형)
 # ============================================================
 
 WEEKLY_FOCUS_TITLE = "🔍 Weekly Focus Insight"
@@ -4408,45 +4807,6 @@ MAX_INSIGHT_ITEMS_RESEARCH = 10
 def _take_top_n(items, n):
     return (items or [])[:n]
 
-def build_weekly_focus_context(topic_main_articles, topic_extra_articles,
-                               research_main_articles, research_extra_articles):
-    """
-    주제당 10개까지만 GPT에 제공.
-    주의: topic_main_articles는 이미 상위 3개이고,
-          topic_extra_articles는 그 다음 우선순위들이라고 가정(현재 파이프라인 구조상).
-    """
-    ctx = {"topics": {}, "research": []}
-
-    # 토픽(1~4)
-    for t in [1, 2, 3, 4]:
-        combined = (topic_main_articles.get(t, []) or []) + (topic_extra_articles.get(t, []) or [])
-        top10 = _take_top_n(combined, MAX_INSIGHT_ITEMS_PER_TOPIC)
-        ctx["topics"][f"topic_{t}"] = [
-            {
-                "title_ko": a.get("title_ko") or "",
-                "original_title": a.get("original_title") or "",
-                "summary_ko": a.get("summary_ko") or "",
-                "date": a.get("date") or "",
-                "url": a.get("url") or "",
-            }
-            for a in top10
-        ]
-
-    # 연구동향(상위 10개)
-    research_combined = (research_main_articles or []) + (research_extra_articles or [])
-    research_top10 = _take_top_n(research_combined, MAX_INSIGHT_ITEMS_RESEARCH)
-    ctx["research"] = [
-        {
-            "original_title": a.get("original_title") or "",
-            "summary_en": a.get("summary_en") or "",
-            "journal_name": a.get("journal_name") or "",
-            "date": a.get("date") or "",
-            "url": a.get("url") or "",
-        }
-        for a in research_top10
-    ]
-
-    return ctx
 
 def generate_weekly_focus_insight(
     topic_main_articles,
@@ -4458,8 +4818,7 @@ def generate_weekly_focus_insight(
     """
     Weekly Focus Insight:
     - 토픽(1~4) 뉴스 + 최신 연구동향 요약(상위 항목들)을 읽고
-      한컴인스페이스에게 1~3줄 한국어 조언을 생성.
-    - 토큰 절약: 토픽별 상위 top_k_per_topic개까지만 사용.
+      한컴인스페이스에게 3~5줄 한국어 조언을 생성.
     """
 
     def _pick_top_k(article_list, k):
@@ -4534,7 +4893,8 @@ def generate_weekly_focus_insight(
         "5) 변화의 의미가 드러나도록 "
         "   '기술 → 전략', '도구 → 인프라', '운영 → 거버넌스'와 같은 전환 관점을 포함합니다. "
         "6) 특정 기업이나 조직(한컴인스페이스 등)을 직접 지칭하지 않습니다. "
-        "7) 존댓말 서술형으로 2~3문장으로 작성합니다. "
+        "7) 존댓말 서술형으로 3~5문장으로 작성합니다. "
+        "   문장은 현상 정의 → 구조적 원인 → 전환의 의미 → 파급 효과 순으로 자연스럽게 확장되어야 합니다. "
         "8) 입력에 포함된 서로 다른 항목(기사/연구) 최소 2개를 근거 앵커로 삼아, 요약이 아니라 메커니즘을 문장 속에 녹여 쓰세요. "
         "9) 입력에 없는 사건·기술을 새로 단정해 추가하지 않습니다. "
 
@@ -4583,7 +4943,7 @@ def generate_weekly_focus_insight(
         )
         text = (resp.output[0].content[0].text or "").strip()
         lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-        return "\n".join(lines[:3]) if lines else ""
+        return "\n".join(lines[:5]) if len(lines) > 5 else "\n".join(lines)
     except Exception as e:
         print(f"[WARN] Weekly Focus Insight 생성 실패: {e}")
         return ""
@@ -5925,7 +6285,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[ ]:
+# In[14]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -5978,7 +6338,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[ ]:
+# In[15]:
 
 
 # ============================
@@ -6044,47 +6404,26 @@ if 'topic_main_articles' in globals() and 'topic_extra_articles' in globals():
         print(f"{topic_icon} 토픽 {topic_num}: 메인 {main_count}개 | 추가 {extra_count}개")
 
 # ============================
-# 3. 토픽별 한글/영문 기사 수
+# 3. 토픽별 한글/영문 기사 수  (✅ 최종 선택 결과 기준으로 수정)
 # ============================
 print("\n📰 토픽별 기사 분포:")
 print("-" * 50)
 
-# 전체 한글/영문 개수 집계를 위한 변수
 total_korean_count = 0
 total_english_count = 0
+total_news = 0
 
-if 'df_final' in globals() and not df_final.empty:
+if 'topic_main_articles' in globals() and 'topic_extra_articles' in globals():
     for topic_num in [4, 3, 2, 1]:  # 역순으로 출력
-        topic_articles = df_final[df_final["topic_final"] == topic_num]
+        final_articles = (topic_main_articles.get(topic_num, []) or []) + (topic_extra_articles.get(topic_num, []) or [])
 
-        if len(topic_articles) == 0:
+        if not final_articles:
             continue
 
-        korean_articles = []
-        english_articles = []
-
-        for _, row in topic_articles.iterrows():
-            # 원문 제목(original_title)로 판단
-            original_title = str(row.get("original_title") or "")
-
-            # 원문 제목에 한글이 있으면 한글 기사
-            has_korean = any('\uac00' <= ch <= '\ud7a3' for ch in original_title)
-
-            if has_korean:
-                korean_articles.append(row)
-            else:
-                english_articles.append(row)
-
-        ko_count = len(korean_articles)
-        en_count = len(english_articles)
-        total = ko_count + en_count
-
-        # 전체 집계에 추가
+        ko_count, en_count, ko_pct, en_pct = calculate_language_ratio(final_articles)
         total_korean_count += ko_count
         total_english_count += en_count
-
-        ko_pct = (ko_count / total * 100) if total > 0 else 0
-        en_pct = (en_count / total * 100) if total > 0 else 0
+        total_news += (ko_count + en_count)
 
         topic_icon = TOPIC_ICON.get(topic_num, "")
         topic_desc = TOPIC_DESC.get(topic_num, "")
@@ -6092,7 +6431,29 @@ if 'df_final' in globals() and not df_final.empty:
         print(f"\n{topic_icon} 토픽 {topic_num}: {topic_desc}")
         print(f"  ├─ 🇰🇷 한글 기사: {ko_count}개 ({ko_pct:.1f}%)")
         print(f"  ├─ 🇺🇸 영문 기사: {en_count}개 ({en_pct:.1f}%)")
-        print(f"  └─ 📊 총 기사: {total}개")
+        print(f"  └─ 📊 총 기사: {ko_count + en_count}개")
+
+else:
+    # fallback: topic_main/extra가 없으면 df_final 기준(기존 동작)으로 유지
+    if 'df_final' in globals() and not df_final.empty:
+        for topic_num in [4, 3, 2, 1]:
+            topic_articles = df_final[df_final["topic_final"] == topic_num].to_dict("records")
+            if not topic_articles:
+                continue
+
+            ko_count, en_count, ko_pct, en_pct = calculate_language_ratio(topic_articles)
+            total_korean_count += ko_count
+            total_english_count += en_count
+            total_news += (ko_count + en_count)
+
+            topic_icon = TOPIC_ICON.get(topic_num, "")
+            topic_desc = TOPIC_DESC.get(topic_num, "")
+
+            print(f"\n{topic_icon} 토픽 {topic_num}: {topic_desc}")
+            print(f"  ├─ 🇰🇷 한글 기사: {ko_count}개 ({ko_pct:.1f}%)")
+            print(f"  ├─ 🇺🇸 영문 기사: {en_count}개 ({en_pct:.1f}%)")
+            print(f"  └─ 📊 총 기사: {ko_count + en_count}개")
+
 
 # ============================
 # 4. 연구동향 통계
@@ -6124,7 +6485,7 @@ print()  # 🔥 빈 줄 추가
 
 print("="*70)
 
-total_news = len(df_final) if 'df_final' in globals() else 0
+total_news = total_news if 'total_news' in globals() else (len(df_final) if 'df_final' in globals() else 0)
 total_research = len(research_processed_articles) if 'research_processed_articles' in globals() else 0
 
 # 🔥 수정: 일반 뉴스에 한글/영문 개수 표시
