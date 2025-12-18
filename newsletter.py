@@ -9,7 +9,7 @@
 
 # # **01-1 설치 & import**
 
-# In[50]:
+# In[ ]:
 
 
 # ============================
@@ -45,7 +45,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[51]:
+# In[ ]:
 
 
 # ============================
@@ -87,7 +87,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[52]:
+# In[ ]:
 
 
 # ============================================================
@@ -109,7 +109,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (날짜, 주제, 키워드, 상수)**
 
-# In[53]:
+# In[ ]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -282,7 +282,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[54]:
+# In[ ]:
 
 
 # ============================
@@ -1111,7 +1111,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[55]:
+# In[ ]:
 
 
 # ============================
@@ -1145,7 +1145,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[56]:
+# In[ ]:
 
 
 # ============================
@@ -1455,7 +1455,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[57]:
+# In[ ]:
 
 
 # ============================
@@ -1578,7 +1578,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[58]:
+# In[ ]:
 
 
 # ============================
@@ -1912,7 +1912,7 @@ print("\n" + "="*60 + "\n")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[59]:
+# In[ ]:
 
 
 # ============================================
@@ -2349,7 +2349,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-1 썸네일 추출 (기본 썸네일 포함)**
 
-# In[60]:
+# In[ ]:
 
 
 # ============================
@@ -2767,7 +2767,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **07-2 최신 연구동향 추가**
 
-# In[61]:
+# In[ ]:
 
 
 # ============================================
@@ -3166,7 +3166,7 @@ else:
 # 
 # # **08 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[62]:
+# In[ ]:
 
 
 # ============================
@@ -4463,7 +4463,11 @@ def generate_weekly_focus_insight(
     """
 
     def _pick_top_k(article_list, k):
-        return (article_list or [])[:k]
+        items = list(article_list or [])
+        # priority가 높은 것이 먼저 오도록 (None은 0 취급)
+        items.sort(key=lambda x: (x.get("priority") or 0), reverse=True)
+        return items[:k]
+
 
     def _news_payload(a: dict):
         # ✅ (중요) 기존 파이프라인 키(ko_title/summary) + 과거 키(title_ko/summary_ko) 모두 호환
@@ -4531,6 +4535,8 @@ def generate_weekly_focus_insight(
         "   '기술 → 전략', '도구 → 인프라', '운영 → 거버넌스'와 같은 전환 관점을 포함합니다. "
         "6) 특정 기업이나 조직(한컴인스페이스 등)을 직접 지칭하지 않습니다. "
         "7) 존댓말 서술형으로 2~3문장으로 작성합니다. "
+        "8) 입력에 포함된 서로 다른 항목(기사/연구) 최소 2개를 근거 앵커로 삼아, 요약이 아니라 메커니즘을 문장 속에 녹여 쓰세요. "
+        "9) 입력에 없는 사건·기술을 새로 단정해 추가하지 않습니다. "
 
         "불릿, 번호, 단순 요약체, 과장되거나 단정적인 예측은 사용하지 않습니다."
     )
@@ -4538,7 +4544,33 @@ def generate_weekly_focus_insight(
 
 
 
-    user = json.dumps(ctx, ensure_ascii=False)
+    def _trim(s, n=220):
+        s = (s or "").replace("\n", " ").strip()
+        return s if len(s) <= n else s[:n-1].rstrip() + "…"
+
+    lines = []
+    for topic_num in [1, 2, 3, 4]:
+        lines.append(f"[Topic {topic_num}]")
+        items = ctx["topics"][str(topic_num)]["main"] + ctx["topics"][str(topic_num)]["extra"]
+        # 안전하게 한 번 더 priority 정렬(있으면)
+        items = sorted(items, key=lambda x: (x.get("priority") or 0), reverse=True)
+        for a in items[:top_k_per_topic]:
+            title = a.get("title_ko") or a.get("original_title")
+            summ = a.get("summary_ko")
+            if title and summ:
+                lines.append(f"- { _trim(title, 120) } :: { _trim(summ, 240) }")
+
+    lines.append("[Research]")
+    r_items = ctx["research"]["main"] + ctx["research"]["extra"]
+    r_items = sorted(r_items, key=lambda x: (x.get("priority") or 0), reverse=True)
+    for r in r_items[:top_k_per_topic]:
+        title = r.get("title_ko") or r.get("original_title")
+        summ = r.get("summary_ko")
+        if title and summ:
+            lines.append(f"- { _trim(title, 120) } :: { _trim(summ, 240) }")
+
+    user = "\n".join(lines)
+
 
     try:
         resp = client.responses.create(
@@ -4547,7 +4579,7 @@ def generate_weekly_focus_insight(
                 {"role": "system", "content": system},
                 {"role": "user", "content": user},
             ],
-            temperature=0.4,
+            temperature=0.3,
         )
         text = (resp.output[0].content[0].text or "").strip()
         lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
@@ -5893,7 +5925,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[63]:
+# In[ ]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -5946,7 +5978,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[64]:
+# In[ ]:
 
 
 # ============================
