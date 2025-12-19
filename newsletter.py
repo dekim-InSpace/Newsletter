@@ -4077,7 +4077,7 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[119]:
+# In[133]:
 
 
 # ============================
@@ -4088,14 +4088,14 @@ HLOGO_URL = "https://hancom-inspace.github.io/Weekly-Newsletter/assets/hlogo.png
 
 # (NEW) 토픽별 더보기 페이지 헤더 이미지
 TOPIC_MORE_HEADER_BACKGROUNDS = {
-    1: "https://hancom-inspace.github.io/Weekly-Newsletter/assets/header_geoint.png",
+    1: "https://hancom-inspace.github.io/Weekly-Newsletter/assets/header_geoint1.png",
     2: "https://hancom-inspace.github.io/Weekly-Newsletter/assets/header_aviation.png",
-    3: "https://hancom-inspace.github.io/Weekly-Newsletter/assets/header_ai_platform.png",
+    3: "https://hancom-inspace.github.io/Weekly-Newsletter/assets/header_ai_platform1.png",
     4: "https://hancom-inspace.github.io/Weekly-Newsletter/assets/headerbackground.jpg",
 }
 
 # (NEW) 연구동향 더보기 페이지 헤더 이미지
-RESEARCH_MORE_HEADER_BACKGROUND = "https://hancom-inspace.github.io/Weekly-Newsletter/assets/header_research.png"
+RESEARCH_MORE_HEADER_BACKGROUND = "https://hancom-inspace.github.io/Weekly-Newsletter/assets/header_research2.png"
 
 
 if "weekly_focus_insight" not in globals() or not (weekly_focus_insight or "").strip():
@@ -4710,7 +4710,7 @@ def build_more_page_html(topic_extra_articles, date_range, newsletter_date, head
     <tr>
       <td align="center" class="hero-header-cell"
           bgcolor="#000000"
-          style="padding:0 24px 14px 24px;
+          style="padding:8px 24px 8px 24px;
                  background: linear-gradient(to bottom right,
                              rgba(255,255,255,0.70),
                              rgba(255,255,255,0.70));
@@ -4739,7 +4739,7 @@ def build_more_page_html(topic_extra_articles, date_range, newsletter_date, head
 
           <tr>
             <td align="center"
-                style="padding:0px 24px 12px 24px;
+                style="padding:12px 24px 12px 24px;
                       font-size:28px; font-weight:700;
                       font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
                       color:#000000; ;">
@@ -5147,15 +5147,15 @@ def build_research_more_page_html(extra_articles, date_range, newsletter_date, h
   <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
        style="background-image:url('{header_bg}');
               background-size:cover;
-              background-position:center 52%;
+              background-position:center 70%;
               background-repeat:no-repeat;">
     <tr>
       <td align="center" class="hero-header-cell"
           bgcolor="#000000"
-          style="padding:0 24px 14px 24px;
+          style="padding:8 24px 8px 24px;
                  background: linear-gradient(to bottom right,
-                             rgba(255,255,255,0.70),
-                             rgba(255,255,255,0.70));
+                             rgba(255,255,255,0.10),
+                             rgba(255,255,255,0.10));
                  color:#ffffff; ;">
 
         <table cellpadding="0" cellspacing="0" border="0"
@@ -5181,7 +5181,7 @@ def build_research_more_page_html(extra_articles, date_range, newsletter_date, h
 
           <tr>
             <td align="center"
-                style="padding:0px 24px 12px 24px;
+                style="padding:12px 24px 12px 24px;
                       font-size:28px; font-weight:700;
                       font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
                       color:#000000; ;">
@@ -6808,7 +6808,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[120]:
+# In[134]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -6861,7 +6861,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[121]:
+# In[135]:
 
 
 # ============================
