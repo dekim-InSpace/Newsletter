@@ -257,7 +257,7 @@
 
               
           <div class="archive-card-insight">
-            이번 주에는 위성 영상과 지리공간 정보 산업의 기술 발전과 규제 강화가 산업 구조 전환을 가속하며 전략적 활용이 부상하고 있습니다.
+            이번 주에는 공간정보와 위성영상, 드론 및 AI 인프라 분야에서 전략적 인프라와 거버넌스로의 전환이 가속되며 산업 효율성과 보안 체계 재편이 부상하고 있습니다.
           </div>
         
 
@@ -314,7 +314,8 @@
         if (p > 1) p = 1;
 
         // 스크롤 최상단 = 영상 처음 / 최하단 = 영상 끝
-        var desired = p * duration;
+        var desired = p * duration * SCRUB_PORTION;
+
 
         // 끝 프레임 안정화 (선택)
         var END_MARGIN = 0.03;
@@ -348,8 +349,9 @@
 
       function applyTime(t) {
         // 너무 잦은 seek 방지(디코더 부담↓)
-        var EPS = 0.02;
+        var EPS = 0.05; // ✅ 50ms 이하는 seek 안 함(끊김 큰 폭 감소)
         if (Math.abs((video.currentTime || 0) - t) < EPS) return;
+
 
         try {
           if (typeof video.fastSeek === 'function') {
@@ -395,14 +397,22 @@
         try { video.load(); } catch (e) {}
       }
 
-      window.addEventListener(
-        'scroll',
-        function() {
-          calcTargetTimeFromScroll();
-          startAnimLoop();
-        },
-        { passive: true }
-      );
+    // ✅ scroll 이벤트 폭주 방지: rAF에서 1프레임에 1번만 targetTime 계산
+    var pendingScroll = false;
+
+    function onScrollRAF() {
+      if (!pendingScroll) return;
+      pendingScroll = false;
+
+      calcTargetTimeFromScroll();
+      startAnimLoop();
+    }
+
+    window.addEventListener('scroll', function () {
+      pendingScroll = true;
+      window.requestAnimationFrame(onScrollRAF);
+    }, { passive: true });
+
 
       window.addEventListener('resize', function() {
         calcTargetTimeFromScroll();
