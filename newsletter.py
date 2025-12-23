@@ -4077,7 +4077,7 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[14]:
+# In[18]:
 
 
 # ============================
@@ -5938,7 +5938,7 @@ ARCHIVE_PAGE_PATH = "docs/archive.html"
 ARCHIVE_PAGE_URL = f"{BASE_URL}/archive.html"
 
 # ▼ 아카이브 상단 스크롤 비디오(mp4) 경로 (여기에 네 영상 URL 넣기)
-ARCHIVE_VIDEO_URL = "https://hancom-inspace.github.io/Weekly-Newsletter/assets/archivebg3.mp4"
+ARCHIVE_VIDEO_URL = "https://hancom-inspace.github.io/Weekly-Newsletter/assets/archive_bg_video1.mp4"
 
 # ============================================================
 # ▼ (NEW) 메인 뉴스레터 배경 스크롤 비디오/대체 이미지 설정
@@ -6808,7 +6808,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[15]:
+# In[19]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -6861,7 +6861,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[16]:
+# In[20]:
 
 
 # ============================
