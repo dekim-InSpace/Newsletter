@@ -269,7 +269,7 @@
 
               
           <div class="archive-card-insight">
-            이번 주에는 위성 영상과 공간정보의 전략적 활용 전환이 가속되며, 기후 대응과 재난 관리에서 실시간 고해상도 데이터 확보가 부상하고 있습니다.
+            이번 주에는 위성 영상과 공간정보 융합 흐름이 강화되며, 기후·재난 대응과 군사 정찰 역량의 전략적 전환이 가속되고 있습니다.
           </div>
         
 
@@ -348,8 +348,8 @@
           ✅ 스크롤이 짧아도 영상이 천천히 진행되도록
           가상 스크롤 길이를 하한으로 둠
         */
-        var VIRTUAL_SCROLL_PX = 2600; // 1800~4000 조절
-        var denom = Math.max(1, Math.max(maxScroll, VIRTUAL_SCROLL_PX));
+
+        var denom = Math.max(1, maxScroll);
 
         var p = scrollTop / denom;
         if (p < 0) p = 0;
@@ -358,7 +358,7 @@
         /*
           ✅ 영상 전체 duration 사용 (제한 제거)
         */
-        var desired = p * duration;
+
 
         targetTime = desired;
 
