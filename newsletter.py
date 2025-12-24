@@ -9,7 +9,7 @@
 
 # # **01-1 설치 & import**
 
-# In[1]:
+# In[52]:
 
 
 # ============================
@@ -49,7 +49,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[2]:
+# In[53]:
 
 
 # ============================
@@ -93,7 +93,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[3]:
+# In[54]:
 
 
 # ============================================================
@@ -118,7 +118,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (날짜, 주제, 키워드, 상수)**
 
-# In[4]:
+# In[55]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -338,7 +338,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[5]:
+# In[56]:
 
 
 # ============================
@@ -1560,7 +1560,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[6]:
+# In[57]:
 
 
 # ============================
@@ -1617,7 +1617,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[7]:
+# In[58]:
 
 
 # ============================
@@ -1927,7 +1927,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[8]:
+# In[59]:
 
 
 # ============================
@@ -2050,7 +2050,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[9]:
+# In[60]:
 
 
 # ============================
@@ -2461,7 +2461,7 @@ print("\n" + "="*60 + "\n")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[10]:
+# In[61]:
 
 
 # ============================================
@@ -2898,7 +2898,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-2 최신 연구동향 추가**
 
-# In[11]:
+# In[62]:
 
 
 # ============================================
@@ -3236,7 +3236,7 @@ else:
 
 # # **07-1 썸네일 추출 (기본 썸네일 포함)**
 
-# In[12]:
+# In[63]:
 
 
 import re
@@ -3800,7 +3800,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **08-1 인사이트 생성**
 
-# In[13]:
+# In[64]:
 
 
 # ============================================================
@@ -4077,7 +4077,7 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[42]:
+# In[65]:
 
 
 # ============================
@@ -6879,35 +6879,47 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[43]:
+# In[66]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
 
 GMAIL_USER = os.environ.get("GMAIL_USER")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD")
-TO_EMAIL = None  # 기본값
+
+TO_EMAIL_RAW = None
+TO_EMAILS = []  # 최종 수신자 리스트
+
+
+def parse_recipients(raw: str):
+    """콤마로 구분된 이메일 문자열 → 리스트"""
+    return [e.strip() for e in (raw or "").split(",") if e.strip()]
+
 
 if SEND_EMAIL:
     # 🔹 Colab에서는 테스트 메일로만 전송
     if IN_COLAB:
-        TO_EMAIL = os.environ.get("TO_EMAIL_TEST")
-        if not TO_EMAIL:
+        TO_EMAIL_RAW = os.environ.get("TO_EMAIL_TEST")
+        if not TO_EMAIL_RAW:
             print("[메일 전송 X] Colab 테스트용 이메일(TO_EMAIL_TEST)이 설정되지 않았습니다. 메일은 전송하지 않습니다.")
-            SEND_EMAIL = False  # 메일 전송 강제 OFF
+            SEND_EMAIL = False
         else:
-            print(f"[메일 전송] Colab 테스트 모드 → {TO_EMAIL}")
+            TO_EMAILS = parse_recipients(TO_EMAIL_RAW)
+            print(f"[메일 전송] Colab 테스트 모드 → {TO_EMAILS}")
+
+    # 🔹 GitHub Actions / 로컬에서는 실제 수신자
     else:
-        # 🔹 GitHub Actions / 로컬에서는 실제 수신자
-        TO_EMAIL = os.environ.get("TO_EMAIL")
-        if not TO_EMAIL:
+        TO_EMAIL_RAW = os.environ.get("TO_EMAIL")
+        if not TO_EMAIL_RAW:
             print("[메일 전송 X] 프로덕션 이메일(TO_EMAIL)이 설정되지 않았습니다. 메일은 전송하지 않습니다.")
             SEND_EMAIL = False
         else:
-            print(f"[메일 전송] 프로덕션 모드 → {TO_EMAIL}")
+            TO_EMAILS = parse_recipients(TO_EMAIL_RAW)
+            print(f"[메일 전송] 프로덕션 모드 → {TO_EMAILS}")
 
-# 🔹 실제 메일 전송은 여기서 최종적으로 한 번 더 체크
-if SEND_EMAIL and TO_EMAIL:
+
+# 🔹 실제 메일 전송
+if SEND_EMAIL and TO_EMAILS:
     SUBJECT = f"한컴인스페이스 {WEEK_LABEL} 뉴스레터 | {NEWSLETTER_DATE}"
 
     with open("newsletter.html", "r", encoding="utf-8") as f:
@@ -6915,24 +6927,26 @@ if SEND_EMAIL and TO_EMAIL:
 
     msg = MIMEMultipart("alternative")
     msg["From"] = GMAIL_USER
-    msg["To"] = TO_EMAIL
+    msg["To"] = ", ".join(TO_EMAILS)   # 🔹 표시용
     msg["Subject"] = SUBJECT
     msg.attach(MIMEText(html_content, "html", _charset="utf-8"))
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-        server.send_message(msg)
+        # 🔹 핵심: 실제 수신자 리스트를 명시
+        server.send_message(msg, to_addrs=TO_EMAILS)
 
-    print("메일 보냈습니다!")
+    print("메일 보냈습니다! 수신자:", TO_EMAILS)
+
 elif not SEND_EMAIL:
     print("SEND_EMAIL=False 상태이거나, 위 조건에 의해 메일 전송이 비활성화되었습니다.")
 else:
-    print("TO_EMAIL이 설정되지 않아 메일을 보내지 않았습니다.")
+    print("수신자 이메일이 비어 있어 메일을 보내지 않았습니다.")
 
 
 # # **10. 최종 통계 출력**
 
-# In[44]:
+# In[67]:
 
 
 # ============================
