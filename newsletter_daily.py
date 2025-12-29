@@ -6781,7 +6781,6 @@ main_repo_path = f"docs/{FOLDER_PATH}/index.html"
 commit_msg_main = f"Add newsletter main: {FOLDER_PATH}"
 upload_file_to_github(main_repo_path, newsletter_html, commit_msg_main)
 
-# ▼ 이전 뉴스레터 아카이브 페이지 생성
 # ▼ 이전 뉴스레터 아카이브 페이지 생성 (refresh 기반)
 # 1) 기존 archive.json/폴더스캔 기반 데이터 로딩값(NEWSLETTER_ARCHIVE_BASE)을 입력으로 넣고,
 # 2) docs 폴더를 다시 스캔해서 전체 archive를 refresh(= 링크/목록 최신화)
