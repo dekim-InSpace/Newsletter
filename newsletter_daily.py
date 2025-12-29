@@ -9,7 +9,7 @@
 
 # # **01-1 설치 & import**
 
-# In[1]:
+# In[7]:
 
 
 # ============================
@@ -49,7 +49,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[ ]:
+# In[8]:
 
 
 # ============================
@@ -93,7 +93,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[ ]:
+# In[9]:
 
 
 # ============================================================
@@ -118,7 +118,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (날짜, 주제, 키워드, 상수)**
 
-# In[ ]:
+# In[10]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -150,17 +150,21 @@ DEFAULT_THUMB = "https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-
 CONTENT_WIDTH = 700
 
 # ============================
-# 2. 날짜 자동 설정 (DAILY: 오늘 하루 전체, KST 00:00~23:59)
+# 2. 날짜 자동 설정 (DAILY: 어제 하루 전체, KST 00:00~23:59)
 # ============================
+
+from datetime import datetime, timedelta, timezone
+
 # KST 시간대 정의
 KST = timezone(timedelta(hours=9))
 now_kst = datetime.now(KST)
 
-# 기준일 (실행일) = 오늘
-target_date_kst = now_kst.date()
-
-# DAILY 수집 범위: 어제 하루
+# ✅ DAILY 기준일 = 어제 (KST)
 target_date_kst = now_kst.date() - timedelta(days=1)
+
+# ✅ DAILY 수집 범위: 어제 하루
+start_date_kst = target_date_kst
+end_date_kst   = target_date_kst
 
 # KST → UTC 변환
 date_from_utc = datetime.combine(
@@ -175,9 +179,9 @@ DATE_FROM = date_from_utc.strftime("%Y-%m-%d")
 DATE_TO   = date_to_utc.strftime("%Y-%m-%d")
 
 print("=" * 60)
-print(f"🕐 현재 KST 시간: {now_kst.strftime('%Y-%m-%d %H:%M:%S')}")
-print(f"📅 검색 범위 (KST): {start_date_kst} (하루)")
-print(f"📅 검색 범위 (UTC): {DATE_FROM} ~ {DATE_TO}")
+print(f"🕐 현재 KST 시간        : {now_kst.strftime('%Y-%m-%d %H:%M:%S')}")
+print(f"📅 검색 범위 (KST)      : {start_date_kst} (하루)")
+print(f"📅 검색 범위 (UTC)      : {date_from_utc.strftime('%Y-%m-%d %H:%M:%S')} ~ {date_to_utc.strftime('%Y-%m-%d %H:%M:%S')}")
 print("=" * 60)
 
 
@@ -334,7 +338,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[ ]:
+# In[11]:
 
 
 # ============================
@@ -1556,7 +1560,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[ ]:
+# In[12]:
 
 
 # ============================
@@ -1613,7 +1617,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[ ]:
+# In[13]:
 
 
 # ============================
@@ -1923,7 +1927,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[ ]:
+# In[14]:
 
 
 # ============================
@@ -2046,7 +2050,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[ ]:
+# In[15]:
 
 
 # ============================
@@ -2457,7 +2461,7 @@ print("\n" + "="*60 + "\n")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[ ]:
+# In[16]:
 
 
 # ============================================
@@ -2894,7 +2898,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-2 최신 연구동향 추가**
 
-# In[ ]:
+# In[17]:
 
 
 # ============================================
@@ -3232,7 +3236,7 @@ else:
 
 # # **07-1 썸네일 추출 (기본 썸네일 포함)**
 
-# In[ ]:
+# In[18]:
 
 
 import re
@@ -3796,7 +3800,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **08-1 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[ ]:
+# In[19]:
 
 
 # ============================
@@ -5848,76 +5852,74 @@ def load_existing_archive():
         except Exception:
             pass  # 실패하면 fallback
 
-
     # --------------------------------------------------
-    # 2) fallback: 기존 폴더 스캔 방식
+    # 2) fallback: 기존 폴더 스캔 방식 (DAILY 전용 폴더 구조)
+    #   docs/2025daily/12daily/29/index.html
     # --------------------------------------------------
     archive_items = []
 
     docs_children = list_github_directory("docs")
 
-# daily 연도 폴더: "2025daily"
-year_dirs = [
-    item["name"]
-    for item in docs_children
-    if item.get("type") == "dir" and re.match(r"^\d{4}daily$", item.get("name", ""))
-]
-
-for year_dir in year_dirs:
-    year_path = f"docs/{year_dir}"
-    month_children = list_github_directory(year_path)
-
-    # daily 월 폴더: "12daily"
-    month_dirs = [
-        m["name"]
-        for m in month_children
-        if m.get("type") == "dir" and re.match(r"^\d{2}daily$", m.get("name", ""))
+    # daily 연도 폴더: "2025daily"
+    year_dirs = [
+        item["name"]
+        for item in docs_children
+        if item.get("type") == "dir" and re.match(r"^\d{4}daily$", item.get("name", ""))
     ]
 
-    for month_dir in month_dirs:
-        month_path = f"docs/{year_dir}/{month_dir}"
-        day_children = list_github_directory(month_path)
+    for year_dir in year_dirs:
+        year_path = f"docs/{year_dir}"
+        month_children = list_github_directory(year_path)
 
-        # 일 폴더: "29"
-        day_dirs = [
-            d["name"]
-            for d in day_children
-            if d.get("type") == "dir" and (d.get("name", "").isdigit())
+        # daily 월 폴더: "12daily"
+        month_dirs = [
+            m["name"]
+            for m in month_children
+            if m.get("type") == "dir" and re.match(r"^\d{2}daily$", m.get("name", ""))
         ]
 
-        for day_name in day_dirs:
-            day_path = f"docs/{year_dir}/{month_dir}/{day_name}"
-            files = list_github_directory(day_path)
+        for month_dir in month_dirs:
+            month_path = f"docs/{year_dir}/{month_dir}"
+            day_children = list_github_directory(month_path)
 
-            has_index = any(
-                f.get("type") == "file" and f.get("name") == "index.html"
-                for f in files
-            )
-            if not has_index:
-                continue
+            # 일 폴더: "29"
+            day_dirs = [
+                d["name"]
+                for d in day_children
+                if d.get("type") == "dir" and (d.get("name", "").isdigit())
+            ]
 
-            # "2025daily" -> 2025, "12daily" -> 12
-            try:
-                year_num = int(year_dir.replace("daily", ""))
-                month_num = int(month_dir.replace("daily", ""))
-                day_num = int(day_name)
-                date_obj = datetime(year_num, month_num, day_num).date()
-            except ValueError:
-                continue
+            for day_name in day_dirs:
+                day_path = f"docs/{year_dir}/{month_dir}/{day_name}"
+                files = list_github_directory(day_path)
 
-            date_str = date_obj.strftime("%Y.%m.%d")
-            label = f"{date_obj.month}월 {date_obj.day}일 데일리 뉴스"
-            url = f"{BASE_URL}/{year_dir}/{month_dir}/{day_name}/index.html"
+                has_index = any(
+                    f.get("type") == "file" and f.get("name") == "index.html"
+                    for f in files
+                )
+                if not has_index:
+                    continue
 
-            archive_items.append({
-                "label": label,
-                "date_str": date_str,
-                "url": url,
-                "insight": "",  # fallback에는 insight 없음
-                "edition": "daily",
-            })
+                # "2025daily" -> 2025, "12daily" -> 12
+                try:
+                    year_num = int(year_dir.replace("daily", ""))
+                    month_num = int(month_dir.replace("daily", ""))
+                    day_num = int(day_name)
+                    date_obj = datetime(year_num, month_num, day_num).date()
+                except ValueError:
+                    continue
 
+                date_str = date_obj.strftime("%Y.%m.%d")
+                label = f"{date_obj.month}월 {date_obj.day}일 데일리 뉴스"
+                url = f"{BASE_URL}/{year_dir}/{month_dir}/{day_name}/index.html"
 
+                archive_items.append({
+                    "label": label,
+                    "date_str": date_str,
+                    "url": url,
+                    "insight": "",  # fallback에는 insight 없음
+                    "edition": "daily",
+                })
 
     return archive_items
 
@@ -5930,10 +5932,8 @@ NEWSLETTER_ARCHIVE_BASE = load_existing_archive()
 # --- DAILY 라벨(일자 기준) ---
 today_date = now_kst.date()
 DAILY_LABEL = f"{target_date_kst.month}월 {target_date_kst.day}일"
+NEWSLETTER_DATE = datetime.combine(target_date_kst, datetime.min.time()).strftime("%Y.%m.%d")
 
-
-# 뉴스레터 업데이트 날짜도 한국 시간 기준으로
-NEWSLETTER_DATE = target_date_kst.strftime("%Y.%m.%d")
 
 
 # ============================================================
@@ -6576,7 +6576,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[ ]:
+# In[20]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -6643,7 +6643,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[ ]:
+# In[21]:
 
 
 # ============================
