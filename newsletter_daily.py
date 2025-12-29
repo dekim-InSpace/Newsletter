@@ -9,7 +9,7 @@
 
 # # **01-1 설치 & import**
 
-# In[23]:
+# In[39]:
 
 
 # ============================
@@ -49,7 +49,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[24]:
+# In[40]:
 
 
 # ============================
@@ -93,7 +93,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[25]:
+# In[41]:
 
 
 # ============================================================
@@ -118,7 +118,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (날짜, 주제, 키워드, 상수)**
 
-# In[26]:
+# In[42]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -159,29 +159,38 @@ from datetime import datetime, timedelta, timezone
 KST = timezone(timedelta(hours=9))
 now_kst = datetime.now(KST)
 
-# ✅ DAILY 기준일 = 어제 (KST)
+# ============================
+# 2. 날짜 자동 설정 (DAILY)
+# - 발행일 표기: 오늘(now_kst.date())
+# - 수집 범위: 어제 하루(target_date_kst)
+# ============================
+
+from datetime import datetime, timezone, timedelta
+
+KST = timezone(timedelta(hours=9))
+now_kst = datetime.now(KST)
+
+# 발행일(표기용) = 오늘
+publish_date_kst = now_kst.date()
+
+# 수집일(검색용) = 어제
 target_date_kst = now_kst.date() - timedelta(days=1)
 
-# ✅ DAILY 수집 범위: 어제 하루
+# 수집 범위(KST): 어제 00:00 ~ 23:59:59.999999
 start_date_kst = target_date_kst
 end_date_kst   = target_date_kst
 
-# KST → UTC 변환
-date_from_utc = datetime.combine(
-    start_date_kst, datetime.min.time()
-).replace(tzinfo=KST).astimezone(timezone.utc)
-
-date_to_utc = datetime.combine(
-    end_date_kst, datetime.max.time()
-).replace(tzinfo=KST).astimezone(timezone.utc)
+date_from_utc = datetime.combine(start_date_kst, datetime.min.time()).replace(tzinfo=KST).astimezone(timezone.utc)
+date_to_utc   = datetime.combine(end_date_kst,   datetime.max.time()).replace(tzinfo=KST).astimezone(timezone.utc)
 
 DATE_FROM = date_from_utc.strftime("%Y-%m-%d")
 DATE_TO   = date_to_utc.strftime("%Y-%m-%d")
 
 print("=" * 60)
-print(f"🕐 현재 KST 시간        : {now_kst.strftime('%Y-%m-%d %H:%M:%S')}")
-print(f"📅 검색 범위 (KST)      : {start_date_kst} (하루)")
-print(f"📅 검색 범위 (UTC)      : {date_from_utc.strftime('%Y-%m-%d %H:%M:%S')} ~ {date_to_utc.strftime('%Y-%m-%d %H:%M:%S')}")
+print(f"🕐 현재 KST 시간: {now_kst.strftime('%Y-%m-%d %H:%M:%S')}")
+print(f"📰 발행일(표기, KST): {publish_date_kst}")
+print(f"📅 수집 범위 (KST): {start_date_kst} (하루)")
+print(f"📅 수집 범위 (UTC): {DATE_FROM} ~ {DATE_TO}")
 print("=" * 60)
 
 
@@ -338,7 +347,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[27]:
+# In[43]:
 
 
 # ============================
@@ -1560,7 +1569,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[28]:
+# In[44]:
 
 
 # ============================
@@ -1617,7 +1626,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[29]:
+# In[45]:
 
 
 # ============================
@@ -1927,7 +1936,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[30]:
+# In[46]:
 
 
 # ============================
@@ -2050,7 +2059,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[31]:
+# In[47]:
 
 
 # ============================
@@ -2461,7 +2470,7 @@ print("\n" + "="*60 + "\n")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[32]:
+# In[48]:
 
 
 # ============================================
@@ -2898,7 +2907,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-2 최신 연구동향 추가**
 
-# In[33]:
+# In[49]:
 
 
 # ============================================
@@ -3236,7 +3245,7 @@ else:
 
 # # **07-1 썸네일 추출 (기본 썸네일 포함)**
 
-# In[34]:
+# In[50]:
 
 
 import re
@@ -3800,7 +3809,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **08-1 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[35]:
+# In[51]:
 
 
 # ============================
@@ -5929,11 +5938,11 @@ def load_existing_archive():
 NEWSLETTER_ARCHIVE_BASE = load_existing_archive()
 
 
-# --- DAILY 라벨(일자 기준) ---
-today_date = now_kst.date()
-DAILY_LABEL = f"{target_date_kst.month}월 {target_date_kst.day}일"
-NEWSLETTER_DATE = datetime.combine(target_date_kst, datetime.min.time()).strftime("%Y.%m.%d")
+# --- DAILY 라벨/업데이트(발행일 기준: 오늘) ---
+publish_date_kst = now_kst.date()  # ✅ 발행일(오늘)
 
+DAILY_LABEL = f"{publish_date_kst.month}월 {publish_date_kst.day}일"
+NEWSLETTER_DATE = datetime.combine(publish_date_kst, datetime.min.time()).strftime("%Y.%m.%d")
 
 
 # ============================================================
@@ -6576,7 +6585,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[36]:
+# In[52]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -6617,7 +6626,7 @@ if SEND_EMAIL:
 
 # 🔹 실제 메일 전송
 if SEND_EMAIL and TO_EMAILS:
-    SUBJECT = f"한컴인스페이스 {DAILY_LABEL} 뉴스레터 | {NEWSLETTER_DATE}"
+    SUBJECT = f"한컴인스페이스 {DAILY_LABEL} 일간 뉴스레터 | {NEWSLETTER_DATE}"
 
     with open("newsletter.html", "r", encoding="utf-8") as f:
         html_content = f.read()
@@ -6643,7 +6652,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[37]:
+# In[53]:
 
 
 # ============================
