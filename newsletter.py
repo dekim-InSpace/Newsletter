@@ -9,7 +9,7 @@
 
 # # **01-1 설치 & import**
 
-# In[8]:
+# In[ ]:
 
 
 # ============================
@@ -49,7 +49,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[9]:
+# In[ ]:
 
 
 # ============================
@@ -93,7 +93,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[10]:
+# In[ ]:
 
 
 # ============================================================
@@ -118,7 +118,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (날짜, 주제, 키워드, 상수)**
 
-# In[11]:
+# In[ ]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -131,7 +131,7 @@ client = OpenAI()
 # GitHub Pages 설정
 # ============================================================
 # GitHub 계정 아이디와 레포 이름
-GITHUB_OWNER = "hancom-inspace"              # 예: "junwoo0920"
+GITHUB_OWNER = "dekim-inspace"              # 예: "junwoo0920"
 GITHUB_REPO  = "Newsletter"    # GitHub에서 만든 레포 이름
 
 # GitHub Pages 최종 URL (Settings → Pages에 표시되는 주소)
@@ -338,7 +338,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[12]:
+# In[ ]:
 
 
 # ============================
@@ -1560,7 +1560,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[13]:
+# In[ ]:
 
 
 # ============================
@@ -1617,7 +1617,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[14]:
+# In[ ]:
 
 
 # ============================
@@ -1927,7 +1927,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[15]:
+# In[ ]:
 
 
 # ============================
@@ -2050,7 +2050,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[16]:
+# In[ ]:
 
 
 # ============================
@@ -2461,7 +2461,7 @@ print("\n" + "="*60 + "\n")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[17]:
+# In[ ]:
 
 
 # ============================================
@@ -2898,7 +2898,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-2 최신 연구동향 추가**
 
-# In[18]:
+# In[ ]:
 
 
 # ============================================
@@ -3236,7 +3236,7 @@ else:
 
 # # **07-1 썸네일 추출 (기본 썸네일 포함)**
 
-# In[19]:
+# In[ ]:
 
 
 import re
@@ -3800,7 +3800,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **08-1 인사이트 생성**
 
-# In[20]:
+# In[ ]:
 
 
 # ============================================================
@@ -4077,25 +4077,25 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[21]:
+# In[ ]:
 
 
 # ============================
 # 08-2. 카드/섹션 HTML + 더보기 페이지 + 최종 뉴스레터 HTML
 # ============================
-W_HEADER_BACKGROUND = "https://hancom-inspace.github.io/Newsletter/assets/hheader2.png"
-HLOGO_URL = "https://hancom-inspace.github.io/Newsletter/assets/hlogo.png"
+W_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/hheader2.png"
+HLOGO_URL = "https://dekim-inspace.github.io/Newsletter/assets/hlogo.png"
 
 # (NEW) 토픽별 더보기 페이지 헤더 이미지
 TOPIC_MORE_HEADER_BACKGROUNDS = {
-    1: "https://hancom-inspace.github.io/Newsletter/assets/header_geoint1.png",
-    2: "https://hancom-inspace.github.io/Newsletter/assets/header_aviation.png",
-    3: "https://hancom-inspace.github.io/Newsletter/assets/header_ai_platform1.png",
-    4: "https://hancom-inspace.github.io/Newsletter/assets/header_satellite.jpg",
+    1: "https://dekim-inspace.github.io/Newsletter/assets/header_geoint1.png",
+    2: "https://dekim-inspace.github.io/Newsletter/assets/header_aviation.png",
+    3: "https://dekim-inspace.github.io/Newsletter/assets/header_ai_platform1.png",
+    4: "https://dekim-inspace.github.io/Newsletter/assets/header_satellite.jpg",
 }
 
 # (NEW) 연구동향 더보기 페이지 헤더 이미지
-RESEARCH_MORE_HEADER_BACKGROUND = "https://hancom-inspace.github.io/Newsletter/assets/header_research2.png"
+RESEARCH_MORE_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/header_research2.png"
 
 
 if "weekly_focus_insight" not in globals() or not (weekly_focus_insight or "").strip():
@@ -5387,7 +5387,7 @@ def build_archive_page_html(archive_items):
         """ if insight else ""
 
         rows.append(f"""
-        <tr class="archive-row" data-year="{year_attr}" data-month="{month_attr}" data-edition="{edition}">
+        <tr class="archive-row" data-year="{year_attr}" data-month="{month_attr}">
           <td style="padding-bottom:16px;">
             <a href="{item['url']}" class="archive-card">
               <div class="archive-card-label">
@@ -5447,7 +5447,7 @@ def build_archive_page_html(archive_items):
     width: 100%;
     height: 100%;
     z-index: -4;              /* video(-3)보다 뒤로 */
-    background-image: url('https://hancom-inspace.github.io/Newsletter/assets/archive_bg_fallback1.png');
+    background-image: url('https://dekim-inspace.github.io/Newsletter/assets/archive_bg_fallback1.png');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -5636,8 +5636,6 @@ def build_archive_page_html(archive_items):
         <tr>
           <td>
             <div class="filter-wrap">
-              <!-- ✅ 디자인 유지: 기존 chips-row 그대로 사용 -->
-              <div id="edition-chips" class="chips-row"></div>
               <div id="year-chips" class="chips-row"></div>
               <div id="month-chips" class="chips-row"></div>
             </div>
@@ -5802,11 +5800,10 @@ def build_archive_page_html(archive_items):
     // 1) 연/월/edition 필터 — 없으면 필터만 스킵
     // =========================================================
     var rows = Array.prototype.slice.call(document.querySelectorAll('.archive-row'));
-    var editionContainer = document.getElementById('edition-chips');
     var yearContainer = document.getElementById('year-chips');
     var monthContainer = document.getElementById('month-chips');
 
-    if (!rows.length || !editionContainer || !yearContainer || !monthContainer) {{
+    if (!rows.length || !yearContainer || !monthContainer) {{
       return;
     }}
 
@@ -5842,27 +5839,6 @@ def build_archive_page_html(archive_items):
 
     monthContainer.style.display = 'none';
 
-    // -------------------------
-    // edition chips (전체/주간/데일리)
-    // -------------------------
-    function createEditionChip(value, label) {{
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'chip-base edition-chip';
-      btn.setAttribute('data-edition', value);
-      btn.textContent = label;
-
-      btn.addEventListener('click', function() {{
-        state.edition = value;
-        updateView();
-      }});
-
-      return btn;
-    }}
-
-    editionContainer.appendChild(createEditionChip('all', '전체'));
-    editionContainer.appendChild(createEditionChip('weekly', '주간'));
-    editionContainer.appendChild(createEditionChip('daily', '데일리'));
 
     // -------------------------
     // year/month chips (기존 로직 유지)
@@ -6019,13 +5995,13 @@ ARCHIVE_PAGE_PATH = "docs/archive.html"
 ARCHIVE_PAGE_URL = f"{BASE_URL}/archive.html"
 
 # ▼ 아카이브 상단 스크롤 비디오(mp4) 경로 (여기에 네 영상 URL 넣기)
-ARCHIVE_VIDEO_URL = "https://hancom-inspace.github.io/Newsletter/assets/archivebg_1.mp4"
+ARCHIVE_VIDEO_URL = "https://dekim-inspace.github.io/Newsletter/assets/archivebg_1.mp4"
 
 # ============================================================
 # ▼ (NEW) 메인 뉴스레터 배경 스크롤 비디오/대체 이미지 설정
 # ============================================================
-MAIN_BG_VIDEO_URL = "https://hancom-inspace.github.io/Newsletter/assets/mainbg1.mp4"  # ← 메인에 깔 영상
-MAIN_BG_FALLBACK_IMAGE_URL = "https://hancom-inspace.github.io/Newsletter/assets/main_bg_fallback.png"  # ← 모바일 대체 이미지
+MAIN_BG_VIDEO_URL = "https://dekim-inspace.github.io/Newsletter/assets/mainbg1.mp4"  # ← 메인에 깔 영상
+MAIN_BG_FALLBACK_IMAGE_URL = "https://dekim-inspace.github.io/Newsletter/assets/main_bg_fallback.png"  # ← 모바일 대체 이미지
 
 # fade/인터랙션 시작 스크롤 위치(px) (2~3번 스크롤 느낌으로 조정)
 MAIN_BG_FADE_START_PX = 200
@@ -6093,24 +6069,6 @@ def get_github_file_text(path_in_repo: str):
     except Exception:
         return None
 
-def infer_edition(item: dict) -> str:
-    """
-    archive.json에 edition 필드가 없던 과거 데이터 호환용.
-    url 또는 label로 daily/weekly를 추론.
-    """
-    if not isinstance(item, dict):
-        return "weekly"
-
-    url = (item.get("url") or "")
-    label = (item.get("label") or "")
-
-    # daily 경로 예: /2025daily/12daily/29/
-    if "daily" in url:
-        return "daily"
-    if "데일리" in label or "Daily" in label or "데일리 뉴스" in label:
-        return "daily"
-
-    return "weekly"
 
 def load_existing_archive():
     """
@@ -6215,8 +6173,8 @@ _ARCHIVE_OLD_REPOS = [
 
 def _get_repo_slug_from_base_url(base_url: str) -> str:
     """
-    BASE_URL이 예: https://hancom-inspace.github.io/Newsletter
-    또는      https://hancom-inspace.github.io/newsletter
+    BASE_URL이 예: https://dekim-inspace.github.io/Newsletter
+    또는      https://dekim-inspace.github.io/newsletter
     일 때 repo slug('Newsletter')를 추출
     """
     try:
@@ -6260,9 +6218,6 @@ def _normalize_archive_item(it: dict) -> dict:
     if not isinstance(it, dict):
         return {}
     out = dict(it)
-
-    if not out.get("edition"):
-        out["edition"] = infer_edition(out)
 
     if out.get("url"):
         out["url"] = _canonicalize_archive_url(out["url"])
@@ -6350,71 +6305,6 @@ def _scan_weekly_docs_for_archive() -> list:
 
     return items
 
-def _scan_daily_docs_for_archive() -> list:
-    """
-    daily 구조: docs/YYYYdaily/MMdaily/DD/index.html
-    """
-    items = []
-    docs_children = list_github_directory("docs")
-
-    year_dirs = [
-        item["name"]
-        for item in docs_children
-        if item.get("type") == "dir" and re.match(r"^\d{4}daily$", item.get("name", ""))
-    ]
-
-    for year_dir in year_dirs:
-        year_path = f"docs/{year_dir}"
-        month_children = list_github_directory(year_path)
-
-        month_dirs = [
-            m["name"]
-            for m in month_children
-            if m.get("type") == "dir" and re.match(r"^\d{2}daily$", m.get("name", ""))
-        ]
-
-        for month_dir in month_dirs:
-            month_path = f"docs/{year_dir}/{month_dir}"
-            day_children = list_github_directory(month_path)
-
-            day_dirs = [
-                d["name"]
-                for d in day_children
-                if d.get("type") == "dir" and (d.get("name", "").isdigit())
-            ]
-
-            for day_name in day_dirs:
-                day_path = f"docs/{year_dir}/{month_dir}/{day_name}"
-                files = list_github_directory(day_path)
-
-                has_index = any(
-                    f.get("type") == "file" and f.get("name") == "index.html"
-                    for f in files
-                )
-                if not has_index:
-                    continue
-
-                try:
-                    year_num = int(year_dir.replace("daily", ""))
-                    month_num = int(month_dir.replace("daily", ""))
-                    day_num = int(day_name)
-                    date_obj = datetime(year_num, month_num, day_num).date()
-                except Exception:
-                    continue
-
-                date_str = date_obj.strftime("%Y.%m.%d")
-                label = f"{date_obj.month}월 {date_obj.day}일 일간 뉴스레터"
-                url = f"{BASE_URL}/{year_dir}/{month_dir}/{day_name}/index.html"
-
-                items.append({
-                    "label": label,
-                    "date_str": date_str,
-                    "url": url,
-                    "insight": "",
-                    "edition": "daily",
-                })
-
-    return items
 
 def refresh_archive_items(existing_items: list) -> list:
     """
@@ -6438,7 +6328,7 @@ def refresh_archive_items(existing_items: list) -> list:
         if it.get("url"):
             idx_by_url[it["url"]] = it
 
-    scanned = _scan_weekly_docs_for_archive() + _scan_daily_docs_for_archive()
+    scanned = _scan_weekly_docs_for_archive()
 
     merged = []
     for s in scanned:
@@ -6530,7 +6420,7 @@ weekly_focus_html = f"""
                   box-shadow:0 10px 24px rgba(0,0,0,0.14);">
       <tr>
         <td style="
-            background-image:url('https://hancom-inspace.github.io/Newsletter/assets/insightcard2.png');
+            background-image:url('https://dekim-inspace.github.io/Newsletter/assets/insightcard2.png');
             background-size: cover;
             background-position: center;
             background-repeat:no-repeat;
@@ -6912,7 +6802,7 @@ newsletter_html = f"""
                   style="border-radius:12px;
                         overflow:hidden;
                         border:1px solid #e5e7eb;
-                        background-image:url('https://hancom-inspace.github.io/Newsletter/assets/archivebutton.png');
+                        background-image:url('https://dekim-inspace.github.io/Newsletter/assets/archivebutton.png');
                         background-size:cover;
                         background-position:center;
                         background-repeat:no-repeat;"
@@ -7191,7 +7081,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[22]:
+# In[ ]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -7258,7 +7148,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[23]:
+# In[ ]:
 
 
 # ============================
@@ -7574,7 +7464,7 @@ if _in_colab():
     import os, json, base64, requests
     from datetime import datetime, timezone, timedelta
 
-    GITHUB_OWNER = os.environ.get("GITHUB_OWNER", "HANCOM-InSpace")
+    GITHUB_OWNER = os.environ.get("GITHUB_OWNER", "dekim-inspace")
     GITHUB_REPO  = os.environ.get("GITHUB_REPO", "Newsletter")
     BRANCH       = os.environ.get("GITHUB_BRANCH", "main")
 
