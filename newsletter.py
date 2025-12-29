@@ -6183,7 +6183,7 @@ def load_existing_archive():
 
                 date_str = date_obj.strftime("%Y.%m.%d")
                 week_no = ((date_obj.day - 1) // 7) + 1
-                label = f"{date_obj.month}월 {week_no}주차 뉴스레터"
+                label = f"{date_obj.month}월 {week_no}주차 주간 뉴스레터"
                 url = f"{BASE_URL}/{year_name}/{month_name}/{day_name}/index.html"
 
                 archive_items.append({
