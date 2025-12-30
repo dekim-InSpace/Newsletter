@@ -9,7 +9,7 @@
 
 # # **01-1 설치 & import**
 
-# In[ ]:
+# In[12]:
 
 
 # ============================
@@ -49,7 +49,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[ ]:
+# In[13]:
 
 
 # ============================
@@ -65,6 +65,22 @@ import requests
 import pandas as pd
 import difflib
 import re
+from html import unescape
+
+def clean_text(text: str) -> str:
+    if not text:
+        return ""
+
+    # HTML 엔티티 복원
+    text = unescape(text)
+
+    # HTML 태그 제거
+    text = re.sub(r"<[^>]+>", " ", text)
+
+    # 공백 정리
+    text = re.sub(r"\s+", " ", text).strip()
+
+    return text
 
 from datetime import datetime, timedelta, timezone
 
@@ -93,7 +109,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[ ]:
+# In[14]:
 
 
 # ============================================================
@@ -118,7 +134,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (날짜, 주제, 키워드, 상수)**
 
-# In[ ]:
+# In[15]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -320,7 +336,11 @@ TOPIC_KEYWORDS = {
     ],
 }
 
-
+# ============================================================
+# 🌐 한컴인스페이스 뉴스 설정 (추가)
+# ============================================================
+INSPACE_NEWS_TOP_N = 3
+INSPACE_NEWS_MORE_PAGE_SIZE = 5
 
 # 1차 후보 개수 (토픽당 NewsAPI에서 넉넉히 가져오기)
 ARTICLES_PER_TOPIC_RAW = 100
@@ -338,7 +358,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[ ]:
+# In[16]:
 
 
 # ============================
@@ -1560,7 +1580,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[ ]:
+# In[17]:
 
 
 # ============================
@@ -1617,7 +1637,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[ ]:
+# In[18]:
 
 
 # ============================
@@ -1927,7 +1947,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[ ]:
+# In[19]:
 
 
 # ============================
@@ -2050,7 +2070,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[ ]:
+# In[20]:
 
 
 # ============================
@@ -2459,9 +2479,202 @@ for topic_num in [1, 2, 3, 4]:
 print("\n" + "="*60 + "\n")
 
 
+# # **06-1 한컴인스페이스 기사 추가**
+
+# In[22]:
+
+
+# ============================================================
+# 🌐 한컴인스페이스 관련 뉴스 수집
+# ============================================================
+print("▶ 한컴인스페이스 관련 뉴스 수집 시작")
+
+INSPACE_QUERY_TERMS = ["한컴인스페이스", "한컴 인스페이스", "Hancom InSpace", "HancomInSpace"]
+
+
+# ============================
+# 한컴인스페이스 전용 유틸 함수
+# (06-1 섹션에서 search_naver_inspace / collect_inspace_news보다 위에 있어야 함)
+# ============================
+import re
+from html import unescape
+
+def clean_text(text: str) -> str:
+    """네이버 뉴스 API title/description에 섞여있는 HTML 태그/엔티티 제거"""
+    if not text:
+        return ""
+    text = unescape(text)
+    text = re.sub(r"<[^>]+>", " ", text)      # <b>, <br> 등 제거
+    text = re.sub(r"\s+", " ", text).strip()  # 공백 정리
+    return text
+
+def normalize_text_for_fingerprint(text: str) -> str:
+    """제목 중복 제거용 fingerprint 정규화"""
+    if not text:
+        return ""
+    text = clean_text(text).lower()
+    text = re.sub(r"[^0-9a-z\uac00-\ud7a3\s]", " ", text)  # 한글/영문/숫자/공백만
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def search_naver_inspace(query: str, min_needed=20, max_calls=3):
+    """한컴인스페이스 전용 네이버 뉴스 검색"""
+    if not NAVER_CLIENT_ID or not NAVER_CLIENT_SECRET:
+        print("[WARN] 네이버 API 키 없음")
+        return []
+
+    headers = {
+        "X-Naver-Client-Id": NAVER_CLIENT_ID,
+        "X-Naver-Client-Secret": NAVER_CLIENT_SECRET
+    }
+
+    # 쿼리 정규화
+    q = re.sub(r"\s+", " ", query).strip()
+    if len(q) > 120:
+        q = q[:120]
+
+    url = "https://openapi.naver.com/v1/search/news.json"
+    results = []
+    start = 1
+    calls = 0
+
+    while calls < max_calls:
+        params = {"query": q, "display": 100, "start": start, "sort": "date"}
+        try:
+            r = requests.get(url, headers=headers, params=params, timeout=12)
+            r.raise_for_status()
+            data = r.json() or {}
+            items = data.get("items", []) or []
+        except Exception as e:
+            print(f"[WARN] 네이버 검색 실패: {e}")
+            break
+
+        calls += 1
+
+        for it in items:
+            try:
+                d = dateparser.parse(it.get("pubDate"))
+            except:
+                continue
+            if not d:
+                continue
+            if d.date() < start_date_kst or d.date() > end_date_kst:
+                continue
+
+            raw_url = (it.get("originallink") or it.get("link") or "").strip()
+            if not raw_url:
+                continue
+
+            # URL 정규화
+            try:
+                from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
+                p = urlparse(raw_url)
+                scheme = (p.scheme or "https").lower()
+                netloc = (p.netloc or "").lower()
+                drop_prefix = ("utm_",)
+                drop_keys = {"gclid", "fbclid", "mc_cid", "mc_eid", "igshid"}
+                qs = []
+                for k, v in parse_qsl(p.query, keep_blank_values=True):
+                    kl = k.lower()
+                    if any(kl.startswith(px) for px in drop_prefix):
+                        continue
+                    if kl in drop_keys:
+                        continue
+                    qs.append((k, v))
+                query_str = urlencode(qs, doseq=True)
+                norm_url = urlunparse((scheme, netloc, p.path or "", "", query_str, ""))
+            except:
+                norm_url = raw_url.strip()
+
+            # 출처 추출
+            try:
+                host = urlparse(norm_url).netloc.lower()
+                host = re.sub(r"^www\.", "", host)
+                host = re.sub(r"^m\.", "", host)
+                source = host or "source"
+            except:
+                source = "source"
+
+            results.append({
+                "title": clean_text(it.get("title", "")),
+                "subtitle": clean_text(it.get("description", "")),
+                "url": norm_url,
+                "published": d.strftime("%Y-%m-%d"),
+                "source": source
+            })
+
+        if len(results) >= min_needed:
+            break
+        if len(items) < 100:
+            break
+        start += 100
+        if start > 901:
+            break
+
+    return results
+
+def collect_inspace_news():
+    """한컴인스페이스 뉴스 수집 및 중복 제거"""
+    primary = "한컴인스페이스"
+    results = search_naver_inspace(primary, min_needed=50, max_calls=5)
+
+    if len(results) < 20:
+        fb_query = " ".join(INSPACE_QUERY_TERMS[1:])
+        fb = search_naver_inspace(fb_query, min_needed=20, max_calls=2)
+        results.extend(fb)
+
+    print(f"  - 총 수집: {len(results)}건")
+
+    # URL 중복 제거
+    seen_url = set()
+    unique = []
+    for a in results:
+        nu = a.get("url", "")
+        if not nu or nu in seen_url:
+            continue
+        seen_url.add(nu)
+        unique.append(a)
+
+    print(f"  - URL 중복 제거 후: {len(unique)}건")
+
+    # 제목 정규화 중복 제거
+    seen_title = {}
+    title_unique = []
+    for a in unique:
+        norm_t = normalize_text_for_fingerprint(a.get("title", ""))
+        if norm_t in seen_title:
+            existing = seen_title[norm_t]
+            if a.get("published", "") > existing.get("published", ""):
+                title_unique.remove(existing)
+                title_unique.append(a)
+                seen_title[norm_t] = a
+        else:
+            seen_title[norm_t] = a
+            title_unique.append(a)
+
+    print(f"  - 제목 중복 제거 후: {len(title_unique)}건")
+
+    # 최신순 정렬
+    title_unique.sort(key=lambda x: x.get("published", ""), reverse=True)
+
+    return title_unique
+
+# 수집 실행
+inspace_all_articles = collect_inspace_news()
+
+# TOP / MORE 분리
+inspace_top_articles = inspace_all_articles[:INSPACE_NEWS_TOP_N]
+inspace_more_articles = inspace_all_articles[INSPACE_NEWS_TOP_N:]
+
+print(f"  - 메인 TOP: {len(inspace_top_articles)}건")
+print(f"  - 추가 기사: {len(inspace_more_articles)}건")
+print("✓ 한컴인스페이스 뉴스 수집 완료")
+
+
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[ ]:
+# In[23]:
 
 
 # ============================================
@@ -2896,9 +3109,9 @@ def collect_research_articles_from_crossref(
     return collected
 
 
-# # **07-2 최신 연구동향 추가**
+# # **07-1 최신 연구동향 추가**
 
-# In[ ]:
+# In[24]:
 
 
 # ============================================
@@ -3234,14 +3447,34 @@ else:
     print("[알림] 연구동향 (CrossRef)에서 가져온 논문이 없습니다.")
 
 
-# # **07-1 썸네일 추출 (기본 썸네일 포함)**
+# # **07-2 썸네일 추출 (기본 썸네일 포함)**
 
-# In[ ]:
+# In[31]:
 
 
 import re
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse, parse_qs, unquote
+
+from urllib.parse import urljoin
+
+def extract_thumbnail_inspace(url: str) -> str:
+    """
+    한컴인스페이스 전용: 참고 파일 방식 그대로(og:image만)
+    """
+    try:
+        r = requests.get(url, timeout=8, headers={"User-Agent": "Mozilla/5.0"})
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+
+        og = soup.find("meta", property="og:image")
+        if og and og.get("content"):
+            # og:image가 상대경로로 오는 케이스 방어
+            return urljoin(url, og["content"].strip())
+    except Exception:
+        pass
+    return DEFAULT_THUMB
+
 
 def _is_google_host(host: str) -> bool:
     host = (host or "").lower()
@@ -3752,18 +3985,21 @@ def fetch_thumbnail(url, timeout=6):
 print("\n썸네일 추출 시작 (병렬 처리)...")
 
 def fetch_thumbnail_for_article(article_data):
-    """
-    단일 기사의 썸네일을 추출하는 함수
-    """
     topic_num, art = article_data
     news_url = art.get("url", "")
     try:
-        thumb = fetch_thumbnail(news_url)
+        # ✅ 한컴인스페이스는 참고 파일 방식(og:image만)으로 고정
+        if topic_num in ("inspace_top", "inspace_more"):
+            thumb = extract_thumbnail_inspace(news_url)
+        else:
+            thumb = fetch_thumbnail(news_url)
+
         art["thumbnail_url"] = thumb or DEFAULT_THUMB
         return True
-    except Exception as e:
+    except Exception:
         art["thumbnail_url"] = DEFAULT_THUMB
         return False
+
 
 # 모든 기사 리스트 수집
 all_articles = []
@@ -3774,6 +4010,15 @@ for topic_num in topic_main_articles:
 for topic_num in topic_extra_articles:
     for art in topic_extra_articles[topic_num]:
         all_articles.append((topic_num, art))
+
+# 🔥 추가: 한컴인스페이스 기사도 썸네일 추출 대상에 포함
+for art in inspace_top_articles:
+    all_articles.append(("inspace_top", art))
+
+for art in inspace_more_articles:
+    all_articles.append(("inspace_more", art))
+
+
 
 # 병렬 처리 실행
 total_articles = len(all_articles)
@@ -3798,9 +4043,88 @@ print(f"\n썸네일 추출 완료! 성공: {success}/{total_articles}개")
 print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canonical 추적)")
 
 
+# # **07-3 한컴인스페이스 TOP 기사 요약 생성**
+
+# In[32]:
+
+
+# ============================================================
+# 🌐 한컴인스페이스 TOP 기사 요약 생성
+# ============================================================
+print("▶ 한컴인스페이스 TOP 기사 요약 생성")
+
+def extract_article_body_for_summary(url):
+    """요약용 본문 추출"""
+    try:
+        r = requests.get(url, timeout=10, headers={"User-Agent": "Mozilla/5.0"})
+        soup = BeautifulSoup(r.text, "html.parser")
+        for tag in soup(["script", "style", "noscript", "header", "footer", "nav", "aside"]):
+            tag.decompose()
+        paragraphs = [
+            p.get_text(" ", strip=True)
+            for p in soup.find_all("p")
+            if len(p.get_text(strip=True)) > 50
+        ]
+        text = " ".join(paragraphs)
+        return text[:6000]
+    except:
+        return ""
+
+# TOP 기사 본문 추출
+for a in inspace_top_articles:
+    a["_body"] = extract_article_body_for_summary(a["url"])
+
+# GPT 요약 (기존 summarize_batch 함수 재사용)
+if client and inspace_top_articles:
+    batch = []
+    for i, a in enumerate(inspace_top_articles):
+        batch.append({
+            "id": f"inspace_{i}",
+            "title": a.get("title", ""),
+            "body": a.get("_body", "")[:5500]
+        })
+
+    # summarize_batch가 없으면 간단한 요약 생성
+    try:
+        system = "You are a precise business news analyst. Return ONLY valid JSON."
+        user = {
+            "task": "Summarize each article in Korean.",
+            "rules": ["각 기사별 3~4문장 핵심 요약", "객관적 정보 중심", "출력은 JSON만"],
+            "output_format": [{"id": "string", "summary": "string"}],
+            "articles": [{"id": it["id"], "title": it["title"], "body": it["body"]} for it in batch]
+        }
+        res = client.chat.completions.create(
+            model="gpt-4.1-mini",
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": json.dumps(user, ensure_ascii=False)}
+            ],
+            temperature=0.2,
+        )
+        raw = (res.choices[0].message.content or "").strip()
+        # JSON 파싱
+        start = raw.find("[")
+        end = raw.rfind("]") + 1
+        if start >= 0 and end > start:
+            data = json.loads(raw[start:end])
+            for row in data:
+                idx = int(row["id"].replace("inspace_", ""))
+                if 0 <= idx < len(inspace_top_articles):
+                    inspace_top_articles[idx]["summary"] = row.get("summary", "")
+        print("  - 한컴인스페이스 TOP 요약 완료")
+    except Exception as e:
+        print(f"  - 요약 실패: {e}")
+        for a in inspace_top_articles:
+            a["summary"] = ""
+
+# cleanup
+for a in inspace_top_articles:
+    a.pop("_body", None)
+
+
 # # **08-1 인사이트 생성**
 
-# In[ ]:
+# In[33]:
 
 
 # ============================================================
@@ -4077,7 +4401,7 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[ ]:
+# In[34]:
 
 
 # ============================
@@ -4097,6 +4421,8 @@ TOPIC_MORE_HEADER_BACKGROUNDS = {
 # (NEW) 연구동향 더보기 페이지 헤더 이미지
 RESEARCH_MORE_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/header_research2.png"
 
+# (NEW) 한컴인스페이스 기사 더보기 페이지 헤더 이미지
+INSPACE_NEWS_HEADER_BG = "https://dekim-inspace.github.io/Newsletter/assets/header_geoint1.png"
 
 if "weekly_focus_insight" not in globals() or not (weekly_focus_insight or "").strip():
     print("[INFO] weekly_focus_insight가 없어서 1회 생성합니다.")
@@ -4116,6 +4442,8 @@ TOPIC_MORE_FILENAMES = {
     3: "more_ai_platform.html",   # AI 데이터 플랫폼 전용 추가 기사
     4: "more_satellite.html",     # 위성 영상 전용 추가 기사
 }
+
+INSPACE_NEWS_MORE_FILENAME = "more-inspace.html"
 
 # 토픽별 추가 기사 페이지 헤더 타이틀
 TOPIC_MORE_TITLES = {
@@ -4392,6 +4720,466 @@ def build_sections_html(topic_main_articles, topic_extra_articles):
 """)
 
     return "".join(html_parts)
+
+def build_inspace_news_section_html(top_articles, more_articles, more_url):
+    """
+    🌐 한컴인스페이스 관련 뉴스 섹션 HTML
+    - 최신연구동향 섹션 다음에 배치
+    """
+    if not top_articles:
+        return ""
+
+    inner = []
+
+    # 섹션 제목
+    inner.append(f"""
+<div style="font-size:26px; font-weight:800; color:#111827;
+            margin-bottom:24px; line-height:1.3;">
+  🌐 한컴인스페이스 관련 뉴스
+</div>
+""")
+
+    # 메인 기사 카드
+    for art in top_articles:
+        thumb = art.get("thumbnail_url") or DEFAULT_THUMB
+        title = h(art.get("title", ""))
+        summary = h(art.get("summary", ""))
+        url = h(art.get("url", ""))
+        published = art.get("published", "")
+        source = art.get("source", "")
+
+        date_source = published
+        if source:
+            date_source = f"{published} · {source}"
+
+        inner.append(f"""
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td valign="top" width="135" style="padding:0;">
+            <a href="{url}" target="_blank" style="text-decoration:none;">
+              <img src="{h(thumb)}" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='{DEFAULT_THUMB}';">
+            </a>
+          </td>
+          <td valign="top" style="padding-left:6px;">
+            <div style="font-size:18px; font-weight:700; color:#111;
+                        margin-bottom:4px; line-height:1.35;">
+              {title}
+            </div>
+            <div style="font-size:12px; color:#888; margin-bottom:2px;">
+              {h(date_source)}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding-top:12px;">
+            <div style="font-size:14px; color:#333; line-height:1.8;">
+              {summary}
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+""")
+
+    # 추가 기사 버튼
+    if more_articles:
+        inner.append(f"""
+<div style="margin-top:12px; text-align:right;">
+  <a href="{h(more_url)}"
+     style="display:inline-block; font-size:13px; font-weight:600;
+            color:#111827; text-decoration:none;
+            padding:6px 12px; border-radius:999px;
+            border:1px solid #d1d5db; background:#ffffff;">
+    더 많은 기사 보기 →
+  </a>
+</div>
+""")
+    else:
+        inner.append("""
+<div style="margin-top:12px; text-align:right;">
+  <span style="display:inline-block; font-size:13px; font-weight:600;
+               color:#9ca3af;
+               padding:6px 12px; border-radius:999px;
+               border:1px solid #e5e7eb; background:#f9fafb;">
+    추가 기사가 없습니다
+  </span>
+</div>
+""")
+
+    body_html = "".join(inner)
+
+    return f"""
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:36px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:{CONTENT_WIDTH}px;
+                    background:#f9fafb;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;
+                    box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+        <tr>
+          <td>
+            {body_html}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+"""
+
+
+def build_inspace_more_page_html(more_articles, date_range, newsletter_date):
+    """
+    🌐 한컴인스페이스 추가 기사 페이지 HTML (기존 헤더 스타일 유지)
+    """
+    if not more_articles:
+        return ""
+
+    rows = []
+    for idx, art in enumerate(more_articles):
+        thumb = art.get("thumbnail_url") or DEFAULT_THUMB
+        title = h(art.get("title", ""))
+        subtitle = h(art.get("subtitle", ""))
+        url = h(art.get("url", ""))
+        published = art.get("published", "")
+
+        sub_block = ""
+        if subtitle:
+            sub_block = f'''
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          {subtitle}
+        </div>'''
+
+        rows.append(f"""
+              <tr class="inspace-article-row" data-index="{idx}">
+                <td style="padding:10px 0; border-bottom:1px solid #e5e7eb;">
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td valign="top" width="96" style="padding-right:8px;">
+                        <a href="{url}" target="_blank" style="text-decoration:none;">
+                          <img src="{h(thumb)}" width="80" height="80"
+                               style="display:block; border-radius:10px; object-fit:cover;"
+                               onerror="this.onerror=null; this.src='{DEFAULT_THUMB}';">
+                        </a>
+                      </td>
+                      <td valign="top">
+                        <div style="font-size:14px; line-height:1.5; margin-bottom:2px;">
+                          <a href="{url}" target="_blank"
+                             style="color:#111827; text-decoration:none;">
+                            {title}
+                          </a>
+                        </div>
+                        {sub_block}
+                        <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                          {h(published)}
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+        """)
+
+    table_html = f"""
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  {''.join(rows)}
+</table>
+"""
+
+    pager_html = f"""
+<div id="inspace-pagination"
+     style="display:flex;
+            justify-content:flex-end;
+            align-items:center;
+            font-size:14px;
+            color:#4b5563;
+            margin-bottom:12px;">
+  <span id="inspace-page-info" style="margin-right:14px;"></span>
+  <a href="#" id="inspace-prev"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;
+            margin-right:4px;">‹</a>
+  <a href="#" id="inspace-next"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;">›</a>
+</div>
+"""
+
+    body_inner = f"""
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:{CONTENT_WIDTH}px;
+                    background:#ffffff;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;">
+        <tr>
+          <td>
+            <div style="font-size:24px; font-weight:700; color:#111827;
+                        margin-bottom:16px;">
+              🌐 한컴인스페이스 추가 기사
+            </div>
+            {pager_html}
+            {table_html}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+"""
+
+    header_bg = INSPACE_NEWS_HEADER_BG
+
+    more_html = f"""
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+<title>한컴인스페이스 - 추가 기사</title>
+
+<style>
+  @media (max-width: 768px) {{
+    .hero-bg {{
+      background-position:center 0 !important;
+    }}
+    .hero-header-cell {{
+      padding: 14px 0 0 0 !important;
+    }}
+  }}
+
+  html, body {{
+    height: 100%;
+    margin: 0;
+  }}
+
+  body {{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background:#f3f4f6;
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","맑은 고딕",system-ui,sans-serif;
+  }}
+
+  .content-wrapper {{
+    flex: 1;
+  }}
+</style>
+
+</head>
+
+<body>
+
+  <!-- 헤더 -->
+  <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-image:url('{header_bg}');
+              background-size:cover;
+              background-position:center 52%;
+              background-repeat:no-repeat;">
+    <tr>
+      <td align="center" class="hero-header-cell"
+          bgcolor="#000000"
+          style="padding:8px 24px 8px 24px;
+                 background: linear-gradient(to bottom right,
+                             rgba(255,255,255,0.70),
+                             rgba(255,255,255,0.70));
+                 color:#ffffff;">
+
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="max-width:{CONTENT_WIDTH}px; width:100%;
+                      color:#000000; margin:0 auto;">
+
+          <tr>
+            <td style="padding:16px 24px 8px 24px;">
+              <table width="100%">
+                <tr>
+                  <td align="left">
+                    <img src="{HLOGO_URL}" style="max-width:110px; display:block;">
+                  </td>
+                  <td align="right"
+                      style="text-transform:uppercase; font-size:13px; font-weight:500;
+                             color:#000000;">
+                    WWW.INSPACE.CO.KR
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:12px 24px 12px 24px;
+                      font-size:28px; font-weight:700;
+                      font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
+                      color:#000000;">
+              한컴인스페이스 - 추가 기사
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:0 24px 48px 24px;
+                       font-size:14px; font-weight:500; opacity:0.9; line-height:1.5;
+                       color:#000000;">
+              {date_range}<br>
+              {WEEK_LABEL} 뉴스레터
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+  <div class="content-wrapper">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:{CONTENT_WIDTH}px; width:100%; margin:0 auto;">
+          <tr>
+            <td style="padding:0 16px 0 16px;">
+
+              <div style="padding-bottom:20px; text-align:left;">
+                <a href="{MAIN_PAGE_URL}"
+                  style="display:inline-block;
+                          font-size:13px;
+                          padding:6px 12px;
+                          border-radius:999px;
+                          background:#111827;
+                          color:#ffffff;
+                          text-decoration:none;">
+                  ← 메인 뉴스레터로 돌아가기
+                </a>
+              </div>
+
+              {body_inner}
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- 푸터 -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+        style="background:#1e293b; padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:{CONTENT_WIDTH}px; width:100%; margin:0 auto;">
+          <tr>
+            <td class="inner-padding"
+                style="padding:12px 16px;
+                      font-size:12px;
+                      color:#e2e8f0;
+                      text-align:center;
+                      line-height:1.6;">
+
+              본 메일은 한컴인스페이스 사내 구성원을 위한 주간 뉴스 브리핑입니다.<br>
+              외부로의 무단 전재 및 공유는 지양해 주시기 바랍니다.<br><br>
+              &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+  (function() {{
+    var PAGE_SIZE = {INSPACE_NEWS_MORE_PAGE_SIZE};
+    var rows = Array.prototype.slice.call(
+      document.querySelectorAll('.inspace-article-row')
+    );
+    var total = rows.length;
+    var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    var currentPage = 1;
+
+    var infoEl = document.getElementById('inspace-page-info');
+    var prevEl = document.getElementById('inspace-prev');
+    var nextEl = document.getElementById('inspace-next');
+
+    function render(page) {{
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+
+      var start = (currentPage - 1) * PAGE_SIZE;
+      var end = start + PAGE_SIZE;
+
+      rows.forEach(function(row, idx) {{
+        row.style.display = (idx >= start && idx < end) ? '' : 'none';
+      }});
+
+      if (infoEl) {{
+        var from = total === 0 ? 0 : start + 1;
+        var to = Math.min(end, total);
+        infoEl.textContent = from + '–' + to + ' of ' + total;
+      }}
+
+      if (prevEl) {{
+        prevEl.style.opacity = currentPage === 1 ? '0.3' : '1';
+        prevEl.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+      }}
+
+      if (nextEl) {{
+        nextEl.style.opacity = currentPage === totalPages ? '0.3' : '1';
+        nextEl.style.pointerEvents = currentPage === totalPages ? 'none' : 'auto';
+      }}
+    }}
+
+    if (prevEl) prevEl.addEventListener('click', function(e) {{
+      e.preventDefault();
+      render(currentPage - 1);
+    }});
+
+    if (nextEl) nextEl.addEventListener('click', function(e) {{
+      e.preventDefault();
+      render(currentPage + 1);
+    }});
+
+    render(1);
+  }})();
+  </script>
+
+</body>
+</html>
+"""
+    return more_html
+
+
 
 def build_research_section_html(main_articles, extra_articles, more_url):
     """
@@ -5987,6 +6775,7 @@ TOPIC_MORE_URLS = {
 }
 
 RESEARCH_MORE_URL = f"{BASE_URL}/{FOLDER_PATH}/{RESEARCH_MORE_FILENAME}"
+INSPACE_NEWS_MORE_URL = f"{BASE_URL}/{FOLDER_PATH}/{INSPACE_NEWS_MORE_FILENAME}"
 
 # ▼ 이전 뉴스레터 아카이브 페이지 설정
 ARCHIVE_PAGE_PATH = "docs/archive.html"
@@ -6397,6 +7186,14 @@ research_section_html = build_research_section_html(
 )
 
 sections_html = sections_html + research_section_html
+
+# 🔥 한컴인스페이스 뉴스 섹션 추가 (최신연구동향 다음)
+inspace_section_html = build_inspace_news_section_html(
+    inspace_top_articles,
+    inspace_more_articles,
+    INSPACE_NEWS_MORE_URL,
+)
+sections_html = sections_html + inspace_section_html
 
 
 weekly_focus_insight = generate_weekly_focus_insight(
@@ -6973,6 +7770,20 @@ with open("more_research.html", "w", encoding="utf-8") as f:
 
 print("more_research.html 저장 완료")
 
+# 🔥 한컴인스페이스 추가 기사 페이지 HTML 생성
+inspace_more_html = build_inspace_more_page_html(
+    inspace_more_articles,
+    date_range,
+    NEWSLETTER_DATE,
+)
+
+# 🔥 한컴인스페이스 추가 기사 페이지 저장
+if inspace_more_html:
+    with open(INSPACE_NEWS_MORE_FILENAME, "w", encoding="utf-8") as f:
+        f.write(inspace_more_html)
+    print(f"{INSPACE_NEWS_MORE_FILENAME} 저장 완료")
+
+
 print("newsletter.html 저장 완료")
 for topic_num, filename in TOPIC_MORE_FILENAMES.items():
     if topic_num in more_pages_html:
@@ -7068,6 +7879,11 @@ if research_more_html:
     commit_msg_research = f"Add newsletter research more: {FOLDER_PATH}"
     upload_file_to_github(research_repo_path, research_more_html, commit_msg_research)
 
+# 🔥 한컴인스페이스 추가 기사 페이지 업로드
+if inspace_more_html:
+    inspace_repo_path = f"docs/{FOLDER_PATH}/{INSPACE_NEWS_MORE_FILENAME}"
+    commit_msg_inspace = f"Add newsletter inspace more: {FOLDER_PATH}"
+    upload_file_to_github(inspace_repo_path, inspace_more_html, commit_msg_inspace)
 
 print("GitHub Pages 업로드 요청 완료")
 print("메인 페이지 URL:", MAIN_PAGE_URL)
@@ -7079,7 +7895,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[ ]:
+# In[35]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -7146,7 +7962,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[ ]:
+# In[36]:
 
 
 # ============================
