@@ -2481,7 +2481,7 @@ print("\n" + "="*60 + "\n")
 
 # # **06-1 한컴인스페이스 기사 추가**
 
-# In[32]:
+# In[43]:
 
 
 # ============================================================
@@ -2498,6 +2498,7 @@ INSPACE_QUERY_TERMS = ["한컴인스페이스", "한컴 인스페이스", "Hanco
 # ============================
 import re
 from html import unescape
+import hashlib
 
 def clean_text(text: str) -> str:
     """네이버 뉴스 API title/description에 섞여있는 HTML 태그/엔티티 제거"""
@@ -2508,10 +2509,10 @@ def clean_text(text: str) -> str:
     text = re.sub(r"\s+", " ", text).strip()  # 공백 정리
     return text
 
+
 # ============================================================
-# 🔥 한컴인스페이스 전용 중복 제거 유틸 (강화)
+# 🔥 한컴인스페이스 전용 중복 제거 유틸 (오판 방지 강화)
 # ============================================================
-import hashlib
 
 # 브랜드/노이즈 제거
 INSPACE_STOPWORDS = {
@@ -2535,7 +2536,7 @@ def _inspace_basic_norm(s: str) -> str:
     return s
 
 def normalize_text_for_fingerprint(s: str) -> str:
-    """제목 중복 제거용 fingerprint 정규화 (브랜드/불용어 제거)"""
+    """fingerprint 정규화 (브랜드/불용어 제거)"""
     s = _inspace_basic_norm(s)
     toks = []
     for x in s.split():
@@ -2550,21 +2551,17 @@ def normalize_text_for_fingerprint(s: str) -> str:
     return " ".join(toks)
 
 def normalize_title_for_inspace_dedup(title: str) -> str:
-    """제목 정규화 (중복 제거용) - 더 공격적"""
+    """제목 정규화 (중복 제거용) - 과도한 축약으로 인한 오판을 줄이되, 노이즈는 제거"""
     s = _inspace_basic_norm(title)
-    # 🔥 더 공격적인 불용어 제거
+
+    # NOTE: 너무 많은 단어를 제거하면 서로 다른 기사도 동일해질 수 있어,
+    #       기존보다 약간 덜 공격적으로 유지하되, 형식어/노이즈는 제거합니다.
     title_stopwords = INSPACE_STOPWORDS | {
-        # 형식적 단어
-        "동시", "수상", "나란히", "함께", "등", "및", "위한", "통해",
-        "대한", "으로", "에서", "이라", "라며", "했다", "밝혔다", "전했다",
-        "것으로", "알려졌다", "보도", "뉴스", "기사", "종합", "인정",
-        # 🔥 수상 관련 동의어 통일
-        "장관상", "부총리상", "총리상", "과기부", "과기정통부", "과학기술정보통신부",
-        "ai대상", "아시아ai대상", "아시아", "대상", "석권",
-        # 🔥 기술 관련 일반어
-        "기술력", "기술", "ai", "인공지능", "문서", "영상", "데이터",
-        "성과", "성과로", "입증"
+        "등", "및", "위한", "통해", "대한", "으로", "에서",
+        "이라", "라며", "했다", "밝혔다", "전했다",
+        "것으로", "알려졌다", "보도", "뉴스", "기사", "종합"
     }
+
     toks = []
     for x in s.split():
         if len(x) < 2:
@@ -2577,7 +2574,8 @@ def normalize_title_for_inspace_dedup(title: str) -> str:
         toks.append(x)
     return " ".join(toks)
 
-# 🔥 이벤트 시그니처 기반 중복 제거
+
+# 🔥 이벤트 시그니처 기반 중복 제거 (오판 방지: 단독 판정 금지)
 EVENT_SIGNATURES = {
     frozenset({"장관상", "수상"}): "장관상수상",
     frozenset({"부총리상", "수상"}): "장관상수상",
@@ -2598,13 +2596,14 @@ def extract_event_signature(title: str) -> str:
         if key_set.issubset(words):
             return event_name
 
-    # 🔥 동적 패턴 매칭
+    # 동적 패턴
     if any(w in norm for w in ["장관상", "부총리상", "총리상"]) and "수상" in norm:
         return "장관상수상"
     if "ai" in norm and "대상" in norm:
         return "AI대상수상"
 
     return ""
+
 
 # 🔥 제목 유사도 계산
 def title_similarity(t1: str, t2: str) -> float:
@@ -2618,14 +2617,13 @@ def title_similarity(t1: str, t2: str) -> float:
     b2 = _inspace_basic_norm(t2)
 
     scores = []
-
     if n1 and n2:
         scores.append(difflib.SequenceMatcher(None, n1, n2).ratio())
-
     if b1 and b2:
         scores.append(difflib.SequenceMatcher(None, b1, b2).ratio())
 
     return max(scores) if scores else 0.0
+
 
 # 🔥 키워드 추출 및 겹침 비율
 def extract_title_keywords(title: str) -> set:
@@ -2642,31 +2640,32 @@ def extract_title_keywords(title: str) -> set:
         xc = x.replace(" ", "")
         if x in INSPACE_BRAND_TOKENS or xc in _INSPACE_BRAND_COMPACT:
             continue
+        if x in INSPACE_STOPWORDS:
+            continue
         kw_basic.add(x)
 
     return kw_norm | kw_basic
 
 def keyword_overlap_ratio(t1: str, t2: str) -> float:
-    """두 제목의 키워드 겹침 비율 (Jaccard 유사도)"""
+    """두 제목의 키워드 겹침 비율 (Jaccard)"""
     kw1 = extract_title_keywords(t1)
     kw2 = extract_title_keywords(t2)
 
     if not kw1 or not kw2:
         return 0.0
 
-    intersection = kw1 & kw2
-    union = kw1 | kw2
+    inter = kw1 & kw2
+    uni = kw1 | kw2
+    return len(inter) / len(uni) if uni else 0.0
 
-    return len(intersection) / len(union) if union else 0.0
 
 # 🔥 SimHash 구현 (64-bit)
 SIMHASH_BITS = 64
-HAMMING_THRESHOLD = 10
+HAMMING_THRESHOLD = 10  # 너무 작으면 중복을 놓치고, 너무 크면 오판이 늘어납니다.
 
 def _tokenize_for_simhash(text: str) -> list:
     text = normalize_text_for_fingerprint(text)
-    toks = [t for t in text.split() if len(t) >= 2]
-    return toks
+    return [t for t in text.split() if len(t) >= 2]
 
 def _hash64(token: str) -> int:
     h = hashlib.md5(token.encode("utf-8")).digest()
@@ -2697,6 +2696,7 @@ def is_simhash_duplicate(hash_a: int, hash_b: int, threshold: int = HAMMING_THRE
     if hash_a == 0 or hash_b == 0:
         return False
     return hamming_distance64(hash_a, hash_b) <= threshold
+
 
 # 🔥 리드(본문 1~2문단) 추출
 LEAD_CHARS = 1200
@@ -2729,9 +2729,55 @@ def extract_article_lead(url: str) -> str:
     except:
         return ""
 
-# 🔥 중복 판단 임계값
-TITLE_SIM_THRESHOLD = 0.55
-KEYWORD_OVERLAP_THRESHOLD = 0.50
+
+# ============================================================
+# ✅ 중복 판단 규칙(오판 방지 버전)
+# - keyword_overlap만으로는 중복 판정하지 않음
+# - event_signature만으로도 중복 판정하지 않음(보조 근거 필요)
+# - simhash도 단독 판정하지 않음(제목/키워드 근거 필요)
+# ============================================================
+TITLE_SIM_STRONG = 0.78
+TITLE_SIM_MEDIUM = 0.62
+KW_OVERLAP_STRONG = 0.82
+KW_OVERLAP_MEDIUM = 0.60
+
+def _is_inspace_duplicate(a: dict, b: dict) -> str:
+    """a가 b의 중복인지 판단. 중복이면 reason 문자열, 아니면 빈 문자열."""
+    title_a = a.get("title", "") or ""
+    title_b = b.get("title", "") or ""
+
+    t_sim = title_similarity(title_a, title_b)
+    kw_overlap = keyword_overlap_ratio(title_a, title_b)
+
+    sim_dup = is_simhash_duplicate(a.get("_simhash", 0), b.get("_simhash", 0), threshold=HAMMING_THRESHOLD)
+
+    event_a = a.get("_event_sig", "") or ""
+    event_b = b.get("_event_sig", "") or ""
+
+    # 0) 이벤트 시그니처: 단독 판정 금지 → 최소한의 보조 근거 필요
+    if event_a and event_b and event_a == event_b:
+        if (t_sim >= 0.35) or (kw_overlap >= 0.35) or sim_dup:
+            return "same_event"
+
+    # 1) 제목이 매우 유사하면 바로 중복
+    if t_sim >= TITLE_SIM_STRONG:
+        return "title_sim_strong"
+
+    # 2) SimHash가 가깝더라도 단독 판정하지 않고,
+    #    제목/키워드 중 하나가 일정 수준 이상일 때만 중복
+    if sim_dup and (t_sim >= 0.40 or kw_overlap >= KW_OVERLAP_MEDIUM):
+        return "simhash"
+
+    # 3) 키워드 겹침은 “강한 겹침 + 제목 중간 이상” 조합에서만 중복
+    #    (키워드만 겹치는 서로 다른 기사 오판 방지)
+    if kw_overlap >= KW_OVERLAP_STRONG and t_sim >= 0.50:
+        return "keyword_overlap_strong"
+
+    # 4) 제목이 중간 이상 유사 + 키워드도 중간 이상이면 중복
+    if t_sim >= TITLE_SIM_MEDIUM and kw_overlap >= KW_OVERLAP_MEDIUM:
+        return "title_and_keyword"
+
+    return ""
 
 
 def search_naver_inspace(query: str, min_needed=20, max_calls=3):
@@ -2805,6 +2851,7 @@ def search_naver_inspace(query: str, min_needed=20, max_calls=3):
 
             # 출처 추출
             try:
+                from urllib.parse import urlparse
                 host = urlparse(norm_url).netloc.lower()
                 host = re.sub(r"^www\.", "", host)
                 host = re.sub(r"^m\.", "", host)
@@ -2830,8 +2877,9 @@ def search_naver_inspace(query: str, min_needed=20, max_calls=3):
 
     return results
 
+
 def collect_inspace_news():
-    """한컴인스페이스 뉴스 수집 및 중복 제거 (강화)"""
+    """한컴인스페이스 뉴스 수집 및 중복 제거 (오판 방지 강화 버전)"""
     primary = "한컴인스페이스"
     results = search_naver_inspace(primary, min_needed=50, max_calls=5)
 
@@ -2858,19 +2906,27 @@ def collect_inspace_news():
 
     print(f"  - URL 중복 제거 후: {len(unique)}건")
 
-    # 2) 제목 완전 동일 제거 (정규화 후 동일)
+    # 2) 제목 완전 동일 제거 (정규화 후 동일) - 최신 기사로 교체
     seen_norm_title = {}
     title_unique = []
     exact_title_dup = 0
     for a in unique:
         norm_t = normalize_title_for_inspace_dedup(a.get("title", ""))
+        if not norm_t:
+            # 제목이 비정상적으로 비었으면 그대로 보존
+            title_unique.append(a)
+            continue
+
         if norm_t in seen_norm_title:
             existing = seen_norm_title[norm_t]
-            # 더 최신 기사로 교체
             existing_date = existing.get("published", "")
             new_date = a.get("published", "")
             if new_date > existing_date:
-                title_unique.remove(existing)
+                # 최신으로 교체
+                try:
+                    title_unique.remove(existing)
+                except ValueError:
+                    pass
                 title_unique.append(a)
                 seen_norm_title[norm_t] = a
             exact_title_dup += 1
@@ -2887,6 +2943,7 @@ def collect_inspace_news():
     def _fetch_lead(a):
         lead = extract_article_lead(a["url"])
         a["_lead"] = lead
+        a["_lead_ok"] = True if (lead and len(lead) >= LEAD_MIN_CHARS) else False
         return a
 
     from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -2900,12 +2957,14 @@ def collect_inspace_news():
             if done % 10 == 0 or done == len(unique):
                 print(f"    · 리드 추출 진행: {done}/{len(unique)}")
 
-    ok_leads = sum(1 for a in unique if len(a.get("_lead","")) >= LEAD_MIN_CHARS)
+    ok_leads = sum(1 for a in unique if a.get("_lead_ok"))
     print(f"  - 리드 유효(>= {LEAD_MIN_CHARS}자): {ok_leads}/{len(unique)}")
 
     # 4) SimHash 계산 + 이벤트 시그니처 계산
     for a in unique:
         lead = a.get("_lead", "") or ""
+        # 리드가 충분하지 않으면 title+subtitle로 보강하되,
+        # 이때 simhash의 신뢰도가 낮아지므로 이후 중복판정에서 단독 사용하지 않도록 설계됨.
         if len(lead) < LEAD_MIN_CHARS:
             lead = f"{a.get('title','')} {a.get('subtitle','')}"
         a["_simhash"] = simhash64(lead)
@@ -2914,69 +2973,45 @@ def collect_inspace_news():
     # 5) 최신 날짜 순 정렬
     unique.sort(key=lambda x: x.get("published", ""), reverse=True)
 
-    # 6) 통합 중복 제거
+    # 6) 통합 중복 제거 (오판 방지 규칙 적용)
     deduped = []
-    dup_stats = {"same_event": 0, "title_sim": 0, "keyword_overlap": 0, "simhash": 0}
+    dup_stats = {
+        "same_event": 0,
+        "title_sim_strong": 0,
+        "simhash": 0,
+        "keyword_overlap_strong": 0,
+        "title_and_keyword": 0,
+    }
 
     for a in unique:
-        duplicated = False
-        dup_reason = ""
-
+        reason = ""
         for b in deduped:
-            title_a = a.get("title", "")
-            title_b = b.get("title", "")
-
-            # 동일 이벤트 체크
-            event_a = a.get("_event_sig", "")
-            event_b = b.get("_event_sig", "")
-            if event_a and event_b and event_a == event_b:
-                duplicated = True
-                dup_reason = "same_event"
+            reason = _is_inspace_duplicate(a, b)
+            if reason:
                 break
 
-            # 1) 제목 유사도 체크
-            t_sim = title_similarity(title_a, title_b)
-            if t_sim >= TITLE_SIM_THRESHOLD:
-                duplicated = True
-                dup_reason = "title_sim"
-                break
-
-            # 2) 키워드 겹침 체크
-            kw_overlap = keyword_overlap_ratio(title_a, title_b)
-            if kw_overlap >= KEYWORD_OVERLAP_THRESHOLD:
-                duplicated = True
-                dup_reason = "keyword_overlap"
-                break
-
-            # 3) SimHash 체크
-            if is_simhash_duplicate(a.get("_simhash",0), b.get("_simhash",0), threshold=HAMMING_THRESHOLD):
-                duplicated = True
-                dup_reason = "simhash"
-                break
-
-        if duplicated:
-            dup_stats[dup_reason] = dup_stats.get(dup_reason, 0) + 1
+        if reason:
+            dup_stats[reason] = dup_stats.get(reason, 0) + 1
         else:
             deduped.append(a)
 
     # cleanup
     for a in deduped:
         a.pop("_lead", None)
+        a.pop("_lead_ok", None)
         a.pop("_simhash", None)
         a.pop("_event_sig", None)
 
     total_dup = sum(dup_stats.values())
     print(f"  - 통합 중복 제거 수: {total_dup}")
-    print(f"    · 동일 이벤트: {dup_stats.get('same_event', 0)}")
-    print(f"    · 제목 유사도: {dup_stats.get('title_sim', 0)}")
-    print(f"    · 키워드 겹침: {dup_stats.get('keyword_overlap', 0)}")
-    print(f"    · SimHash: {dup_stats.get('simhash', 0)}")
+    for k, v in dup_stats.items():
+        print(f"    · {k}: {v}")
     print(f"  - 최종 기사 수: {len(deduped)}")
 
     # 최신순 정렬
     deduped.sort(key=lambda x: x.get("published", ""), reverse=True)
-
     return deduped
+
 
 # 수집 실행
 inspace_all_articles = collect_inspace_news()
@@ -2992,7 +3027,7 @@ print("✓ 한컴인스페이스 뉴스 수집 완료")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[33]:
+# In[44]:
 
 
 # ============================================
@@ -3429,7 +3464,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-1 최신 연구동향 추가**
 
-# In[34]:
+# In[45]:
 
 
 # ============================================
@@ -3767,7 +3802,7 @@ else:
 
 # # **07-2 썸네일 추출 (기본 썸네일 포함)**
 
-# In[35]:
+# In[46]:
 
 
 import re
@@ -4363,7 +4398,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **07-3 한컴인스페이스 TOP 기사 요약 생성**
 
-# In[36]:
+# In[47]:
 
 
 # ============================================================
@@ -4442,7 +4477,7 @@ for a in inspace_top_articles:
 
 # # **08-1 인사이트 생성**
 
-# In[37]:
+# In[48]:
 
 
 # ============================================================
@@ -4719,7 +4754,7 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[38]:
+# In[49]:
 
 
 # ============================
@@ -8253,7 +8288,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[39]:
+# In[50]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -8320,7 +8355,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[40]:
+# In[51]:
 
 
 # ============================
