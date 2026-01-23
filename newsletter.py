@@ -9,7 +9,7 @@
 
 # # **01-1 GitHub 연동 설정 (Colab 전용)**
 
-# In[22]:
+# In[2]:
 
 
 # ============================
@@ -49,7 +49,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[23]:
+# In[3]:
 
 
 # ============================
@@ -109,7 +109,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[24]:
+# In[4]:
 
 
 # ============================================================
@@ -134,7 +134,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (기본 설정, 날짜, 수집 기간, 이미지)**
 
-# In[25]:
+# In[5]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -233,7 +233,7 @@ TOPIC_KEYWORDS = {
         "geospatial surveillance", "geospatial AI",
         "spatial analytics", "geospatial platform",
         "GIS software", "geospatial data platform",
-        "digital twin GIS", "smart city GIS",
+        "digital twin GIS", "smart city GIS", "remote sensing",
 
         # KR 보강
         "지리공간 정보", "지리공간정보", "공간정보",
@@ -245,7 +245,7 @@ TOPIC_KEYWORDS = {
         "국토지리정보", "국토지리정보원",
         "측량", "측량 기술", "지적", "디지털 트윈", "디지털트윈",
         "스마트시티", "공간 빅데이터", "공간빅데이터",
-        "오픈소스 GIS",
+        "오픈소스 GIS", "원격탐사",
     ],
 
     2: [
@@ -260,7 +260,8 @@ TOPIC_KEYWORDS = {
         "drone traffic management", "UTM",
         "counter drone", "anti-drone",
         "eVTOL", "AAM",
-        "drone swarm", "drone security",
+        "drone swarm", "drone security", "drone in a box",
+        "drone station", "dock", "VTOL",
 
         # KR 보강
         "드론", "드론 산업", "드론산업",
@@ -269,12 +270,12 @@ TOPIC_KEYWORDS = {
         "도심 항공 모빌리티", "도심항공모빌리티",
         "UAM 규제", "UAM", "AAM", "미래항공모빌리티",
         "드론 규제", "드론 안전", "드론 인증",
-        "BVLOS", "시계외 비행", "시계외비행",
+        "BVLOS", "비가시권 비행", "시계외비행",
         "드론 배송", "드론택배",
         "드론 점검", "드론 검사", "시설물 점검 드론",
         "드론 감시", "드론 정찰", "드론 방산", "드론 방어",
         "드론 관제", "드론교통관리", "UTM",
-        "K-드론", "드론 실증", "드론특별자유화",
+        "K-드론", "드론 실증", "드론특별자유화", "드론스테이션",
     ],
 
     3: [
@@ -358,7 +359,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[26]:
+# In[6]:
 
 
 # ============================
@@ -1580,7 +1581,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[27]:
+# In[7]:
 
 
 # ============================
@@ -1637,7 +1638,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[28]:
+# In[8]:
 
 
 # ============================
@@ -1650,7 +1651,7 @@ SYSTEM_PROMPT_STRICT = """
 
 [주제 범위]
 1) GeoINT / 지리공간 정보 / 위성정보 / 지도데이터 분석
-2) 드론 / UAV / UAM 산업 및 기술
+2) 드론 / UAV / UAM / 드론스테이션 산업 및 기술
 3) AI 데이터·분석 플랫폼 / MLOps / 자동화·엔터프라이즈 AI 인프라
    뿐만 아니라, 다음과 같은 내용도 모두 3번으로 포함합니다.
    - 엔터프라이즈/산업 분야의 AI 도입·전략·거버넌스
@@ -1947,7 +1948,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[29]:
+# In[9]:
 
 
 # ============================
@@ -2070,7 +2071,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[30]:
+# In[10]:
 
 
 # ============================
@@ -2481,7 +2482,7 @@ print("\n" + "="*60 + "\n")
 
 # # **06-1 한컴인스페이스 기사 추가**
 
-# In[31]:
+# In[11]:
 
 
 # ============================================================
@@ -3027,7 +3028,7 @@ print("✓ 한컴인스페이스 뉴스 수집 완료")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[32]:
+# In[12]:
 
 
 # ============================================
@@ -3464,7 +3465,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-1 최신 연구동향 추가**
 
-# In[33]:
+# In[13]:
 
 
 # ============================================
@@ -3802,7 +3803,7 @@ else:
 
 # # **07-2 썸네일 추출 (기본 썸네일 포함)**
 
-# In[34]:
+# In[14]:
 
 
 import re
@@ -4398,7 +4399,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **07-3 한컴인스페이스 TOP 기사 요약 생성**
 
-# In[35]:
+# In[15]:
 
 
 # ============================================================
@@ -4477,7 +4478,7 @@ for a in inspace_top_articles:
 
 # # **08-1 인사이트 생성**
 
-# In[36]:
+# In[16]:
 
 
 # ============================================================
@@ -4579,7 +4580,7 @@ def generate_weekly_focus_insight(
         "5) 변화의 의미가 드러나도록 "
         "   '기술 → 전략', '도구 → 인프라', '운영 → 거버넌스'와 같은 전환 관점을 포함합니다. "
         "6) 특정 기업이나 조직(한컴인스페이스 등)을 직접 지칭하지 않습니다. "
-        "7) 존댓말 서술형으로 5~8문장으로 작성합니다. 각 문장은 줄바꿈으로 분리해 한 줄에 한 문장만 씁니다. "
+        "7) 존댓말 서술형으로 3~5문장으로 작성합니다. 각 문장은 줄바꿈으로 분리해 한 줄에 한 문장만 씁니다. "
         "   (불릿/번호/라벨/콜론 사용 금지, 빈 줄 금지) "
         "8) 문장 역할(순서)을 다음 흐름으로 구성합니다: "
         "   (1) 이번 주 핵심 변화(현상/결론) "
@@ -4754,14 +4755,15 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[37]:
+# In[17]:
 
 
+# @title
 # ============================
 # 08-2. 카드/섹션 HTML + 더보기 페이지 + 최종 뉴스레터 HTML
 # ============================
 # W_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/USA_Sejong21.jpg"
-W_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/Newsletter_Image6.jpg"
+W_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/Newsletter_Image7.jpg"
 HLOGO_URL = "https://dekim-inspace.github.io/Newsletter/assets/hlogo.png"
 
 # (NEW) 토픽별 더보기 페이지 헤더 이미지
@@ -5467,8 +5469,8 @@ def build_inspace_more_page_html(more_articles, date_range, newsletter_date):
                       text-align:center;
                       line-height:1.6;">
 
-              본 메일은 한컴인스페이스 사내 구성원을 위한 주간 뉴스 브리핑입니다.<br>
-              외부로의 무단 전재 및 공유는 지양해 주시기 바랍니다.<br><br>
+              InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
               &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
             </td>
@@ -5974,8 +5976,8 @@ def build_more_page_html(topic_extra_articles, date_range, newsletter_date, head
                       text-align:center;
                       line-height:1.6;">
 
-              본 메일은 한컴인스페이스 사내 구성원을 위한 주간 동향 뉴스 브리핑입니다.<br>
-              외부로의 무단 전재 및 공유는 지양해 주시기 바랍니다.<br><br>
+              InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
               &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
             </td>
@@ -6433,8 +6435,8 @@ def build_research_more_page_html(extra_articles, date_range, newsletter_date, h
                       text-align:center;
                       line-height:1.6;">
 
-              본 메일은 한컴인스페이스 사내 구성원을 위한 주간 동향 뉴스 브리핑입니다.<br>
-              외부로의 무단 전재 및 공유는 지양해 주시기 바랍니다.<br><br>
+              InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
               &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
             </td>
@@ -7907,6 +7909,7 @@ newsletter_html = f"""
 
 <!-- 헤더 -->
 
+
 <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
        style="background-image:url('{W_HEADER_BACKGROUND}');
               background-size:cover;
@@ -7957,7 +7960,7 @@ newsletter_html = f"""
         <tr>
           <td align="center" class="inner-padding sub-title"
               style="padding:0 24px 8px 24px;
-                     font-size:15px; font-weight:550;
+                     font-size:15px; font-weight:700;
                      color:#000000; ;">
             {date_range}
           </td>
@@ -7968,12 +7971,12 @@ newsletter_html = f"""
             <table width="100%">
               <tr>
                 <td></td>
-                <td align="right"
-                    style="font-size:15px; line-height:1.6; font-weight:550;
-                           color:#000000; ;">
-                  한컴 인스페이스<br>{WEEK_LABEL} 뉴스레터
+                <td align="right" style="font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+                           font-size:15px; line-height:1.6; font-weight:800;
+                           color:#000000; text-shadow: -2px -2px 0 #ffffff, 2px -2px 0 #ffffff, -2px 2px 0 #ffffff, 2px 2px 0 #ffffff;">
+                  한컴인스페이스<br>{WEEK_LABEL} 뉴스레터
                   <div style="margin-top:4px; letter-spacing:0.14em;
-                              color:#000000; ;">
+                              color:#000000; font-weight:800; ;">
                     업데이트: {NEWSLETTER_DATE}
                   </div>
                 </td>
@@ -8055,8 +8058,8 @@ newsletter_html = f"""
                      text-align:center;
                      line-height:1.6;">
 
-            본 메일은 한컴인스페이스 사내 구성원을 위한 주간 동향 뉴스 브리핑입니다.<br>
-            외부로의 무단 전재 및 공유는 지양해 주시기 바랍니다.<br><br>
+            InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+            본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
             &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
           </td>
@@ -8304,7 +8307,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[38]:
+# In[18]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -8371,7 +8374,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[39]:
+# In[19]:
 
 
 # ============================
