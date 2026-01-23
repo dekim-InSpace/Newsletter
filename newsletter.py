@@ -9,7 +9,7 @@
 
 # # **01-1 GitHub 연동 설정 (Colab 전용)**
 
-# In[2]:
+# In[34]:
 
 
 # ============================
@@ -49,7 +49,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[3]:
+# In[35]:
 
 
 # ============================
@@ -109,7 +109,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[4]:
+# In[36]:
 
 
 # ============================================================
@@ -134,7 +134,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (기본 설정, 날짜, 수집 기간, 이미지)**
 
-# In[5]:
+# In[37]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -359,7 +359,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[6]:
+# In[38]:
 
 
 # ============================
@@ -1581,7 +1581,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[7]:
+# In[39]:
 
 
 # ============================
@@ -1638,7 +1638,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[8]:
+# In[40]:
 
 
 # ============================
@@ -1948,7 +1948,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[9]:
+# In[41]:
 
 
 # ============================
@@ -2071,7 +2071,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[10]:
+# In[42]:
 
 
 # ============================
@@ -2482,7 +2482,7 @@ print("\n" + "="*60 + "\n")
 
 # # **06-1 한컴인스페이스 기사 추가**
 
-# In[11]:
+# In[43]:
 
 
 # ============================================================
@@ -3028,7 +3028,7 @@ print("✓ 한컴인스페이스 뉴스 수집 완료")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[12]:
+# In[44]:
 
 
 # ============================================
@@ -3465,7 +3465,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-1 최신 연구동향 추가**
 
-# In[13]:
+# In[45]:
 
 
 # ============================================
@@ -3803,7 +3803,7 @@ else:
 
 # # **07-2 썸네일 추출 (기본 썸네일 포함)**
 
-# In[14]:
+# In[46]:
 
 
 import re
@@ -4399,7 +4399,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **07-3 한컴인스페이스 TOP 기사 요약 생성**
 
-# In[15]:
+# In[47]:
 
 
 # ============================================================
@@ -4478,7 +4478,7 @@ for a in inspace_top_articles:
 
 # # **08-1 인사이트 생성**
 
-# In[16]:
+# In[48]:
 
 
 # ============================================================
@@ -4755,7 +4755,7 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[17]:
+# In[49]:
 
 
 # @title
@@ -4763,7 +4763,7 @@ print("="*60 + "\n")
 # 08-2. 카드/섹션 HTML + 더보기 페이지 + 최종 뉴스레터 HTML
 # ============================
 # W_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/USA_Sejong21.jpg"
-W_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/Newsletter_Image7.jpg"
+W_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/Newsletter_Image7.png"
 HLOGO_URL = "https://dekim-inspace.github.io/Newsletter/assets/hlogo.png"
 
 # (NEW) 토픽별 더보기 페이지 헤더 이미지
@@ -7913,7 +7913,7 @@ newsletter_html = f"""
 <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
        style="background-image:url('{W_HEADER_BACKGROUND}');
               background-size:cover;
-              background-position:center 100%;
+              background-position:center 80%;
               background-repeat:no-repeat;">
   <tr>
     <td align="center"
@@ -8307,7 +8307,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[18]:
+# In[50]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -8374,7 +8374,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[19]:
+# In[51]:
 
 
 # ============================
