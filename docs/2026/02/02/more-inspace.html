@@ -1,0 +1,880 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+<title>한컴인스페이스 - 추가 기사</title>
+
+<style>
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-position:center 0 !important;
+    }
+    .hero-header-cell {
+      padding: 14px 0 0 0 !important;
+    }
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background:#f3f4f6;
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","맑은 고딕",system-ui,sans-serif;
+  }
+
+  .content-wrapper {
+    flex: 1;
+  }
+
+  /* ✅ (NEW) 행 전체 클릭 링크 + 행 전체 hover */
+  a.row-link{
+    display:block;
+    width:100%;
+    text-decoration:none;
+    color:inherit;
+  }
+  a.row-link:hover{
+    background:#f3f4f6;
+  }
+
+</style>
+
+</head>
+
+<body>
+
+  <!-- 헤더 -->
+  <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-image:url('https://dekim-inspace.github.io/Newsletter/assets/header_geoint1.png');
+              background-size:cover;
+              background-position:center 52%;
+              background-repeat:no-repeat;">
+    <tr>
+      <td align="center" class="hero-header-cell"
+          bgcolor="#000000"
+          style="padding:8px 24px 8px 24px;
+                 background: linear-gradient(to bottom right,
+                             rgba(255,255,255,0.70),
+                             rgba(255,255,255,0.70));
+                 color:#ffffff;">
+
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="max-width:700px; width:100%;
+                      color:#000000; margin:0 auto;">
+
+          <tr>
+            <td style="padding:16px 24px 8px 24px;">
+              <table width="100%">
+                <tr>
+                  <td align="left">
+                    <img src="https://dekim-inspace.github.io/Newsletter/assets/hlogo.png" style="max-width:110px; display:block;">
+                  </td>
+                  <td align="right"
+                      style="text-transform:uppercase; font-size:13px; font-weight:500;
+                             color:#000000;">
+                    WWW.INSPACE.CO.KR
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:12px 24px 12px 24px;
+                      font-size:28px; font-weight:700;
+                      font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
+                      color:#000000;">
+              한컴인스페이스 - 추가 기사
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:0 24px 48px 24px;
+                       font-size:14px; font-weight:500; opacity:0.9; line-height:1.5;
+                       color:#000000;">
+              2026년 1월 25일 ~ 2026년 2월 1일<br>
+              2월 1주차 뉴스레터
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+  <div class="content-wrapper">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td style="padding:0 16px 0 16px;">
+
+              <div style="padding-bottom:20px; text-align:left;">
+                <a href="https://dekim-inspace.github.io/Newsletter/2026/02/02/index.html"
+                  style="display:inline-block;
+                          font-size:13px;
+                          padding:6px 12px;
+                          border-radius:999px;
+                          background:#111827;
+                          color:#ffffff;
+                          text-decoration:none;">
+                  ← 메인 뉴스레터로 돌아가기
+                </a>
+              </div>
+
+              
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#ffffff;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;">
+        <tr>
+          <td>
+            <div style="font-size:24px; font-weight:700; color:#111827;
+                        margin-bottom:16px;">
+              🌐 한컴인스페이스 추가 기사
+            </div>
+            
+<div id="inspace-pagination"
+     style="display:flex;
+            justify-content:flex-end;
+            align-items:center;
+            font-size:14px;
+            color:#4b5563;
+            margin-bottom:12px;">
+  <span id="inspace-page-info" style="margin-right:14px;"></span>
+  <a href="#" id="inspace-prev"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;
+            margin-right:4px;">‹</a>
+  <a href="#" id="inspace-next"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;">›</a>
+</div>
+
+            
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  
+                  <tr class="inspace-article-row" data-index="0">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.widedaily.com/news/articleView.html?idxno=287710" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.widedaily.com/news/thumbnail/202601/287710_295341_4621_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                [특징주] 대한광통신, &quot;정부 K-스타링크 구축한다&quot; 위성통신 케이블 기...
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          협의회에는 국방부와 과기정통부 외에 문화체육관광부, 해양수산부, 우주항공청 등 정부 부처와 국방과학연구소 등 유관 기관이 참여하며, 한화에어로스페이스와 한화시스템, 현대로템, LIG넥스윈, 한컴인스페이스 등...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-29
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="1">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.financialpost.co.kr/news/articleView.html?idxno=245962" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.financialpost.co.kr/news/thumbnail/202601/245962_293583_4430_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                한컴 위드, 피지컬AI 신경망 핵심 &#x27;한국형 스타링크&#x27; 논의 본격화에 주목
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이러한 흐름 속에서 군집위성 사업을 영위하고 있는 한컴위드와 자회사 한컴인스페이스 의 역할에도 이목이 쏠리고 있다. 29일 관련업계에 따르면 최근 정부는 방산·우주·통신·AI 산업 전반을 아우르는 민관 협의체를...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-29
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="2">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.startuptoday.co.kr/news/articleView.html?idxno=578321" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.startuptoday.co.kr/news/thumbnail/202601/578321_458922_5344_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                [기획] 우주청 방미 민관사절단 14개 기업은 어디?
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          한양이엔지, 한컴인스페이스 , 한화에어로스페이스, 현대로템이다. 민관사절단 참여 업체는 발사체, 위성, 부품, 서비스를 가리지 않고 선정됐다. 발사체 역량을 보유한 한화에어로스페이스. 이노스페이스...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-29
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="3">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.donga.com/news/Economy/article/all/20260128/133252053/2" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2026/01/28/133253786.1.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                [단독]“피지컬AI 신경망 깔아라”… 민관 ‘한국형 스타링크’ 시동
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          한화에어로스페이스와 한화시스템, 현대로템, LIG넥스윈, 한컴인스페이스 등 방산·우주항공 기업과 현대자동차, LG전자 등 피지컬 AI·전자 기업, KT와 SK텔레콤 등 통신사를 비롯한 국내 80여 개 기업도 동참한다....
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-29
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="4">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.sedaily.com/article/20001872?ref=naver" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://wimg.sedaily.com/news/cms/2026/01/28/news-p.v1.20260106.6d45eb1de04e474cb9b6db5ebde1327c_R.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                거세진 중복상장 논란에…코스닥 IPO 줄줄이 멈춰 [시그널INSIDE]
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          코스닥 상장사 한글과컴퓨터의 자회사인 한컴인스페이스 와 덕산하이메탈의 자회사인 덕산넵코어스는 모두 심사 결론이 수개월째 나지 않는 상황이다. IB 업계 관계자는 “디티에스는 에식스솔루션즈 관련 논란이...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-28
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="5">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.donga.com/news/Economy/article/all/20260128/133249530/1" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2026/01/28/133250242.1.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                [단독]‘한국판 스타링크’ 시동…저궤도위성통신 민관 협의체 내주 출...
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          한화에어로스페이스와 한화시스템, 현대로템, LIG넥스윈, 한컴인스페이스 등 방산·우주항공 기업과 현대자동차, LG전자 등 피지컬AI·전자 기업, KT와 SK텔레콤 등 통신사를 비롯한 국내 80여 개 기업도 동참한다. 정부가...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-28
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="6">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.investchosun.com/site/data/html_dir/2026/01/28/2026012880143.html" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://img.investchosun.com/site/data/img_dir/2026/01/28/2026012880142_0.png" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                [Invest]중소·벤처도 모회사 상장됐다면 &#x27;일단 스톱&#x27;…연간 계획 어그러...
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          디티에스, 한컴인스페이스 , 덕산넵코어스 등 모회사가 상장돼 있는 기업들이 현재 심사가 중단된 상태다. 이들 기업은 최근 인사를 마친 거래소에서 심사 담당자가 교체되는 시점과 맞물려 심사 자체가 멈췄다는...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-28
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="7">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.thebell.co.kr/free/content/ArticleView.asp?key=202601230902278400109688" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                [더벨][2026 VC 로드맵]박문수 인라이트벤처스 대표 &quot;중대형 VC 도약 원년...
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          올해 기대되는 포트폴리오로는 에스케이팩, 한컴인스페이스 , 브이에스팜텍, 에이투지노토노머스 등을 꼽았다. 대부분이 올해 기업공개(IPO)를 앞두고 있다. 이외에도 미스터아빠, TSMC, 설로인 등도 올해 유의미한 성과를...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-28
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="8">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.hankyung.com/article/2026012761091" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://static.hankyung.com/img/logo/logo-news-sns.png?v=20201130" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                중복상장 논란 커지자…IPO 앞둔 기업 초긴장
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          한컴인스페이스 와 덕산넵코어스 역시 중복상장 논란에서 벗어나 있지 않다는 평가다. 한컴인스페이스 는 코스닥시장 상장사 한글과컴퓨터가 지분 28%를 들고 있다. 덕산넵코어스의 최대주주는 코스닥시장 상장사...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-27
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="9">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="http://www.lkp.news/news/articleView.html?idxno=75513" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.lkp.news/news/thumbnail/202601/75513_90845_2649_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                HD현대, 로보틱스 &#x27;중복상장&#x27; 논란 직면...&#x27;송아지 지분&#x27; 보장 의무 피할...
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          다만, 1월 현재, 중복상장 논란이 있는 한컴인스페이스 , DTS 등 일부 기업의 상장 예비심사가 이미 보류됐다. HD현대로보틱스 역시 HD현대로부터 영업상 얼마나 독립적인지 엄격한 심사를 거칠 예정이며, HD현대 매출...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-27
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="10">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.newspim.com/news/view/20260127000853" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://img.newspim.com/news/2026/01/27/2601271606275770_481_tc.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                LS는 시작일 뿐…자회사 IPO 올스톱 신호 본격화
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          금융투자업계에 따르면 한컴인스페이스 , 디티에스, 덕산넵코어스 등도 모회사 또는 상위 지배회사까지 상장사라는 구조로 인해 중복상장 논란의 중심에 서 있다. 이들 기업은 예비심사 결과가 장기간 나오지 않으면서...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-27
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="11">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.etnews.com/20260127000307" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://img.etnews.com/news/article/2026/01/27/news-p.v1.20260127.49dda51e0f464119aa8933a1be0b7bdb_P1.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                [주니어전자]우주청, 국내 우주기업 美 파견... 스페이스 X 방문
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이번 사절단에는 나라스페이스와 대한항공, 디엔솔루션즈, 스페이스랩, 에프알디, 엔디티엔지니어링, 이노스페이스, 케이마쉬, 코스모비, 페리지에어로스페이스, 한양이엔지, 한컴인스페이스 , 한화에어로스페이스...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-27
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="12">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://biz.chosun.com/science-chosun/science/2026/01/27/L2JYNK7SMBCLVKKVK3OCGLILTU/" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://biz.chosun.com/resizer/v2/MYYWGMLDGEYTCZBTHE3DQNLEGQ.jpg?auth=8c0bbed01419a7da1d75617e5ae48a18d0eb2c743177eee621c2b82d63d0146a&amp;width=1200&amp;height=630&amp;smart=true" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                우주청, ‘미국 시장 공략’ 민관 사절단 파견… NASA· 스페이스 X 등 방...
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이번 민관사절단에는 나라스페이스테크놀로지, 대한항공, 디엔솔루션즈, 스페이스랩, 에프알디, 엔디티엔지니어링, 이노스페이스, 케이마쉬, 코스모비, 페리지에어로스페이스, 한양이엔지, 한컴인스페이스 ...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-27
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="13">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://idsn.co.kr/news/view/1065588147750184" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://idsn.co.kr/news/data/20260127/p1065588147750184_647_thum.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                우주항공청, 민관사절단 미국 파견
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          민관사절단에는 나라스페이스테크놀로지, 대한항공, 디엔솔루션즈, 스페이스랩, 에프알디, 엔디티엔지니어링, 이노스페이스, 케이마쉬, 코스모비, 페리지에어로스페이스, 한양이엔지, 한컴인스페이스 ...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-27
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="14">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="http://www.e2news.com/news/articleView.html?idxno=327317" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="http://www.e2news.com/image/logo/snslogo_20230825095121.png" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                우주청, 민관사절단 미국 파견… 스페이스 X 방문
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          민관사절단에는 나라스페이스테크놀로지, 대한항공, 디엔솔루션즈, 스페이스랩, 에프알디, 엔디티엔지니어링, 이노스페이스, 케이마쉬, 코스모비, 페리지에어로스페이스, 한양이엔지, 한컴인스페이스 ...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-27
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="15">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.sedaily.com/article/20001145?ref=naver" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://wimg.sedaily.com/news/cms/2026/01/27/news-p.v1.20260127.4dc340b923054f49b188d47733d93610_R.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                우주청, 대한항공·한화에어로 참여 美 민관사절단 파견
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          사절단은 노경원 우주청 차장을 단장으로 나라스페이스, 대한항공, 디엔솔루션즈, 스페이스랩, 에프알디, 엔디티엔지니어링, 이노스페이스, 케이마쉬, 코스모비, 페리지에어로스페이스, 한양이엔지, 한컴인스페이스 ...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-27
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="16">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="http://www.inews24.com/view/1932254" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://image.inews24.com/v1/943ba3706bd376.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                美 찾은 韓 우주 민관사절단… 발사체·위성·부품 협력 강화
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          14개 국내 기업은 나라스페이스, 대한항공, 디엔솔루션즈, 스페이스랩, 에프알디, 엔디티엔지니어링, 이노스페이스, 케이마쉬, 코스모비, 페리지에어로스페이스, 한양이엔지, 한컴인스페이스 , 한화에어로스페이스...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-27
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="17">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://biz.chosun.com/stock/market_trend/2026/01/27/WPIPUY47BJGJ3OIQDWVKRFES2I/" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://biz.chosun.com/resizer/v2/MY4WKMZWMNRTAZLCGM4GCOJUGM.jpg?auth=0c32290ef9269d470b9d904f59087a3d1af34fdc8972c6509f3ebb2bae9555fc&amp;width=1200&amp;height=630&amp;smart=true" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                李 중복상장 비판에… 거래소도 IPO 심사 ‘올스톱’
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          한컴인스페이스 ·디티에스 등 심사 사실상 중단 李 “중복상장 허용되지 않아야” 영향 계열사 상장 추진 대기업 불안 심화 이 기사는 2026년 1월 26일 16시 53분 조선비즈 머니무브(MM) 사이트에 표출됐습니다. 기업공개(IPO)...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-01-26
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+</table>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- 푸터 -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+        style="background:#1e293b; padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td class="inner-padding"
+                style="padding:12px 16px;
+                      font-size:12px;
+                      color:#e2e8f0;
+                      text-align:center;
+                      line-height:1.6;">
+
+              InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
+              &copy; 2026 Hancom InSpace. All Rights Reserved.
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+  (function() {
+    var PAGE_SIZE = 5;
+    var rows = Array.prototype.slice.call(
+      document.querySelectorAll('.inspace-article-row')
+    );
+    var total = rows.length;
+    var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    var currentPage = 1;
+
+    var infoEl = document.getElementById('inspace-page-info');
+    var prevEl = document.getElementById('inspace-prev');
+    var nextEl = document.getElementById('inspace-next');
+
+    function render(page) {
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+
+      var start = (currentPage - 1) * PAGE_SIZE;
+      var end = start + PAGE_SIZE;
+
+      rows.forEach(function(row, idx) {
+        row.style.display = (idx >= start && idx < end) ? '' : 'none';
+      });
+
+      if (infoEl) {
+        var from = total === 0 ? 0 : start + 1;
+        var to = Math.min(end, total);
+        infoEl.textContent = from + '–' + to + ' of ' + total;
+      }
+
+      if (prevEl) {
+        prevEl.style.opacity = currentPage === 1 ? '0.3' : '1';
+        prevEl.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+      }
+
+      if (nextEl) {
+        nextEl.style.opacity = currentPage === totalPages ? '0.3' : '1';
+        nextEl.style.pointerEvents = currentPage === totalPages ? 'none' : 'auto';
+      }
+    }
+
+    if (prevEl) prevEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage - 1);
+    });
+
+    if (nextEl) nextEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage + 1);
+    });
+
+    render(1);
+  })();
+  </script>
+
+</body>
+</html>
