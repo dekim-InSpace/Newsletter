@@ -1670,6 +1670,7 @@ SYSTEM_PROMPT_STRICT = """
 - 주제 범위를 약간 벗어나도 괜찮습니다.
 - topic_final은 1~4 중 가장 관련성이 높은 번호로 선택하세요.
 - reason 필드에 반드시 "[한컴 인스페이스 관련]"을 포함하세요.
+- fas.org 에서 나오는 기사는 제외해주세요.
 
 [불허 컨텐츠]
 - 단순 블로그 글, 제품 광고, 기초 설명, 튜토리얼은 keep=false
@@ -2199,7 +2200,7 @@ print("\n" + "="*60)
 print("🎯 언어 균형 조정 중...")
 print("="*60)
 
-TARGET_ENGLISH_RATIO = 70  # 목표 영문 비율
+TARGET_ENGLISH_RATIO = 60  # 목표 영문 비율
 BALANCE_BONUS = 8          # 균형 보너스 점수 (너무 크지 않게)
 
 for topic_num in [1, 2, 3, 4]:
@@ -5470,7 +5471,7 @@ def build_inspace_more_page_html(more_articles, date_range, newsletter_date):
                       line-height:1.6;">
 
               InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
-              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
               &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
             </td>
@@ -5977,7 +5978,7 @@ def build_more_page_html(topic_extra_articles, date_range, newsletter_date, head
                       line-height:1.6;">
 
               InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
-              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
               &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
             </td>
