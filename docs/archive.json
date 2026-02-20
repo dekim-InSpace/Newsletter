@@ -1,6 +1,13 @@
 [
   {
     "label": "2월 3주차 주간 뉴스레터",
+    "date_str": "2026.02.20",
+    "url": "https://dekim-inspace.github.io/Newsletter/2026/02/20/index.html",
+    "insight": "이번 주에는 지리공간 정보와 위성 영상 데이터가 국가 안보와 산업 경쟁력의 핵심 전략 자원으로 부상하며 AI 기반 분석 기술 발전과 활용 확산이 가속되고 있습니다.",
+    "edition": "weekly"
+  },
+  {
+    "label": "2월 3주차 주간 뉴스레터",
     "date_str": "2026.02.19",
     "url": "https://dekim-inspace.github.io/Newsletter/2026/02/19/index.html",
     "insight": "이번 주에는 지리공간 정보와 AI 기반 데이터 플랫폼이 전략 자산으로 전환되는 흐름이 가속되며, 무인기 기술과 융합해 산업과 안보 경쟁력이 강화되고 있습니다.",
