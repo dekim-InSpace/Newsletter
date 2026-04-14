@@ -1,0 +1,781 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+<title>한컴인스페이스 - 추가 기사</title>
+
+<style>
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-position:center 0 !important;
+    }
+    .hero-header-cell {
+      padding: 14px 0 0 0 !important;
+    }
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background:#f3f4f6;
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","맑은 고딕",system-ui,sans-serif;
+  }
+
+  .content-wrapper {
+    flex: 1;
+  }
+
+  /* ✅ (NEW) 행 전체 클릭 링크 + 행 전체 hover */
+  a.row-link{
+    display:block;
+    width:100%;
+    text-decoration:none;
+    color:inherit;
+  }
+  a.row-link:hover{
+    background:#f3f4f6;
+  }
+
+</style>
+
+</head>
+
+<body>
+
+  <!-- 헤더 -->
+  <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-image:url('https://dekim-inspace.github.io/Newsletter/assets/header_geoint1.png');
+              background-size:cover;
+              background-position:center 52%;
+              background-repeat:no-repeat;">
+    <tr>
+      <td align="center" class="hero-header-cell"
+          bgcolor="#000000"
+          style="padding:8px 24px 8px 24px;
+                 background: linear-gradient(to bottom right,
+                             rgba(255,255,255,0.70),
+                             rgba(255,255,255,0.70));
+                 color:#ffffff;">
+
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="max-width:700px; width:100%;
+                      color:#000000; margin:0 auto;">
+
+          <tr>
+            <td style="padding:16px 24px 8px 24px;">
+              <table width="100%">
+                <tr>
+                  <td align="left">
+                    <img src="https://dekim-inspace.github.io/Newsletter/assets/hlogo.png" style="max-width:110px; display:block;">
+                  </td>
+                  <td align="right"
+                      style="text-transform:uppercase; font-size:13px; font-weight:500;
+                             color:#000000;">
+                    WWW.INSPACE.CO.KR
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:12px 24px 12px 24px;
+                      font-size:28px; font-weight:700;
+                      font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
+                      color:#000000;">
+              한컴인스페이스 - 추가 기사
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:0 24px 48px 24px;
+                       font-size:14px; font-weight:500; opacity:0.9; line-height:1.5;
+                       color:#000000;">
+              2026년 4월 6일 ~ 2026년 4월 13일<br>
+              4월 2주차 뉴스레터
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+  <div class="content-wrapper">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td style="padding:0 16px 0 16px;">
+
+              <div style="padding-bottom:20px; text-align:left;">
+                <a href="https://dekim-inspace.github.io/Newsletter/2026/04/14/index.html"
+                  style="display:inline-block;
+                          font-size:13px;
+                          padding:6px 12px;
+                          border-radius:999px;
+                          background:#111827;
+                          color:#ffffff;
+                          text-decoration:none;">
+                  ← 메인 뉴스레터로 돌아가기
+                </a>
+              </div>
+
+              
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#ffffff;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;">
+        <tr>
+          <td>
+            <div style="font-size:24px; font-weight:700; color:#111827;
+                        margin-bottom:16px;">
+              🌐 한컴인스페이스 추가 기사
+            </div>
+            
+<div id="inspace-pagination"
+     style="display:flex;
+            justify-content:flex-end;
+            align-items:center;
+            font-size:14px;
+            color:#4b5563;
+            margin-bottom:12px;">
+  <span id="inspace-page-info" style="margin-right:14px;"></span>
+  <a href="#" id="inspace-prev"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;
+            margin-right:4px;">‹</a>
+  <a href="#" id="inspace-next"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;">›</a>
+</div>
+
+            
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  
+                  <tr class="inspace-article-row" data-index="0">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="http://www.metroseoul.co.kr/article/20260408500282" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="http://cdn.emetro.co.kr/data2/content/image/2026/04/08/.cache/512/20260408500283.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                K-방산 수출 ‘200억 달러’ 시대 연다… 지구 반대편 중남미서 시동
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          기아는 차세대 전술 차량을, 풍산은 정밀 탄약 체계를 선보였으며, 한컴인스페이스 와 에스아이아이에스는 위성 및 우주 기술을 통해 한국 방산의 영역이 우주까지 확장됐음을 증명했다. K-방산의 중남미 진출은 꽤나...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="1">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.dt.co.kr/article/12056298?ref=naver" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://wimg.dt.co.kr/news/cms/2026/04/08/news-p.v1.20260408.debe941b14e048e4a784dae75ec926f4_R.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                K-방산, 중남미 공략 시동…수출 200억달러 기대
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          기아와 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스는 직접 참가해 전술 차량과 탄약, 위성·우주 기술을 선보였다. 한화에어로스페이스와 한화오션, 한화시스템은 독립 부스를 마련하고 TIGON 6×6...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="2">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.newsworks.co.kr/news/articleView.html?idxno=837039" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.newsworks.co.kr/news/thumbnail/202604/837039_790341_848_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                방산 수출 200억달러 시대 연다…칠레 &#x27;FIDAE&#x27;서 최대 규모 한국관 운영
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스는 직접 참가해 전술 차량, 탄약, 위성·우주 기술을 뽐냈다. 한화에어로스페이스, 한화오션, 한화시스템도 독립 부스를 설치하고 현장에 TIGON 6×6...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="3">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.pinpointnews.co.kr/news/articleView.html?idxno=443725" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.pinpointnews.co.kr/news/thumbnail/202604/443725_434373_5247_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                코트라, 중남미 최대 &#x27;FIDAE 2026&#x27;서 역대급 규모 한국관 운영
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          코트라에 따르면 기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스는 현장에서 전술 차량, 탄약, 위성 기술 등을 선보였으며 한화에어로스페이스와 한화오션, 한화시스템은 독립 부스를 통해 TIGON 6×6...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="4">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.newsfreezone.co.kr/news/articleView.html?idxno=684009" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.newsfreezone.co.kr/news/thumbnail/202604/684009_726988_4042_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                올해 &#x27;방산 수출 200억달러 목표&#x27; 중남미 시동 거는 코트라
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스는 직접 참가해 전술 차량, 탄약, 위성·우주 기술을 뽐냈다. 한화에어로스페이스, 한화오션, 한화시스템도 독립 부스를 설치하고 현장에 TIGON 6×6...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="5">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.bizwork.co.kr/news/articleView.html?idxno=414292" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.bizwork.co.kr/news/photo/202604/414292_76181_059.jpeg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                K-방산 수출 30조 원 기대...방산 원팀 중남미 모였다 왜?
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이번 전시회에서 기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스는 직접 참가해 전술 차량, 탄약, 위성·우주 기술을 선보였다. 한화에어로스페이스, 한화오션, 한화시스템도 독립 부스를 설치하고...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="6">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="http://www.edaily.co.kr/news/newspath.asp?newsid=01981126645414152" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://image.edaily.co.kr/images/Photo/files/NP/S/2026/04/PS26040800119.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                K-방산, 중남미 공략 속도…칠레 ‘FIDAE 2026’ 총출동
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          주요 기업으로는 기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스는 전술 차량과 탄약, 위성·우주 기술 등을 선보였다. 한화에어로스페이스, 한화오션, 한화시스템도 별도 부스를 운영하며 TIGON 6×6...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="7">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.dailian.co.kr/news/view/1630715/?sc=Naver" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdnimage.dailian.co.kr/news/202604/news_1775551054_1630715_m_1.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                K-방산 31개사 칠레 집결…중남미 최대 방산전시회 역대 최대 한국관
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          현장에는 기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스가 직접 참가해 전술 차량·탄약·위성·우주 기술을 선보였다. 한화에어로스페이스, 한화오션, 한화시스템도 독립 부스를 설치하고 TIGON 6...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="8">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://biz.heraldcorp.com/article/10711805?ref=naver" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://wimg.heraldcorp.com/news/cms/2026/04/07/news-p.v1.20260330.eef2e4fd44c64c61ba612e1a32827a59_T1.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                K-방산, 수출 200억달러 눈앞…중남미 시장 공략 본격화
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이번 전시회에는 기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스 등이 참가해 전술차량, 탄약, 위성·우주 기술 등을 선보인다. 한화에어로스페이스·한화오션·한화시스템은 별도 부스를 통해 TIGON 6×6...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="9">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.sedaily.com/article/20029600?ref=naver" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://wimg.sedaily.com/news/cms/2026/04/07/news-p.v1.20260407.54ee64a9d10c4a7ea4ef63d97be8d93b_R.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                K-방산, 중남미 시장 원팀 집결…올해 수출 200억 달러 노린다
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          기아(000270)·현대코퍼레이션(011760)·풍산(103140)· 한컴인스페이스 ·에스아이아이에스는 직접 참가해 전술 차량, 탄약, 위성·우주 기술을 선보였다. 한화에어로스페이스(012450)·한화오션(042660)·한화시스템(272210)도...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="10">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://view.asiae.co.kr/article/2026040714420614632" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cphoto.asiae.co.kr/listimglink/1/2026040714380516637_1775540285.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                K-방산, 중남미 공략 속도전…칠레 &#x27;FIDAE&#x27; 최대 규모 한국관 출격
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스는 직접 참가해 전술 차량, 탄약, 위성·우주 기술을 뽐냈다. 한화에어로스페이스, 한화오션, 한화시스템도 독립 부스를 설치하고 현장에 TIGON 6×6...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="11">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.webeconomy.co.kr/news/articleView.html?idxno=2134052" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.webeconomy.co.kr/news/photo/202604/2134052_941286_2140.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                코트라, 칠레 최대 방산전시회에 한국관…&quot;수출 200억불 도전&quot;
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스가 전술 차량·탄약·위성 기술을 선보였으며, 한화에어로스페이스·한화오션·한화시스템은 독립 부스를 설치하고 TIGON 6×6 장갑차 실물을 전시했다....
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="12">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="http://www.smedaily.co.kr/news/articleView.html?idxno=355219" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.smedaily.co.kr/news/thumbnail/202604/355219_290463_413_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                코트라, 칠레 FIDAE서 역대 최대 한국관 운영…중남미 방산시장 공략
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이번 한국관에는 기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스 등이 직접 참가했으며, 한화에어로스페이스, 한화오션, 한화시스템도 별도 부스를 운영한다. 국내 기업들의 중남미 진출 사례도...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-08
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="13">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.dongponews.net/news/articleView.html?idxno=57246" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.dongponews.net/news/thumbnail/202604/57246_211853_1119_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                K-방산, &#x27;중남미 최대 방산전시회&#x27; 통해 수출 200억 불 시동
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이번 행사에는 기아, 현대코퍼레이션, 풍산, 한컴인스페이스 , 에스아이아이에스 등 31개 기업이 참가해 전술차량, 탄약, 위성·우주 기술을 선보였으며, 한화에어로스페이스·한화오션·한화시스템은 독립 부스를...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-07
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="14">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.theguru.co.kr/news/article.html?no=100236" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://www.theguru.co.kr/data/photos/20260415/art_17755283055011_4978a7.png" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                칠레서 &#x27;K방산&#x27; 큰 장 선다…한화 3사·풍산 등 주요 기업 총출동
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          코트라가 운영하는 한국관에서는 기아가 소형전술차량 &#x27;KLTV(Korean Light Tactical Vehicle)’을 중심으로 기동 플랫폼을, 풍산이 탄약 체계를, 한컴인스페이스 와 쎄트렉아이의 위성영상 공급 자회사 &#x27;에스아이아이에스&#x27;가...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-04-07
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+</table>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- 푸터 -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+        style="background:#1e293b; padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td class="inner-padding"
+                style="padding:12px 16px;
+                      font-size:12px;
+                      color:#e2e8f0;
+                      text-align:center;
+                      line-height:1.6;">
+
+              InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
+              &copy; 2026 Hancom InSpace. All Rights Reserved.
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+  (function() {
+    var PAGE_SIZE = 5;
+    var rows = Array.prototype.slice.call(
+      document.querySelectorAll('.inspace-article-row')
+    );
+    var total = rows.length;
+    var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    var currentPage = 1;
+
+    var infoEl = document.getElementById('inspace-page-info');
+    var prevEl = document.getElementById('inspace-prev');
+    var nextEl = document.getElementById('inspace-next');
+
+    function render(page) {
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+
+      var start = (currentPage - 1) * PAGE_SIZE;
+      var end = start + PAGE_SIZE;
+
+      rows.forEach(function(row, idx) {
+        row.style.display = (idx >= start && idx < end) ? '' : 'none';
+      });
+
+      if (infoEl) {
+        var from = total === 0 ? 0 : start + 1;
+        var to = Math.min(end, total);
+        infoEl.textContent = from + '–' + to + ' of ' + total;
+      }
+
+      if (prevEl) {
+        prevEl.style.opacity = currentPage === 1 ? '0.3' : '1';
+        prevEl.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+      }
+
+      if (nextEl) {
+        nextEl.style.opacity = currentPage === totalPages ? '0.3' : '1';
+        nextEl.style.pointerEvents = currentPage === totalPages ? 'none' : 'auto';
+      }
+    }
+
+    if (prevEl) prevEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage - 1);
+    });
+
+    if (nextEl) nextEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage + 1);
+    });
+
+    render(1);
+  })();
+  </script>
+
+</body>
+</html>
