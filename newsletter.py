@@ -8315,7 +8315,8 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
 
 GMAIL_USER = os.environ.get("GMAIL_USER")
-GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD")
+#GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD")
+GMAIL_APP_PASSWORD = "ykkxmihtlpqkdavy"
 
 TO_EMAIL_RAW = None
 TO_EMAILS = []  # 최종 수신자 리스트
@@ -8376,7 +8377,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[18]:
+# In[ ]:
 
 
 # ============================
