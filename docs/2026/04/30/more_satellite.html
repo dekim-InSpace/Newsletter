@@ -1,0 +1,928 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+
+
+<title>위성 영상 - 추가 기사</title>
+
+<style>
+  /* 모바일 최적화 */
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-position:center 0 !important;
+    }
+    /* ✅ 모바일에서 헤더 상하 여백 축소 (추가 기사 페이지 전용) */
+    .hero-header-cell {
+      padding: 14px 0 0 0 !important;
+    }
+  }
+
+  /* 푸터를 항상 아래로 밀어주는 레이아웃 */
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background:#f3f4f6;
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","맑은 고딕",system-ui,sans-serif;
+  }
+
+  .content-wrapper {
+    flex: 1;
+  }
+
+  /* ✅ (NEW) 행 전체 클릭 링크 + 행 전체 hover */
+  a.row-link{
+    display:block;
+    width:100%;
+    text-decoration:none;
+    color:inherit;
+  }
+  a.row-link:hover{
+    background:#f3f4f6;
+  }
+
+</style>
+
+
+
+</head>
+
+<body>
+
+  <!-- 헤더 (메일과 유사한 스타일) -->
+  <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-image:url('https://dekim-inspace.github.io/Newsletter/assets/header_satellite.jpg');
+              background-size:cover;
+              background-position:center 52%;
+              background-repeat:no-repeat;">
+    <tr>
+      <td align="center" class="hero-header-cell"
+          bgcolor="#000000"
+          style="padding:8px 24px 8px 24px;
+                 background: linear-gradient(to bottom right,
+                             rgba(255,255,255,0.70),
+                             rgba(255,255,255,0.70));
+                 color:#ffffff; ;">
+
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="max-width:700px; width:100%;
+                      color:#000000; margin:0 auto;">
+
+          <tr>
+            <td style="padding:16px 24px 8px 24px;">
+              <table width="100%">
+                <tr>
+                  <td align="left">
+                    <img src="https://dekim-inspace.github.io/Newsletter/assets/hlogo.png" style="max-width:110px; display:block;">
+                  </td>
+                  <td align="right"
+                      style="text-transform:uppercase; font-size:13px; font-weight:500;
+                             color:#000000; ;">
+                    WWW.INSPACE.CO.KR
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:12px 24px 12px 24px;
+                      font-size:28px; font-weight:700;
+                      font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
+                      color:#000000; ;">
+              위성 영상 - 추가 기사
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:0 24px 48px 24px;
+                       font-size:14px; font-weight:500; opacity:0.9; line-height:1.5;
+                       color:#000000; ;">
+              2026년 4월 22일 ~ 2026년 4월 29일<br>
+              4월 5주차 뉴스레터
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+
+  <div class="content-wrapper">
+  <!-- 본문 -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td style="padding:0 16px 0 16px;">
+
+              <!-- 메인 뉴스레터로 돌아가기 버튼 (카드 위 왼쪽 정렬) -->
+              <div style="padding-bottom:20px; text-align:left;">
+                <a href="https://dekim-inspace.github.io/Newsletter/2026/04/30/index.html"
+                  style="display:inline-block;
+                          font-size:13px;
+                          padding:6px 12px;
+                          border-radius:999px;
+                          background:#111827;
+                          color:#ffffff;
+                          text-decoration:none;">
+                  ← 메인 뉴스레터로 돌아가기
+                </a>
+              </div>
+
+              
+<!-- 토픽별 추가 기사 박스 -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#ffffff;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;">
+        <tr>
+          <td>
+            <div style="font-size:24px; font-weight:700; color:#111827;
+                        margin-bottom:28px;">
+              🛰️ 위성 영상 / SAR·광학·하이퍼스펙트럴 이미지 분석
+            </div>
+            
+<div id="topic-pagination"
+     style="display:flex;
+            justify-content:flex-end;
+            align-items:center;
+            font-size:14px;
+            font-weight:500;
+            color:#374151;
+            margin-top:-10px;
+            margin-bottom:10px;">
+
+  <span id="topic-page-info"
+        style="margin-right:14px;"></span>
+
+  <!-- 이전 버튼 -->
+  <a href="#" id="topic-prev"
+     style="
+       display:inline-flex;
+       align-items:center;
+       justify-content:center;
+       width:32px;
+       height:32px;
+       margin-right:6px;
+       border:1px solid #d1d5db;
+       border-radius:8px;
+       text-decoration:none;
+       background-color:#ffffff;
+       cursor:pointer;
+     ">
+    <span style="
+       display:inline-block;
+       font-size:18px;
+       font-weight:600;
+       color:#374151;
+       transform: translateY(-3px);
+    ">
+      &#x2039;
+    </span>
+  </a>
+
+  <!-- 다음 버튼 -->
+  <a href="#" id="topic-next"
+     style="
+       display:inline-flex;
+       align-items:center;
+       justify-content:center;
+       width:32px;
+       height:32px;
+       border:1px solid #d1d5db;
+       border-radius:8px;
+       text-decoration:none;
+       background-color:#ffffff;
+       cursor:pointer;
+     ">
+    <span style="
+       display:inline-block;
+       font-size:18px;
+       font-weight:600;
+       color:#374151;
+       transform: translateY(-3px);
+    ">
+      &#x203A;
+    </span>
+  </a>
+</div>
+
+            
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  
+              <tr class="topic-article-row" data-index="0">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://breakingdefense.com/2026/04/nowhere-to-hide-iran-war-spotlights-military-challenges-posed-by-space-based-remote-sensing/" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            숨을 곳 없다: 이란 전쟁이 부각시킨 우주 기반 원격 감지의 군사적 도전
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          Nowhere to hide: Iran war spotlights military challenges posed by space-based remote sensing
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-29
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="1">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://science.nasa.gov/photojournal/us-indian-spacecraft-captures-mexico-city-subsidence/" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://assets.science.nasa.gov/content/dam/science/psd/photojournal/pia/pia26/pia26709/PIA26709.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            미-인도 공동 위성 NISAR, 멕시코시티 지반 침하 포착
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          US-Indian Spacecraft Captures Mexico City Subsidence
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-29
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="2">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.bbc.com/news/articles/cdxkk1vnp57o" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://ichef.bbci.co.uk/news/1024/branded_news/f761/live/d7a90480-396e-11f1-8606-05fe34b06e1b.png" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            위성 영상으로 본 이스라엘의 레바논 마을 파괴 규모
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          Satellite images reveal scale of Israeli demolitions as Lebanese villages destroyed
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-29
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="3">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.esa.int/Applications/Observing_the_Earth/FutureEO/Biomass/Stunning_images_from_Biomass_mark_its_one_year_in_orbit" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2026/04/gallery_forests_of_the_angola_drc_borderlands/27246328-4-eng-GB/Gallery_forests_of_the_Angola_DRC_borderlands_pillars.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            바이오매스 위성 1주년 기념, 놀라운 지구 이미지 공개
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          Stunning images from Biomass mark its one year in orbit
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-29
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="4">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.nature.com/articles/s41598-026-43164-w" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://media.springernature.com/m685/springer-static/image/art%3A10.1038%2Fs41598-026-43164-w/MediaObjects/41598_2026_43164_Fig1_HTML.png" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            TransSiamUNet: 위성 영상의 정밀 변화 탐지를 위한 트랜스포머 보강 시암즈 U-Net
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          TransSiamUNet based transformer-augmented Siamese-U-Net for precise change detection in satellite imagery
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-29
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="5">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.hurriyetdailynews.com/hidden-marine-refuge-emerges-on-istanbuls-industrial-coast-221603" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://image.hurimg.com/i/hurriyet/75/200x200/69f10996eb422ab0018d025c.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            이스탄불 산업 해안에서 희귀 해양 생태계 발견
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          Hidden marine refuge emerges on Istanbul’s industrial coast
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-28
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="6">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.bellingcat.com/news/2026/04/24/make-iran-ungovernable-tracking-efforts-to-destroy-irans-police-infrastructure/" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://www.bellingcat.com/app/uploads/2026/04/Iran-police-stations-cover.jpeg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            “이란을 통제 불가능하게 만들기” – 이란 경찰 인프라 파괴 시도 추적
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          “Make Iran Ungovernable” – Tracking Efforts To Destroy Iran’s Police Infrastructure
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-24
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="7">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.womaneconomy.co.kr/news/articleView.html?idxno=252969" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            [분석] AI가 표적 고르고 인간이 발사···美 중동전쟁 판단 100배 빨라...
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          [ 분석 ] AI가 표적 고르고 인간이 발사···美 중동전쟁 판단 100배 빨라...
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-24
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="8">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://news.kbs.co.kr/news/pc/view/view.do?ncd=8542241&amp;ref=A" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="http://news.kbs.co.kr/data/news/title_image/newsmp4/newsplaza_p1/2026/04/22/90_8542241.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            ‘핵무기 저장고’ 의심 북한 용덕동에 새 구조물…위성 영상 분석으로 변화 포착
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          [단독] ‘핵무기 저장고’ 의심 북한 용덕동에 새 구조물…“전략시설...
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-22
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="9">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="http://www.biztribune.co.kr/news/articleView.html?idxno=353226" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="http://www.biztribune.co.kr/news/thumbnail/202604/353226_257049_4125_v150.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            [브리프] 현대차그룹 KGM 한국타이어 한진 삼양그룹 LIGD&amp;A LG상록재단 外
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          [브리프] 현대차그룹 KGM 한국타이어 한진 삼양그룹 LIGD&amp;A LG상록재단 外
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-28
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="10">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://news.kbs.co.kr/news/pc/view/view.do?ncd=8548172&amp;ref=A" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="http://news.kbs.co.kr/data/news/2026/04/28/20260428_yCnKgs.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            [지금 AI] 전쟁 속 AI
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          [지금 AI] 전쟁 속 AI
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-28
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="11">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.news1.kr/it-science/general-science/6149808" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            지아이앤에스, 마인드포지와 맞손…국방 영상 정보 경쟁력 강화
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          지아이앤에스, 마인드포지와 맞손…국방 영상 정보 경쟁력 강화
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-27
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="12">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.joongdo.co.kr/web/view.php?key=20260426010007747" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://www.joongdo.co.kr/mnt/images/file/2026y/04m/27d/2026042601001838200077471.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            한밭대 우주국방첨단융합학과, 미래 안보·우주 인재 양성
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          한밭대 우주국방첨단융합학과, 미래 안보·우주 인재 양성
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-26
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="13">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.mt.co.kr/industry/2026/04/24/2026042413592428104" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://thumb.mt.co.kr/cdn-cgi/image/f=avif/21/2026/04/2026042413592428104_1.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            우주 데이터 판도도 AI가 결정…핵심은 독자적 전문성·신뢰도 구축
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          &quot;우주 데이터 판도도 AI가 결정…핵심은 독자적 전문성·신뢰도 구축&quot;
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-24
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="14">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://biz.chosun.com/it-science/ict/2026/04/23/IDQZSPEKWVGRNDFJHNPVRRBGXA/?utm_source=naver&amp;utm_medium=original&amp;utm_campaign=biz" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://biz.chosun.com/resizer/v2/2SIPS3SA65EYZD6MZYITTBMPZI.png?auth=62a49c05288bb95292ad062c06ce277e2ca54ddd90612741cf1480928752d988&amp;width=1200&amp;height=630&amp;smart=true" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            세계 최대 영상 레이더 위성 업체 아이싸이, 5월 한국법인 설립… 동북아 시장 공략 본격화
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          세계 최대 영상 레이더 위성 업체 아이싸이, 5월 한국법인 설립… 동북아...
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-23
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="15">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://www.newspim.com/news/view/20260422000676" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://img.newspim.com/news/2026/04/22/2604220100483230_425_tc.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            [GAM] 미국 &#x27;AI 방산&#x27; 새 기류 ① &#x27;자유의 무기고&#x27; 예산 나눠 먹는 주도주...
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          [GAM]미국 &#x27;AI 방산&#x27; 새 기류 ① &#x27;자유의 무기고&#x27; 예산 나눠 먹는 주도주...
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-23
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="16">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://news.google.com/rss/articles/CBMiXEFVX3lxTE1ZU1Y2TExlaFVsbm05aHIzTGtNcEJzV09SUTJNMGszRDlLRTZ0bjVpNG1NZFRtOWZ0WE5pQUwzdG5OMjE3U3dSZFFydWZCZXMtZXFKVDhUZUNLX3Zk?oc=5" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            시커멓게 변한 바다...위성사진으로 확인된 이란戰 원유 유출
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          시커멓게 변한 바다...위성사진으로 확인된 이란戰 원유 유출 - 뉴스;트리
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-22
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr class="topic-article-row" data-index="17">
+                <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                  <a class="row-link" href="https://zdnet.co.kr/view/?no=20260422155918" target="_blank"
+                    style="text-decoration:none; color:inherit; display:block; padding:10px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- 썸네일 -->
+                        <td valign="top" width="96" style="padding-right:8px;">
+                          <img src="https://image.zdnet.co.kr/2026/04/22/c85abf01a988c11241b2943e073b4002.jpg" width="80" height="80"
+                              style="display:block; border-radius:10px; object-fit:cover;"
+                              onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                        </td>
+
+                        <!-- 제목/부제목/날짜 -->
+                        <td valign="top">
+                          <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                            전쟁의 시대…병력 50만 붕괴 위기 속 국방 해결 방안은
+                          </div>
+                          
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          [ 영상 ] 전쟁의 시대…병력 50만 붕괴 위기 속 국방 해결 방안은
+        </div>
+                          <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                            2026-04-22
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            
+</table>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </div> <!-- content-wrapper 끝 -->
+
+  <!-- 푸터 -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+        style="background:#1e293b; padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td class="inner-padding"
+                style="padding:12px 16px;
+                      font-size:12px;
+                      color:#e2e8f0;
+                      text-align:center;
+                      line-height:1.6;">
+
+              InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
+              &copy; 2026 Hancom InSpace. All Rights Reserved.
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+  (function() {
+    // ✅ 토픽 추가 기사 페이지네이션 (GeoINT/드론/AI/위성 공통)
+    var PAGE_SIZE = 5;  // 한 페이지에 5개씩 보여줌 (10개로 바꾸고 싶으면 여기 숫자만 10으로 변경)
+
+    var rows = Array.prototype.slice.call(
+      document.querySelectorAll('.topic-article-row')
+    );
+    var total = rows.length;
+    var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    var currentPage = 1;
+
+    var infoEl = document.getElementById('topic-page-info');
+    var prevEl = document.getElementById('topic-prev');
+    var nextEl = document.getElementById('topic-next');
+
+    function render(page) {
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+
+      var start = (currentPage - 1) * PAGE_SIZE;
+      var end = start + PAGE_SIZE;
+
+      rows.forEach(function(row, idx) {
+        row.style.display = (idx >= start && idx < end) ? '' : 'none';
+      });
+
+      if (infoEl) {
+        var from = total === 0 ? 0 : start + 1;
+        var to = Math.min(end, total);
+        infoEl.textContent = from + '–' + to + ' of ' + total;
+      }
+
+      if (prevEl) {
+        if (currentPage === 1) {
+          prevEl.style.opacity = '0.3';
+          prevEl.style.pointerEvents = 'none';
+        } else {
+          prevEl.style.opacity = '1';
+          prevEl.style.pointerEvents = 'auto';
+        }
+      }
+
+      if (nextEl) {
+        if (currentPage === totalPages) {
+          nextEl.style.opacity = '0.3';
+          nextEl.style.pointerEvents = 'none';
+        } else {
+          nextEl.style.opacity = '1';
+          nextEl.style.pointerEvents = 'auto';
+        }
+      }
+    }
+
+    if (prevEl) prevEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage - 1);
+    });
+
+    if (nextEl) nextEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage + 1);
+    });
+
+    render(1);
+  })();
+  </script>
+
+
+</body>
+</html>
