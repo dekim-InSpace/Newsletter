@@ -1,0 +1,1451 @@
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>한컴인스페이스 6월 2주차 뉴스레터</title>
+
+<!-- Pretendard -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css">
+
+<!-- Asta Sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Asta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+<style>
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-position: center 0 !important;
+    }
+    .hero-header-cell {
+      padding: 12px 0 2px 0 !important;
+    }
+    .inner-padding {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    .main-title {
+      font-size: 32px !important;
+    }
+    .sub-title {
+      font-size: 14px !important;
+    }
+  }
+
+    /* 데스크톱 기본 */
+    .header {
+      background-size: cover;
+      background-position: center top;
+    }
+
+    /* 모바일 전용 */
+    @media screen and (max-width: 600px) {
+      .header {
+        background-size: 200% auto;
+        background-position: center -120px;
+        min-height: 200px;
+      }
+    }
+
+  /* ===============================
+     메인 배경 스크롤 비디오
+     =============================== */
+  .main-bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .main-bg-video,
+  .main-bg-image,
+  .main-bg-whitewash {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .main-bg-video {
+    object-fit: cover;
+    opacity: 0;
+  }
+
+  .main-bg-image {
+    background-image: url('https://dekim-inspace.github.io/Newsletter/assets/main_bg_fallback.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    display: none;
+    opacity: 0;
+  }
+
+  .main-bg-whitewash {
+    background: #f3f4f6;
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .main-bg-video { display: none !important; }
+    .main-bg-image { display: block !important; }
+  }
+
+    /* 푸터를 항상 아래로 밀어주는 레이아웃 (iOS 100vh 이슈 대응) */
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: #f3f4f6;
+
+    font-family: "Asta Sans",
+                -apple-system, BlinkMacSystemFont,
+                "Apple SD Gothic Neo", "맑은 고딕",
+                system-ui, sans-serif;
+  }
+
+  .main-title {
+  font-family: "Pretendard",
+               -apple-system, BlinkMacSystemFont,
+               "Apple SD Gothic Neo", "맑은 고딕",
+               system-ui, sans-serif;
+
+  font-weight: 850; /* 850은 웹폰트에 없으니 800 권장 */
+  }
+
+
+  .content-wrapper {
+    flex: 1 0 auto;
+  }
+
+  .footer-wrap {
+    flex-shrink: 0;
+  }
+
+  /* ✅ (NEW) 행 전체 클릭 링크 + 행 전체 hover */
+  a.row-link{
+    display:block;
+    width:100%;
+    box-sizing:border-box; /* ✅ 이 줄 추가 */
+    text-decoration:none;
+    color:inherit;
+  }
+  a.row-link:hover{
+    background-color:#e5e7eb; /* ✅ 요청하신 색으로 */
+  }
+</style>
+
+
+
+</head>
+
+<body style="margin:0; padding:0; background:#f3f4f6;">
+
+
+<!-- (NEW) 메인 배경 레이어: 이메일에서는 JS가 안 돌아 display:none 그대로라 영상/이미지가 “안 보임(흰색 유지)” -->
+<div class="main-bg-layer" id="main-bg-layer" style="display:none;">
+  <video
+    class="main-bg-video"
+    id="main-bg-video"
+    playsinline
+    muted
+    preload="auto"
+  >
+    <source src="https://dekim-inspace.github.io/Newsletter/assets/mainbg1.mp4" type="video/mp4">
+  </video>
+
+  <div class="main-bg-image" id="main-bg-image"></div>
+  <div class="main-bg-whitewash" id="main-bg-whitewash"></div>
+</div>
+
+
+
+<!-- 헤더 -->
+
+
+<table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-image:url('https://dekim-inspace.github.io/Newsletter/assets/Newsletter_Image7.png');
+              background-size:cover;
+              background-position:center 80%;
+              background-repeat:no-repeat;">
+  <tr>
+    <td align="center"
+        class="hero-header-cell"
+        style="padding:16px 24px 14px 24px;
+               background: transparent;
+               background: rgba(255,255,255,0.2);
+               color:#000000;">
+
+
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="max-width:700px; width:100%;
+                    color:#000000; margin:0 auto;">
+
+        <tr>
+          <td class="inner-padding" style="padding:16px 24px 8px 24px;">
+            <table width="100%">
+              <tr>
+                <td align="left">
+                  <img src="https://dekim-inspace.github.io/Newsletter/assets/hlogo.png" style="max-width:150px; display:block;">
+                </td>
+                <td align="right"
+                    style="text-transform:uppercase; font-size:15px; font-weight:500;
+                           color:#000000; ;">
+                  WWW.INSPACE.CO.KR
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" class="inner-padding"
+              style="padding:32px 24px 6px 24px;
+                     font-size:40px; font-weight:850;
+                     color:#000000; ;">
+            <div class="main-title"
+                 style="color:#000000; ;">
+              InSpace Weekly
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" class="inner-padding sub-title"
+              style="padding:0 24px 8px 24px;
+                     font-size:15px; font-weight:700;
+                     color:#000000; ;">
+            2026년 5월 31일 ~ 2026년 6월 7일
+          </td>
+        </tr>
+
+        <tr>
+          <td class="inner-padding" style="padding:8px 24px 12px 24px;">
+            <table width="100%">
+              <tr>
+                <td></td>
+                <td align="right" style="font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+                           font-size:15px; line-height:1.6; font-weight:800;
+                           color:#000000; text-shadow: -2px -2px 0 #ffffff, 2px -2px 0 #ffffff, -2px 2px 0 #ffffff, 2px 2px 0 #ffffff;">
+                  한컴인스페이스<br>6월 2주차 뉴스레터
+                  <div style="margin-top:4px; letter-spacing:0.14em;
+                              color:#000000; font-weight:800; ;">
+                    업데이트: 2026.06.08
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+
+<!-- 본문 -->
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0 16px 0;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="max-width:700px; width:100%; margin:0 auto;">
+        <tr>
+          <td class="inner-padding" style="padding:0 16px 0 16px;">
+
+            <!-- 이전 뉴스레터 보기 버튼 -->
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:24px;">
+              <tr>
+                <td
+                  style="border-radius:12px;
+                        overflow:hidden;
+                        border:1px solid #e5e7eb;
+                        background-image:url('https://dekim-inspace.github.io/Newsletter/assets/archivebutton.png');
+                        background-size:cover;
+                        background-position:center;
+                        background-repeat:no-repeat;"
+                        box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+
+                  <a href="https://dekim-inspace.github.io/Newsletter/archive.html"
+                    style="display:block; text-decoration:none; color:inherit;">
+
+                    <div style="background:rgba(255,255,255,0.70); padding:20px 18px;">
+                      <div style="font-size:14px; font-weight:700; color:#000000; margin-bottom:4px;">
+                        아카이브
+                      </div>
+                      <div style="font-size:18px; font-weight:700; color:#000000;">
+                        이전 뉴스레터 다시 보기 →
+                      </div>
+                    </div>
+
+                  </a>
+                </td>
+              </tr>
+            </table>
+
+            
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:24px;">
+  <tr><td align="center">
+    <table cellpadding="0" cellspacing="0" border="0"
+           style="width:100%; max-width: 700px;
+                  border:1px solid #e5e7eb;
+                  border-radius:12px;
+                  overflow:hidden;
+                  box-sizing:border-box;
+                  box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+      <tr>
+        <td style="
+            background-image:url('https://dekim-inspace.github.io/Newsletter/assets/insightcard2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat:no-repeat;
+            padding:0;">
+
+          <!-- 가독성 오버레이 -->
+          <div style="background:rgba(255,255,255,0.65);
+                      padding:15px;">
+
+            <div style="font-size:20px; font-weight:800; color:#000000;">
+              🔍 Weekly Focus Insight
+            </div>
+
+            <div style="font-size:14px; color:#000000; line-height:1.7; font-weight:500;
+                        padding-top:10px; word-break: keep-all; overflow-wrap: break-word;">
+              <p style='margin:0 0 10px 0; line-height:1.75;'>이번 주 지리공간 정보와 위성 영상, 드론, AI 인프라 분야에서 나타난 변화는 데이터 수집과 분석 기술이 단순한 도구 단계를 넘어 전략적 자산과 거버넌스 체계로 전환되고 있음을 보여줍니다. 이는 위성 및 드론 기반의 정밀 관측과 실시간 모니터링 역량이 강화되면서, 군사·산업·환경 분야에서 데이터의 신뢰성과 활용도가 급격히 높아지고 있기 때문입니다.</p><p style='margin:0 0 10px 0; line-height:1.75;'>예를 들어, 위성 영상 분석을 통한 군사 자산 피해 평가와 우주 기반 데이터 센터 구축 계획은 위성 데이터가 단순 관측을 넘어 국가 안보와 산업 혁신의 핵심 인프라로 자리매김하고 있음을 시사하며, 드론과 AI 기술의 융합은 실시간 대응과 운영 효율성 향상이라는 새로운 거버넌스 모델을 촉진합니다. 또한, AI 컴퓨팅 자원 임대와 글로벌 AI 인프라 확장 움직임은 데이터 처리 역량이 기술 경쟁력의 핵심 축으로 부상하고 있음을 뒷받침하며, 이에 따라 조직들은 지리공간 데이터의 보안 강화, AI 인프라 구축, 그리고 위성·드론 데이터의 통합 분석 역량을 전략적으로 점검하고 준비해야 할 필요가 있습니다.</p><p style='margin:0 0 10px 0; line-height:1.75;'>이러한 흐름은 지리공간 정보가 단순한 운영 도구를 넘어 국가·산업 전략과 기술 인프라의 중추로 전환되는 과정임을 보여주며, 다음 주에는 우주 기반 AI 데이터 센터의 구체적 진전과 드론 방어 기술의 정책적 영향력이 관측 포인트가 될 것입니다.</p>
+            </div>
+
+          </div>
+
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+</table>
+
+            
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:36px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#f9fafb;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;
+                    box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+        <tr>
+          <td>
+            
+<div style="font-size:26px; font-weight:800; color:#111827;
+            margin-bottom:24px; line-height:1.3;">
+  🛰️ 위성 영상 / SAR·광학·하이퍼스펙트럴 이미지 분석
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://en.defence-ua.com/analysis/satellite_imagery_suggests_russian_boykiy_corvette_was_effectively_destroyed_after_ukrainian_drone_attack_in_kronstadt-18706.html"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://en.defence-ua.com/media/illustration/articles/1416a214f8ab6200.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                위성 영상 분석, 우크라이나 드론 공격 후 러시아 보이키 경비함 사실상 파괴 확인
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              Satellite Imagery Suggests russian Boykiy Corvette Was Effectively Destroyed After Ukrainian Drone Attack in Kronstadt
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-07
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                최근 위성 영상 분석 결과, 우크라이나 드론 공격으로 러시아의 보이키(Boykiy) 경비함이 크론슈타트에서 사실상 파괴된 것으로 나타났다. 이 영상은 광학 및 SAR 위성 데이터를 활용해 공격 후 함정의 상태를 정밀하게 평가했다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://www.earthdata.nasa.gov/news/eyes-sky-training-nasa-satellite-imagery-land-cover-analysis"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                하늘의 눈: NASA 위성 영상 기반 토지 피복 분석 교육
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              Eyes in the Sky: A Training on NASA Satellite Imagery for Land Cover Analysis
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-07
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                NASA가 위성 영상을 활용한 토지 피복 분석 교육 프로그램을 제공한다. 이 교육은 광학 및 기타 위성 데이터를 활용해 지표면의 토지 이용 및 변화를 분석하는 방법을 다루며, 최신 위성 영상 기술과 분석 기법을 실습 중심으로 배울 수 있다. 이를 통해 연구자 및 실무자들이 위성 데이터를 효과적으로 활용하여 환경 모니터링 및 자원 관리에 기여할 수 있도록 지원한다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://www.globenewswire.com/news-release/2026/06/05/3307236/28124/en/Satellites-Market-by-Mass-Application-Subsystem-Frequency-Propulsion-and-Region-Global-Forecast-to-2031.html"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://ml.globenewswire.com/Resource/Download/908fb457-7f8e-4a08-9081-5565e3dfb3d7" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                위성 시장, 2031년까지 467억 9천만 달러 규모로 성장 전망
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              Satellites Market by Mass, Application, Subsystem, Frequency, Propulsion, and Region -Global Forecast to 2031
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-05
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                글로벌 위성 시장이 2025년 156억 8천만 달러에서 2031년 467억 9천만 달러로 연평균 16.9% 성장할 것으로 예상된다. 위성 단위 수량도 2025년 2,942대에서 2031년 5,110대로 증가할 전망이며, 이는 통신, 지리공간 정보, 광학 및 SAR 위성 등 다양한 응용 분야에서 수요가 증가하기 때문이다. 본 보고서는 위성의 질량, 응용, 하위 시스템, 주파수, 추진 방식, 지역별 시장 동향을 상세히 분석한다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<div style="margin-top:12px; text-align:right;">
+  <a href="https://dekim-inspace.github.io/Newsletter/2026/06/08/more_satellite.html"
+     style="display:inline-block; font-size:13px; font-weight:600;
+            color:#111827; text-decoration:none;
+            padding:6px 12px; border-radius:999px;
+            border:1px solid #d1d5db; background:#ffffff;">
+    이 주제 추가 기사 보기 →
+  </a>
+</div>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:36px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#f9fafb;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;
+                    box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+        <tr>
+          <td>
+            
+<div style="font-size:26px; font-weight:800; color:#111827;
+            margin-bottom:24px; line-height:1.3;">
+  🤖 AI 데이터·분석 플랫폼 / MLOps·자동화
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://news.google.com/rss/articles/CBMiU0FVX3lxTE9Ib3R6ZWh3UUM2VF9ULUl5QUdzbFNLTU0tb3pFbUtLMGhCTXc3bUpLZmEzRTUwZElrTXVQNU14VEFkemxWOEgyTktKSEViYno1X1l3?oc=5"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                아이엘, 연내 500만건 피지컬AI 데이터 플랫폼 구축…휴머노이드 운영 데이터 43만건 확보
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              아이엘, 연내 500만건 피지컬AI 데이터 플랫폼 구축…휴머노이드 운영 데이터 43만건 확보 - 네이트
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-05
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                아이엘이 올해 안에 500만 건의 피지컬AI 데이터 플랫폼을 구축할 계획이다. 현재 휴머노이드 로봇의 운영 데이터 43만 건을 확보했으며, 이를 기반으로 AI 데이터 분석 및 플랫폼 고도화를 추진한다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://4sysops.com/archives/google-leases-massive-ai-compute-capacity-from-spacex-in-multi-billion-dollar-deal/"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://4sysops.com/wp-content/uploads/2026/06/google-leases-massive-ai-compute-capacity-from-spacex-in-multi-billion-dollar-deal.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                구글, 스페이스X와 수십억 달러 규모 AI 컴퓨팅 용량 임대 계약 체결
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              Google leases massive AI compute capacity from SpaceX in multi-billion dollar deal
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-07
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                구글이 스페이스X와 월 9억 2천만 달러 규모의 대규모 AI 컴퓨팅 자원 임대 계약을 체결했다. 2026년 10월부터 2029년 6월까지 진행되는 이번 계약은 구글의 Gemini Enterprise 에이전트 플랫폼 및 기타 AI 서비스의 높은 수요를 지원하기 위한 인프라 확장용으로 사용된다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://blogs.nvidia.com/blog/nvidia-and-doosan-group-physical-ai/"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://blogs.nvidia.com/wp-content/uploads/2026/06/kr-visit-blog-doosan-robotics-1920x1080-noncredit.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                NVIDIA와 두산그룹, 물리적 AI 및 AI 공장 인프라 발전을 위한 협력 확대
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              NVIDIA and Doosan Group Collaborate to Advance Physical AI and AI Factory Infrastructure
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-07
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                NVIDIA와 두산그룹이 물리적 AI, 로보틱스, AI 공장 인프라 분야에서 협력을 확대한다. 이번 협력은 두산로보틱스, 두산밥캣, 두산에너빌리티, 두산전자재료 BG 등 다양한 계열사를 아우르며, AI 기반 제조 및 자동화 혁신을 가속화하는 데 중점을 둔다. 이를 통해 산업 현장에 최적화된 AI 솔루션과 인프라 구축이 기대된다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<div style="margin-top:12px; text-align:right;">
+  <a href="https://dekim-inspace.github.io/Newsletter/2026/06/08/more_ai_platform.html"
+     style="display:inline-block; font-size:13px; font-weight:600;
+            color:#111827; text-decoration:none;
+            padding:6px 12px; border-radius:999px;
+            border:1px solid #d1d5db; background:#ffffff;">
+    이 주제 추가 기사 보기 →
+  </a>
+</div>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:36px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#f9fafb;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;
+                    box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+        <tr>
+          <td>
+            
+<div style="font-size:26px; font-weight:800; color:#111827;
+            margin-bottom:24px; line-height:1.3;">
+  ✈️ 항공 / 드론·무인기(UAV/UAS) 동향
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://9mothers.com/careers"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://storage.googleapis.com/ployai/dd1475f0-2410-4ca9-b24e-7883c3bddc93/user/570ba5d4-mounted-edda-stylized.png" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                9 Mothers (YC P26), 오스틴에서 카운터 드론 방어 시스템 개발 인재 채용
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              9 Mothers (YC P26) Is Hiring
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-07
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                9 Mothers는 오스틴에서 AI 인지, 동적 대응 및 킬 체인 완성을 위한 카운터 드론 방어 시스템을 개발 중이며, 오디오 머신러닝, DSP, 시스템 및 소프트웨어 분야에서 12개 이상의 채용 공고를 내고 있다. 하드웨어와 소프트웨어를 긴밀히 연동하여 실제 배포와 빠른 반복 개발을 추구한다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://petapixel.com/2026/06/07/icelands-drone-ban-is-nature-conservation-theater/"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://petapixel.com/assets/uploads/2026/06/Icelands-Drone-Ban-Is-Nature-Conservation-Theater.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                아이슬란드의 드론 금지 조치는 자연보호 쇼에 불과하다
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              Iceland’s Targeted Drone Ban Is Nature Conservation Theater
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-07
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                아이슬란드 고원지대에서 드론 촬영을 허가받아 수년간 강의해온 저자는, 현지 자연보호국의 엄격한 규제를 준수했음에도 불구하고 드론 금지 조치가 실제 자연보호보다는 보여주기식 정책에 가깝다고 비판한다. 이 기사는 드론 산업과 자연보호 정책 간의 갈등과 드론 활용의 현실적 어려움을 다룬다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://theaviationist.com/2026/06/07/fy27-ndaa-advances-amendments/"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://theaviationist.com/wp-content/uploads/2026/04/9493568b.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                FY27 NDAA, A-10 감시 강화 및 대드론(C-UAS), 수리권 보장 조항 포함 진전
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              FY27 NDAA Advances with New A-10 Oversight, C-UAS and Right-to-Repair Amendments
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-07
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                미국 하원 군사위원회(HASC)는 2027 회계연도 국방수권법(FY27 NDAA) 심사에서 A-10 공격기 퇴역 관련 감시 강화, 대드론(C-UAS) 대응 조치, 그리고 수리권 보장(right-to-repair) 조항을 포함한 일련의 조항들을 통과시켰다. 이 법안은 드론 및 무인기 대응 기술과 관련 정책 발전에 중요한 진전을 나타내며, 향후 국방 및 항공 분야에서 관련 기술 및 산업에 영향을 미칠 전망이다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<div style="margin-top:12px; text-align:right;">
+  <a href="https://dekim-inspace.github.io/Newsletter/2026/06/08/more_aviation.html"
+     style="display:inline-block; font-size:13px; font-weight:600;
+            color:#111827; text-decoration:none;
+            padding:6px 12px; border-radius:999px;
+            border:1px solid #d1d5db; background:#ffffff;">
+    이 주제 추가 기사 보기 →
+  </a>
+</div>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:36px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#f9fafb;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;
+                    box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+        <tr>
+          <td>
+            
+<div style="font-size:26px; font-weight:800; color:#111827;
+            margin-bottom:24px; line-height:1.3;">
+  🌐 GeoINT / 지리공간 정보, 위성·지도 기반 정보 분석
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://news.google.com/rss/articles/CBMia0FVX3lxTE50WUgwQzRKaFVDRUJQZ05yYXgzNTd6NjFqWXJTNjRZbjhJZFNzMC1xVGxMWkxFQVNuLXp1UEVfckNsemtBcnZ2RUpQRllGbHU0ODBfMXI2aUYxNm91YjFaU0JfeUF4MnJqeGxr0gFvQVVfeXFMTVBUNlJQbnVRbmdBRlRqTVV0Y1JxTGlfem9DYXk4T184NjBfczdfQzQwUFd2bldPR3Q0WlJwYjlsRVhVMWdMNHpQbzJvMjFfNGVOc2NXeFB2V1p0bmtoSlBjTUtWTFFla0cybDlReTh3?oc=5"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                예산, 공간정보 보안 역량 강화… 공직자 대상 직무교육 - 서울일보
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              예산, 공간정보 보안 역량 강화… 공직자 대상 직무교육 - 서울일보
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-07
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                예산군이 공간정보 보안 역량 강화를 위해 공직자를 대상으로 직무교육을 실시한다. 이번 교육은 지리공간 정보의 안전한 관리와 활용을 위해 보안 의식을 높이고 관련 역량을 강화하는 데 목적이 있다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://pypi.org/project/botmap/"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://pypi.org/static/images/twitter.abaf4b19.webp" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                botmap, PyPI에 추가되어 Overture Maps 데이터와 상호작용하는 파이썬 도구 제공
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              botmap added to PyPI
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-07
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                Overture Maps Foundation의 공식 파이썬 커맨드라인 도구인 botmap이 PyPI에 추가되었다. Overture Maps는 다양한 출처의 지리공간 지도 데이터를 무료로 제공하며, 이를 공통 스키마로 정규화한다. botmap 도구를 통해 개발자들은 이 오픈 지리공간 데이터를 쉽게 활용하고 분석할 수 있다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+  <tr>
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체 클릭 -->
+      <a class="row-link"
+        href="https://news.mit.edu/2026/cartesian-helps-retailers-track-their-products-in-real-time-0605"
+        target="_blank"
+        style="text-decoration:none; color:inherit; display:block; padding:8px;">
+
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <!-- 썸네일 (중첩 a 제거: 바깥 a만 사용) -->
+            <td valign="top" width="135" style="padding:0;">
+              <img src="https://news.mit.edu/sites/default/files/images/202606/MIT_Cartesian-Systems-01-press.jpg" width="120" height="120"
+                   style="display:block; border-radius:14px; object-fit:cover;"
+                   onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+            </td>
+
+            <!-- 제목/부제목/날짜 -->
+            <td valign="top" style="padding-left:6px;">
+              <div style="font-size:18px; font-weight:700; color:#111;
+                          margin-bottom:4px; line-height:1.35;">
+                스타트업 Cartesian, 무선 신호 기반 실시간 소매 재고 위치 추적 기술 개발
+              </div>
+
+              
+            <div style="font-size:14px; color:#555; margin-bottom:4px; line-height:1.35;">
+              Startup helps retailers track their products in real-time
+            </div>
+
+              <div style="font-size:12px; color:#888; margin-bottom:2px;">
+                2026-06-05
+              </div>
+            </td>
+          </tr>
+
+          <!-- 요약 -->
+          <tr>
+            <td colspan="2" style="padding-top:12px;">
+              <div style="font-size:14px; color:#333; line-height:1.8;">
+                MIT에서 발명된 기술을 활용하는 스타트업 Cartesian은 소매업체들이 매장 내 재고 위치를 실시간으로 정확히 파악할 수 있도록 돕고 있다. RFID 태그에서 나오는 무선 신호를 이용해 재고가 창고부터 매장 진열대까지 어디에 있는지 추적하는 시스템이다. 이를 통해 직원들의 재고 관리 시간을 줄이고 운영 효율성을 높인다.
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<div style="margin-top:12px; text-align:right;">
+  <a href="https://dekim-inspace.github.io/Newsletter/2026/06/08/more_geoint.html"
+     style="display:inline-block; font-size:13px; font-weight:600;
+            color:#111827; text-decoration:none;
+            padding:6px 12px; border-radius:999px;
+            border:1px solid #d1d5db; background:#ffffff;">
+    이 주제 추가 기사 보기 →
+  </a>
+</div>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:36px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#f9fafb;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;">
+        <tr>
+          <td>
+            
+<div style="font-size:26px; font-weight:800; color:#111827;
+            margin-bottom:24px; line-height:1.3;">
+  💡 최신 연구동향
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:18px;">
+  <tr>
+    <!-- 여기 td에는 패딩/마진만 두고, 실제 카드 스타일은 안쪽 div에 줌 -->
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체를 감싸는 링크 -->
+      <a href="https://doi.org/10.3390/rs18111865" target="_blank"
+         style="display:block; text-decoration:none; color:inherit;">
+
+        <!-- 실제 카드 모양(배경, 테두리, 패딩)은 이 div에 적용 -->
+        <div style="background:#ffffff; border-radius:12px;
+                    border:1px solid #e5e7eb;
+                    padding:16px 18px; box-sizing:border-box;
+                    box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+
+          <!-- 영문 원제목 (굵게) -->
+          <div style="font-size:17px; font-weight:700; color:#111827;
+                      line-height:1.4; margin-bottom:4px;">
+            MESA-Net: A Multi-Directional Edge-Aware Network with Scale Adaptation for Water Body Segmentation in Karst Landscapes
+          </div>
+
+          <!-- 소 -->
+          <div style="font-size:12px; font-weight:500; color:#374151; margin-bottom:2px;">
+            MDPI - Remote Sensing
+          </div>
+
+          <!-- 발행일 -->
+          <div style="font-size:12px; color:#6b7280; margin-bottom:8px;">
+            2026-06-05
+          </div>
+
+          <!-- 요약 (본문/요약 내용) -->
+          <div style="font-size:14px; color:#374151; line-height:1.7;">
+            Satellite remote sensing imagery has become an essential resource for large-scale surface water monitoring. Nevertheless, in karst regions, the elongated and fragmented morphology of water bodies,...
+          </div>
+
+        </div>
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:18px;">
+  <tr>
+    <!-- 여기 td에는 패딩/마진만 두고, 실제 카드 스타일은 안쪽 div에 줌 -->
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체를 감싸는 링크 -->
+      <a href="https://doi.org/10.3390/rs18111864" target="_blank"
+         style="display:block; text-decoration:none; color:inherit;">
+
+        <!-- 실제 카드 모양(배경, 테두리, 패딩)은 이 div에 적용 -->
+        <div style="background:#ffffff; border-radius:12px;
+                    border:1px solid #e5e7eb;
+                    padding:16px 18px; box-sizing:border-box;
+                    box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+
+          <!-- 영문 원제목 (굵게) -->
+          <div style="font-size:17px; font-weight:700; color:#111827;
+                      line-height:1.4; margin-bottom:4px;">
+            Multi-Scale High-Resolution Urban Flood Susceptibility Mapping Using MaxEnt and Multi-Source Geospatial Data
+          </div>
+
+          <!-- 소 -->
+          <div style="font-size:12px; font-weight:500; color:#374151; margin-bottom:2px;">
+            MDPI - Remote Sensing
+          </div>
+
+          <!-- 발행일 -->
+          <div style="font-size:12px; color:#6b7280; margin-bottom:8px;">
+            2026-06-05
+          </div>
+
+          <!-- 요약 (본문/요약 내용) -->
+          <div style="font-size:14px; color:#374151; line-height:1.7;">
+            Urban flood susceptibility mapping is essential for disaster risk management in rapidly urbanizing regions. Although high-resolution Earth observation (EO) data provide detailed information for...
+          </div>
+
+        </div>
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:18px;">
+  <tr>
+    <!-- 여기 td에는 패딩/마진만 두고, 실제 카드 스타일은 안쪽 div에 줌 -->
+    <td style="padding:0; margin:0;">
+
+      <!-- ✅ 카드 전체를 감싸는 링크 -->
+      <a href="https://doi.org/10.3390/rs18111861" target="_blank"
+         style="display:block; text-decoration:none; color:inherit;">
+
+        <!-- 실제 카드 모양(배경, 테두리, 패딩)은 이 div에 적용 -->
+        <div style="background:#ffffff; border-radius:12px;
+                    border:1px solid #e5e7eb;
+                    padding:16px 18px; box-sizing:border-box;
+                    box-shadow:0 10px 24px rgba(0,0,0,0.14);">
+
+          <!-- 영문 원제목 (굵게) -->
+          <div style="font-size:17px; font-weight:700; color:#111827;
+                      line-height:1.4; margin-bottom:4px;">
+            Early Fire Detection with Higher Sensitivity and Timeliness: Porting the RST-FIRES Algorithm to Rapid Scan Geostationary Data
+          </div>
+
+          <!-- 소 -->
+          <div style="font-size:12px; font-weight:500; color:#374151; margin-bottom:2px;">
+            MDPI - Remote Sensing
+          </div>
+
+          <!-- 발행일 -->
+          <div style="font-size:12px; color:#6b7280; margin-bottom:8px;">
+            2026-06-05
+          </div>
+
+          <!-- 요약 (본문/요약 내용) -->
+          <div style="font-size:14px; color:#374151; line-height:1.7;">
+            In this work, the portability of the Robust Satellite Techniques for FIRES detection and monitoring (RST-FIRES) has been preliminary experimented on the Spinning Enhanced Visible and InfraRed Imager...
+          </div>
+
+        </div>
+      </a>
+      <!-- 링크 끝 -->
+
+    </td>
+  </tr>
+</table>
+
+<div style="margin-top:12px; text-align:right;">
+  <a href="https://dekim-inspace.github.io/Newsletter/2026/06/08/more_research.html"
+     style="display:inline-block; font-size:13px; font-weight:600;
+            color:#111827; text-decoration:none;
+            padding:6px 12px; border-radius:999px;
+            border:1px solid #d1d5db; background:#ffffff;">
+    최신 연구 더 보기 →
+  </a>
+</div>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- 푸터 -->
+<table class="footer-wrap" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background:#1e293b; padding:24px 0 32px 0;">
+
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="max-width:700px; width:100%; margin:0 auto;">
+        <tr>
+          <td class="inner-padding"
+              style="padding:12px 16px;
+                     font-size:12px;
+                     color:#e2e8f0;
+                     text-align:center;
+                     line-height:1.6;">
+
+            InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+            본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
+            &copy; 2026 Hancom InSpace. All Rights Reserved.
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+<script>
+(function () {
+  var layer = document.getElementById('main-bg-layer');
+  var video = document.getElementById('main-bg-video');
+  var img   = document.getElementById('main-bg-image');
+  var wash  = document.getElementById('main-bg-whitewash');
+
+  if (!layer || !wash) return;
+
+  layer.style.display = 'block';
+
+  var FADE_START = 200;
+  var FADE_END   = 800;
+
+  var duration = 0;
+  var ready = false;
+
+  if (video) {
+    video.addEventListener('loadedmetadata', function () {
+      duration = video.duration || 0;
+      ready = true;
+    });
+  }
+
+  function clamp01(x) {
+    return Math.max(0, Math.min(1, x));
+  }
+
+  function getDocScrollMax() {
+    var doc = document.documentElement;
+    return Math.max(0, (doc.scrollHeight || 0) - window.innerHeight);
+  }
+
+  function updateFade(scrollY) {
+    var t = clamp01((scrollY - FADE_START) / Math.max(1, (FADE_END - FADE_START)));
+
+    wash.style.opacity = String(1 - t);
+
+    if (video) video.style.opacity = String(t);
+    if (img)   img.style.opacity   = String(t);
+
+    return t;
+  }
+
+  var targetTime = 0;
+  var currentTime = 0;
+  var easing = 0.08;
+
+  function computeTargetTime(scrollY) {
+    if (!video || !ready || !duration) return 0;
+
+    var scrollMax = getDocScrollMax();
+    var usable = Math.max(1, scrollMax);   // 전체 스크롤 구간 사용
+    var p = clamp01(scrollY / usable);     // 0부터 바로 매핑
+
+    return p * duration;
+  }
+
+
+  function tick() {
+    if (video && ready && duration) {
+      currentTime += (targetTime - currentTime) * easing;
+      if (isFinite(currentTime)) {
+        try { video.currentTime = currentTime; } catch(e) {}
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset || 0;
+
+    // fade는 독립적으로 계속 계산
+    updateFade(y);
+
+    // (NEW) fade 진행 중에도 항상 타임라인 목표값 갱신
+    targetTime = computeTargetTime(y);
+  }
+
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+
+  onScroll();
+  requestAnimationFrame(tick);
+})();
+</script>
+
+
+
+</body>
+</html>
