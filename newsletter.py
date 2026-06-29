@@ -338,7 +338,7 @@ TOPIC_KEYWORDS = {
 }
 
 # ============================================================
-# 🌐 한컴인스페이스 뉴스 설정 (추가)
+# 🌐 인스페이스 뉴스 설정 (추가)
 # ============================================================
 INSPACE_NEWS_TOP_N = 3
 INSPACE_NEWS_MORE_PAGE_SIZE = 5
@@ -1666,12 +1666,12 @@ SYSTEM_PROMPT_STRICT = """
   - fas.org 에서 나오는 기사는 제외해주세요.
   - 원본 Source자료의 출간 일자를 반드시 확인해주세요. 수집시점에서 10일 이상 지난 자료는 제외해주세요.
 
-[특별 규칙: 한컴 인스페이스 관련 기사]
-- 기사 제목·본문·설명에 '한컴', '한컴인스페이스', 'Hancom InSpace', 'InSpace' 등이 포함되면
+[특별 규칙: 인스페이스 관련 기사]
+- 기사 제목·본문·설명에 '인스페이스', 'InSpace' 등이 포함되면
   -> 반드시 keep = true 로 설정하세요.
 - 주제 범위를 약간 벗어나도 괜찮습니다.
 - topic_final은 1~4 중 가장 관련성이 높은 번호로 선택하세요.
-- reason 필드에 반드시 "[한컴 인스페이스 관련]"을 포함하세요.
+- reason 필드에 반드시 "[인스페이스 관련]"을 포함하세요.
 
 [불허 컨텐츠]
 - 단순 블로그 글, 제품 광고, 기초 설명, SNS 글, 유료페이지, 튜토리얼은 keep=false
@@ -1744,7 +1744,7 @@ def gpt_process_article(row, system_prompt=SYSTEM_PROMPT_STRICT, model=MODEL_NAM
 
 
 
-print("\n=== [4단계] GPT 엄격 필터링 + 한컴 강제 포함 로직 ===")
+print("\n=== [4단계] GPT 엄격 필터링 + 인스페이스 강제 포함 로직 ===")
 
 
 # ============================================================
@@ -1955,13 +1955,13 @@ if IN_COLAB:
 
 # ============================
 # 5. 주제별 최소 3개 강제: 부족분은 백업 프롬프트로 채우기
-#    + 한컴 인스페이스 관련 기사 우선순위 부여
+#    + 인스페이스 관련 기사 우선순위 부여
 # ============================
 
 def detect_hancom_priority(row):
     """
-    한컴 인스페이스 관련 기사이면 priority=1, 아니면 0
-    - 제목 / 한글제목 / 한글요약 / 소스명에 '한컴', 'InSpace' 등이 포함되면 우선순위 부여
+    인스페이스 관련 기사이면 priority=1, 아니면 0
+    - 제목 / 한글제목 / 한글요약 / 소스명에 '인스페이스', 'InSpace' 등이 포함되면 우선순위 부여
     """
     text = " ".join([
         str(row.get("original_title", "") or ""),
@@ -1971,12 +1971,11 @@ def detect_hancom_priority(row):
     ]).lower()
 
     keywords = [
-        "한컴인스페이스",
-        "한컴 인스페이스",
-        "hancominspace",
-        "hancom inspace",
-        "hancom",
+        "인스페이스",
+        "인스페이스 테크놀로지",
         "inspace",
+        "inspace technology",
+        "inspace co., Ltd.",
     ]
 
     return 1 if any(k in text for k in keywords) else 0
@@ -2058,7 +2057,7 @@ for t in [1, 2, 3, 4]:
 
 # ---------- 한컴 인스페이스 여부 플래그 ----------
 df_final["hancom_priority"] = df_final.apply(detect_hancom_priority, axis=1)
-print("한컴 인스페이스 관련 기사 수:", int(df_final["hancom_priority"].sum()))
+print("인스페이스 관련 기사 수:", int(df_final["hancom_priority"].sum()))
 
 # 여기서는 정렬하지 않고, 뒤에서 '사회적 관심 기반 priority'를 계산한 다음에 정렬합니다.
 
@@ -2482,21 +2481,21 @@ for topic_num in [1, 2, 3, 4]:
 print("\n" + "="*60 + "\n")
 
 
-# # **06-1 한컴인스페이스 기사 추가**
+# # **06-1 인스페이스 기사 추가**
 
 # In[10]:
 
 
 # ============================================================
-# 🌐 한컴인스페이스 관련 뉴스 수집
+# 🌐 인스페이스 관련 뉴스 수집
 # ============================================================
-print("▶ 한컴인스페이스 관련 뉴스 수집 시작")
+print("▶ 인스페이스 관련 뉴스 수집 시작")
 
-INSPACE_QUERY_TERMS = ["한컴인스페이스", "한컴 인스페이스", "Hancom InSpace", "HancomInSpace"]
+INSPACE_QUERY_TERMS = ["인스페이스", "인스페이스 테크놀로지", "InSpace", "InSpace Technology"]
 
 
 # ============================
-# 한컴인스페이스 전용 유틸 함수
+# 인스페이스 전용 유틸 함수
 # (06-1 섹션에서 search_naver_inspace / collect_inspace_news보다 위에 있어야 함)
 # ============================
 import re
@@ -2514,7 +2513,7 @@ def clean_text(text: str) -> str:
 
 
 # ============================================================
-# 🔥 한컴인스페이스 전용 중복 제거 유틸 (오판 방지 강화)
+# 🔥 인스페이스 전용 중복 제거 유틸 (오판 방지 강화)
 # ============================================================
 
 # 브랜드/노이즈 제거
@@ -2524,9 +2523,8 @@ INSPACE_STOPWORDS = {
     "news", "report", "exclusive", "breaking"
 }
 INSPACE_BRAND_TOKENS = {
-    "한컴", "한컴인스페이스", "인스페이스", "한컴 인스페이스",
-    "한글과컴퓨터", "한글과컴퓨터(한컴)", "한컴그룹",
-    "hancom", "inspace", "hancominspace"
+    "인스페이스", "인스페이스 테크놀로지", "인 스페이스",
+    "inspace", "inspace technology"
 }
 _INSPACE_BRAND_COMPACT = {b.replace(" ", "") for b in INSPACE_BRAND_TOKENS}
 
@@ -2784,7 +2782,7 @@ def _is_inspace_duplicate(a: dict, b: dict) -> str:
 
 
 def search_naver_inspace(query: str, min_needed=20, max_calls=3):
-    """한컴인스페이스 전용 네이버 뉴스 검색"""
+    """인스페이스 전용 네이버 뉴스 검색"""
     if not NAVER_CLIENT_ID or not NAVER_CLIENT_SECRET:
         print("[WARN] 네이버 API 키 없음")
         return []
@@ -3025,7 +3023,7 @@ inspace_more_articles = inspace_all_articles[INSPACE_NEWS_TOP_N:]
 
 print(f"  - 메인 TOP: {len(inspace_top_articles)}건")
 print(f"  - 추가 기사: {len(inspace_more_articles)}건")
-print("✓ 한컴인스페이스 뉴스 수집 완료")
+print("✓ 인스페이스 뉴스 수집 완료")
 
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
@@ -3816,7 +3814,7 @@ from urllib.parse import urljoin
 
 def extract_thumbnail_inspace(url: str) -> str:
     """
-    한컴인스페이스 전용: 참고 파일 방식 그대로(og:image만)
+    인스페이스 전용: 참고 파일 방식 그대로(og:image만)
     """
     try:
         r = requests.get(url, timeout=8, headers={"User-Agent": "Mozilla/5.0"})
@@ -4344,7 +4342,7 @@ def fetch_thumbnail_for_article(article_data):
     topic_num, art = article_data
     news_url = art.get("url", "")
     try:
-        # ✅ 한컴인스페이스는 참고 파일 방식(og:image만)으로 고정
+        # ✅ 인스페이스는 참고 파일 방식(og:image만)으로 고정
         if topic_num in ("inspace_top", "inspace_more"):
             thumb = extract_thumbnail_inspace(news_url)
         else:
@@ -4399,15 +4397,15 @@ print(f"\n썸네일 추출 완료! 성공: {success}/{total_articles}개")
 print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canonical 추적)")
 
 
-# # **07-3 한컴인스페이스 TOP 기사 요약 생성**
+# # **07-3 인스페이스 TOP 기사 요약 생성**
 
 # In[14]:
 
 
 # ============================================================
-# 🌐 한컴인스페이스 TOP 기사 요약 생성
+# 🌐 인스페이스 TOP 기사 요약 생성
 # ============================================================
-print("▶ 한컴인스페이스 TOP 기사 요약 생성")
+print("▶ 인스페이스 TOP 기사 요약 생성")
 
 def extract_article_body_for_summary(url):
     """요약용 본문 추출"""
@@ -4467,7 +4465,7 @@ if client and inspace_top_articles:
                 idx = int(row["id"].replace("inspace_", ""))
                 if 0 <= idx < len(inspace_top_articles):
                     inspace_top_articles[idx]["summary"] = row.get("summary", "")
-        print("  - 한컴인스페이스 TOP 요약 완료")
+        print("  - 인스페이스 TOP 요약 완료")
     except Exception as e:
         print(f"  - 요약 실패: {e}")
         for a in inspace_top_articles:
@@ -4507,7 +4505,7 @@ def generate_weekly_focus_insight(
     """
     Weekly Focus Insight:
     - 토픽(1~4) 뉴스 + 최신 연구동향 요약(상위 항목들)을 읽고
-      한컴인스페이스에게 3~5줄 한국어 조언을 생성.
+      인스페이스에게 3~5줄 한국어 조언을 생성.
     """
 
     def _pick_top_k(article_list, k):
@@ -4581,7 +4579,7 @@ def generate_weekly_focus_insight(
         "   인과 또는 구조적 연결 표현을 사용합니다. "
         "5) 변화의 의미가 드러나도록 "
         "   '기술 → 전략', '도구 → 인프라', '운영 → 거버넌스'와 같은 전환 관점을 포함합니다. "
-        "6) 특정 기업이나 조직(한컴인스페이스 등)을 직접 지칭하지 않습니다. "
+        "6) 특정 기업이나 조직(인스페이스 등)을 직접 지칭하지 않습니다. "
         "7) 존댓말 서술형으로 3~5문장으로 작성합니다. 각 문장은 줄바꿈으로 분리해 한 줄에 한 문장만 씁니다. "
         "   (불릿/번호/라벨/콜론 사용 금지, 빈 줄 금지) "
         "8) 문장 역할(순서)을 다음 흐름으로 구성합니다: "
@@ -4766,7 +4764,7 @@ print("="*60 + "\n")
 # ============================
 # W_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/USA_Sejong21.jpg"
 W_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/Newsletter_Image7.png"
-HLOGO_URL = "https://dekim-inspace.github.io/Newsletter/assets/hlogo.png"
+HLOGO_URL = "https://dekim-inspace.github.io/Newsletter/assets/hlogo1.png"
 
 # (NEW) 토픽별 더보기 페이지 헤더 이미지
 TOPIC_MORE_HEADER_BACKGROUNDS = {
@@ -4779,7 +4777,7 @@ TOPIC_MORE_HEADER_BACKGROUNDS = {
 # (NEW) 연구동향 더보기 페이지 헤더 이미지
 RESEARCH_MORE_HEADER_BACKGROUND = "https://dekim-inspace.github.io/Newsletter/assets/header_research2.png"
 
-# (NEW) 한컴인스페이스 기사 더보기 페이지 헤더 이미지
+# (NEW) 인스페이스 기사 더보기 페이지 헤더 이미지
 INSPACE_NEWS_HEADER_BG = "https://dekim-inspace.github.io/Newsletter/assets/header_geoint1.png"
 
 if "weekly_focus_insight" not in globals() or not (weekly_focus_insight or "").strip():
@@ -5070,7 +5068,7 @@ def build_sections_html(topic_main_articles, topic_extra_articles):
 
 def build_inspace_news_section_html(top_articles, more_articles, more_url):
     """
-    🌐 한컴인스페이스 관련 뉴스 섹션 HTML
+    🌐 인스페이스 관련 뉴스 섹션 HTML
     - 최신연구동향 섹션 다음에 배치
     """
     if not top_articles:
@@ -5082,7 +5080,7 @@ def build_inspace_news_section_html(top_articles, more_articles, more_url):
     inner.append(f"""
 <div style="font-size:26px; font-weight:800; color:#111827;
             margin-bottom:24px; line-height:1.3;">
-  🌐 한컴인스페이스 관련 뉴스
+  🌐 인스페이스 관련 뉴스
 </div>
 """)
 
@@ -5193,7 +5191,7 @@ def build_inspace_news_section_html(top_articles, more_articles, more_url):
 
 def build_inspace_more_page_html(more_articles, date_range, newsletter_date):
     """
-    🌐 한컴인스페이스 추가 기사 페이지 HTML (기존 헤더 스타일 유지)
+    🌐 인스페이스 추가 기사 페이지 HTML (기존 헤더 스타일 유지)
     """
     if not more_articles:
         return ""
@@ -5294,7 +5292,7 @@ def build_inspace_more_page_html(more_articles, date_range, newsletter_date):
           <td>
             <div style="font-size:24px; font-weight:700; color:#111827;
                         margin-bottom:16px;">
-              🌐 한컴인스페이스 추가 기사
+              🌐 인스페이스 추가 기사
             </div>
             {pager_html}
             {table_html}
@@ -5316,7 +5314,7 @@ def build_inspace_more_page_html(more_articles, date_range, newsletter_date):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
 
-<title>한컴인스페이스 - 추가 기사</title>
+<title>인스페이스 - 추가 기사</title>
 
 <style>
   @media (max-width: 768px) {{
@@ -5404,7 +5402,7 @@ def build_inspace_more_page_html(more_articles, date_range, newsletter_date):
                       font-size:28px; font-weight:700;
                       font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
                       color:#000000;">
-              한컴인스페이스 - 추가 기사
+              인스페이스 - 추가 기사
             </td>
           </tr>
 
@@ -5471,7 +5469,7 @@ def build_inspace_more_page_html(more_articles, date_range, newsletter_date):
                       text-align:center;
                       line-height:1.6;">
 
-              InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
               본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
               &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
@@ -5978,7 +5976,7 @@ def build_more_page_html(topic_extra_articles, date_range, newsletter_date, head
                       text-align:center;
                       line-height:1.6;">
 
-              InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
               본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
               &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
@@ -6437,7 +6435,7 @@ def build_research_more_page_html(extra_articles, date_range, newsletter_date, h
                       text-align:center;
                       line-height:1.6;">
 
-              InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
               본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
               &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
@@ -7575,7 +7573,7 @@ research_section_html = build_research_section_html(
 
 sections_html = sections_html + research_section_html
 
-# 🔥 한컴인스페이스 뉴스 섹션 추가 (최신연구동향 다음)
+# 🔥 인스페이스 뉴스 섹션 추가 (최신연구동향 다음)
 inspace_section_html = build_inspace_news_section_html(
     inspace_top_articles,
     inspace_more_articles,
@@ -7744,7 +7742,7 @@ newsletter_html = f"""
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<title>한컴인스페이스 {WEEK_LABEL} 뉴스레터</title>
+<title>인스페이스 {WEEK_LABEL} 뉴스레터</title>
 
 <!-- Pretendard -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -7976,7 +7974,7 @@ newsletter_html = f"""
                 <td align="right" style="font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
                            font-size:15px; line-height:1.6; font-weight:800;
                            color:#000000; text-shadow: -2px -2px 0 #ffffff, 2px -2px 0 #ffffff, -2px 2px 0 #ffffff, 2px 2px 0 #ffffff;">
-                  한컴인스페이스<br>{WEEK_LABEL} 뉴스레터
+                  인스페이스<br>{WEEK_LABEL} 뉴스레터
                   <div style="margin-top:4px; letter-spacing:0.14em;
                               color:#000000; font-weight:800; ;">
                     업데이트: {NEWSLETTER_DATE}
@@ -8060,7 +8058,7 @@ newsletter_html = f"""
                      text-align:center;
                      line-height:1.6;">
 
-            InSpace Weekly는 한컴인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+            InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
             본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
             &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
 
@@ -8184,14 +8182,14 @@ with open("more_research.html", "w", encoding="utf-8") as f:
 
 print("more_research.html 저장 완료")
 
-# 🔥 한컴인스페이스 추가 기사 페이지 HTML 생성
+# 🔥 인스페이스 추가 기사 페이지 HTML 생성
 inspace_more_html = build_inspace_more_page_html(
     inspace_more_articles,
     date_range,
     NEWSLETTER_DATE,
 )
 
-# 🔥 한컴인스페이스 추가 기사 페이지 저장
+# 🔥 인스페이스 추가 기사 페이지 저장
 if inspace_more_html:
     with open(INSPACE_NEWS_MORE_FILENAME, "w", encoding="utf-8") as f:
         f.write(inspace_more_html)
@@ -8293,7 +8291,7 @@ if research_more_html:
     commit_msg_research = f"Add newsletter research more: {FOLDER_PATH}"
     upload_file_to_github(research_repo_path, research_more_html, commit_msg_research)
 
-# 🔥 한컴인스페이스 추가 기사 페이지 업로드
+# 🔥 인스페이스 추가 기사 페이지 업로드
 if inspace_more_html:
     inspace_repo_path = f"docs/{FOLDER_PATH}/{INSPACE_NEWS_MORE_FILENAME}"
     commit_msg_inspace = f"Add newsletter inspace more: {FOLDER_PATH}"
@@ -8356,7 +8354,7 @@ print("=" * 60)
 
 # 🔹 실제 메일 전송
 if SEND_EMAIL and TO_EMAILS:
-    SUBJECT = f"한컴인스페이스 {WEEK_LABEL} 주간 뉴스레터 | {NEWSLETTER_DATE}"
+    SUBJECT = f"인스페이스 {WEEK_LABEL} 주간 뉴스레터 | {NEWSLETTER_DATE}"
 
     with open("newsletter.html", "r", encoding="utf-8") as f:
         html_content = f.read()
