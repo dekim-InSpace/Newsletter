@@ -9,7 +9,7 @@
 
 # # **01-1 GitHub 연동 설정 (Colab 전용)**
 
-# In[20]:
+# In[42]:
 
 
 # ============================
@@ -49,7 +49,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[21]:
+# In[43]:
 
 
 # ============================
@@ -109,7 +109,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[22]:
+# In[44]:
 
 
 # ============================================================
@@ -134,7 +134,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (기본 설정, 날짜, 수집 기간, 이미지)**
 
-# In[23]:
+# In[45]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -359,7 +359,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[24]:
+# In[46]:
 
 
 # ============================
@@ -1581,7 +1581,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[25]:
+# In[47]:
 
 
 # ============================
@@ -1638,7 +1638,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[26]:
+# In[48]:
 
 
 # ============================
@@ -1950,7 +1950,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[27]:
+# In[49]:
 
 
 # ============================
@@ -2072,7 +2072,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[28]:
+# In[50]:
 
 
 # ============================
@@ -2483,7 +2483,7 @@ print("\n" + "="*60 + "\n")
 
 # # **06-1 인스페이스 기사 추가**
 
-# In[29]:
+# In[51]:
 
 
 # ============================================================
@@ -2502,6 +2502,15 @@ import re
 from html import unescape
 import hashlib
 
+# def clean_text(text: str) -> str:
+#    """네이버 뉴스 API title/description에 섞여있는 HTML 태그/엔티티 제거"""
+#    if not text:
+#        return ""
+#    text = unescape(text)
+#    text = re.sub(r"<[^>]+>", " ", text)      # <b>, <br> 등 제거
+#    text = re.sub(r"\s+", " ", text).strip()  # 공백 정리
+#    return text
+
 def clean_text(text: str) -> str:
     """네이버 뉴스 API title/description에 섞여있는 HTML 태그/엔티티 제거"""
     if not text:
@@ -2510,6 +2519,45 @@ def clean_text(text: str) -> str:
     text = re.sub(r"<[^>]+>", " ", text)      # <b>, <br> 등 제거
     text = re.sub(r"\s+", " ", text).strip()  # 공백 정리
     return text
+
+# ============================================================
+# 🔥 진짜 인스페이스(InSpace) 기사 판별용 키워드
+# ============================================================
+INSPACE_EXACT_MATCH = [
+    "인스페이스 테크놀로지", "인스페이스 최명진", "최명진 대표", "세종위성", "세종 위성",
+    "InSpace", "InSpace Technology"
+]
+
+INSPACE_DOMAIN_KEYWORDS = [
+    "위성", "드론", "우주", "항공", "지상국", "방산", "국방", "관제",
+    "지구관측", "위성영상", "우주항공청", "한컴", "무인기", "자율비행",
+    "최명진", "세종위성", "대드론"
+]
+
+INSPACE_NOISE_KEYWORDS = [
+    "인디스페이스", "인디 스페이스", "메타버스", "게임", "데드 스페이스",
+    "인테리어", "건축", "전시", "영화", "팝업", "카페", "빌딩", "부동산",
+    "디자인", "mmorpg", "게이머", "독립영화"
+]
+
+def is_genuine_inspace_article(title: str, subtitle: str) -> bool:
+    """제목과 내용(description)을 바탕으로 진짜 우리 회사 기사인지 판별"""
+    text = (title + " " + subtitle).lower()
+    text_no_space = text.replace(" ", "")
+
+    for exact in INSPACE_EXACT_MATCH:
+        if exact.replace(" ", "").lower() in text_no_space:
+            return True
+
+    for noise in INSPACE_NOISE_KEYWORDS:
+        if noise in text_no_space or noise in text:
+            return False
+
+    for domain_kw in INSPACE_DOMAIN_KEYWORDS:
+        if domain_kw in text:
+            return True
+
+    return False
 
 
 # ============================================================
@@ -2825,6 +2873,26 @@ def search_naver_inspace(query: str, min_needed=20, max_calls=3):
             if d.date() < start_date_kst or d.date() > end_date_kst:
                 continue
 
+        for it in items:
+            try:
+                d = dateparser.parse(it.get("pubDate"))
+            except:
+                continue
+            if not d:
+                continue
+            if d.date() < start_date_kst or d.date() > end_date_kst:
+                continue
+
+           # (추가할 코드 시작) -----------------------------------------
+            raw_title = clean_text(it.get("title", ""))
+            raw_subtitle = clean_text(it.get("description", ""))
+
+            # 🔥 진짜 우리 회사 기사가 아니면 다음 기사로 패스!
+            if not is_genuine_inspace_article(raw_title, raw_subtitle):
+                continue
+            # (추가할 코드 끝) -----------------------------------------
+
+
             raw_url = (it.get("originallink") or it.get("link") or "").strip()
             if not raw_url:
                 continue
@@ -3028,7 +3096,7 @@ print("✓ 인스페이스 뉴스 수집 완료")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[30]:
+# In[52]:
 
 
 # ============================================
@@ -3465,7 +3533,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-1 최신 연구동향 추가**
 
-# In[31]:
+# In[53]:
 
 
 # ============================================
@@ -3803,7 +3871,7 @@ else:
 
 # # **07-2 썸네일 추출 (기본 썸네일 포함)**
 
-# In[32]:
+# In[54]:
 
 
 import re
@@ -4399,7 +4467,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **07-3 인스페이스 TOP 기사 요약 생성**
 
-# In[33]:
+# In[55]:
 
 
 # ============================================================
@@ -4478,7 +4546,7 @@ for a in inspace_top_articles:
 
 # # **08-1 인사이트 생성**
 
-# In[34]:
+# In[56]:
 
 
 # ============================================================
@@ -4755,7 +4823,7 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[35]:
+# In[57]:
 
 
 # @title
@@ -8307,7 +8375,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[36]:
+# In[58]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -8388,7 +8456,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[37]:
+# In[59]:
 
 
 # ============================
