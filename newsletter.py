@@ -9,7 +9,7 @@
 
 # # **01-1 GitHub 연동 설정 (Colab 전용)**
 
-# In[42]:
+# In[62]:
 
 
 # ============================
@@ -49,7 +49,7 @@ if IN_COLAB:
 
 # # **01-2 라이브러리 설치**
 
-# In[43]:
+# In[63]:
 
 
 # ============================
@@ -109,7 +109,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # # **02-1 설정 (API 키)**
 
-# In[44]:
+# In[64]:
 
 
 # ============================================================
@@ -134,7 +134,7 @@ NEWSDATA_BASE_URL_LATEST = "https://newsdata.io/api/1/latest"
 
 # # **02-2 설정 (기본 설정, 날짜, 수집 기간, 이미지)**
 
-# In[45]:
+# In[65]:
 
 
 # 사용할 GPT mini 모델 이름 (예: "gpt-4.1-mini", 나중에 "gpt-5.1-mini"로 교체 가능)
@@ -359,7 +359,7 @@ MIN_TOTAL_PER_TOPIC = ARTICLES_PER_TOPIC_FINAL + 6  # 3 + 6 = 9
 
 # # **03 NewsAPI로 기사 수집**
 
-# In[46]:
+# In[66]:
 
 
 # ============================
@@ -1581,7 +1581,7 @@ if IN_COLAB:
 
 # # **03-1 언어별 비율 계산 함수**
 
-# In[47]:
+# In[67]:
 
 
 # ============================
@@ -1638,7 +1638,7 @@ def is_korean_article(article_dict):
 
 # # **04 GPT (엄격 필터링/분류/요약)**
 
-# In[48]:
+# In[68]:
 
 
 # ============================
@@ -1950,7 +1950,7 @@ if IN_COLAB:
 
 # # **05 부족한 토픽은 백업 프롬프트로 채우기 + 토픽당 3개 맞추기**
 
-# In[49]:
+# In[69]:
 
 
 # ============================
@@ -2072,7 +2072,7 @@ print("CSV 저장 완료: newsletter_articles.csv")
 
 # # **06 메인(3개) + 더보기 기사 분리**
 
-# In[50]:
+# In[70]:
 
 
 # ============================
@@ -2483,7 +2483,7 @@ print("\n" + "="*60 + "\n")
 
 # # **06-1 인스페이스 기사 추가**
 
-# In[51]:
+# In[71]:
 
 
 # ============================================================
@@ -2545,14 +2545,35 @@ def is_genuine_inspace_article(title: str, subtitle: str) -> bool:
     text = (title + " " + subtitle).lower()
     text_no_space = text.replace(" ", "")
 
-    for exact in INSPACE_EXACT_MATCH:
-        if exact.replace(" ", "").lower() in text_no_space:
-            return True
+    # ============================================================
+    # 🚨 [추가된 핵심 로직] 네이버가 던져준 가짜 뉴스 1차 차단
+    # ============================================================
+    # 기사 안에 "인스페이스", "inspace", "세종1호", "최명진" 중 하나라도 없으면
+    # 아무리 우주/항공 기사라도 우리 회사 기사가 아니므로 가차없이 버림!
+    has_core_keyword = False
+    for core in ["인스페이스", "inspace", "최명진",
+                 "인스페이스 테크놀로지", "인스페이스 최명진", "최명진 대표",
+                 "세종위성", "InSpace Technology"
+                 ]:
+        if core in text_no_space:
+            has_core_keyword = True
+            break
 
+    if not has_core_keyword:
+        return False
+
+    # 1. 영화, 게임, 인테리어 등 노이즈 단어가 있으면 즉시 탈락 (False)
     for noise in INSPACE_NOISE_KEYWORDS:
         if noise in text_no_space or noise in text:
             return False
 
+    # 2. 아주 확실한 고유명사("인스페이스 테크놀로지" 등)가 있으면 프리패스 (True)
+    for exact in INSPACE_EXACT_MATCH:
+        if exact.replace(" ", "").lower() in text_no_space:
+            return True
+
+    # 3. '인스페이스'라는 단어는 있는데, 우주/위성/드론 등 도메인 키워드까지
+    # 같이 있어야만 동음이의어가 아닌 진짜 우리 회사 뉴스로 인정!
     for domain_kw in INSPACE_DOMAIN_KEYWORDS:
         if domain_kw in text:
             return True
@@ -3096,7 +3117,7 @@ print("✓ 인스페이스 뉴스 수집 완료")
 
 # # **07 최신 연구동향 (학술지 섹션) 설정**
 
-# In[52]:
+# In[72]:
 
 
 # ============================================
@@ -3533,7 +3554,7 @@ def collect_research_articles_from_crossref(
 
 # # **07-1 최신 연구동향 추가**
 
-# In[53]:
+# In[73]:
 
 
 # ============================================
@@ -3871,7 +3892,7 @@ else:
 
 # # **07-2 썸네일 추출 (기본 썸네일 포함)**
 
-# In[54]:
+# In[74]:
 
 
 import re
@@ -4467,7 +4488,7 @@ print("(본문 영역 위주 + sidebar/related 제외 + 스마트 필터 + canon
 
 # # **07-3 인스페이스 TOP 기사 요약 생성**
 
-# In[55]:
+# In[75]:
 
 
 # ============================================================
@@ -4546,7 +4567,7 @@ for a in inspace_top_articles:
 
 # # **08-1 인사이트 생성**
 
-# In[56]:
+# In[76]:
 
 
 # ============================================================
@@ -4823,7 +4844,7 @@ print("="*60 + "\n")
 
 # # **08-2 카드/섹션 HTML + 최종 뉴스레터 HTML 생성**
 
-# In[57]:
+# In[77]:
 
 
 # @title
@@ -8375,7 +8396,7 @@ for topic_num, url in TOPIC_MORE_URLS.items():
 # # **09 이메일 자동 발송**
 # ### **(Colab에서 실행하면 테스트 이메일로, Github 실행 시, 실제 수신자에게)**
 
-# In[58]:
+# In[78]:
 
 
 SEND_EMAIL = os.environ.get("SEND_EMAIL", "true").lower() == "true"
@@ -8456,7 +8477,7 @@ else:
 
 # # **10. 최종 통계 출력**
 
-# In[59]:
+# In[79]:
 
 
 # ============================
