@@ -1832,7 +1832,7 @@ def is_korean_article_row(row) -> bool:
 
 strict_rows = []
 hancom_keywords = [
-    "한컴", "한컴인스페이스", "hancom", "hancom inspace", "inspace", "인스페이스"
+    "인스페이스", "인 스페이스", "inspace technology", "inspace"
 ]
 
 # 병렬 처리용 함수 정의
@@ -1852,7 +1852,7 @@ def process_single_article(idx_row):
         print(f"[ERROR] GPT 처리 실패 (url={url}): {e}")
         return None
 
-    # 2) 한컴 키워드 체크
+    # 2) 인스페이스 키워드 체크
     title_lower = str(row.get("original_title") or "").lower()
     desc_lower = str(row.get("description") or "").lower()
 
@@ -1865,7 +1865,7 @@ def process_single_article(idx_row):
     if is_hancom:
         keep = True
         result["keep"] = True
-        result["reason"] = "[한컴 관련] " + result.get("reason", "")
+        result["reason"] = "[인스페이스 관련] " + result.get("reason", "")
 
     # 3) keep=False이면 None 반환
     if not keep:
@@ -2055,7 +2055,7 @@ for t in [1, 2, 3, 4]:
     if cnt < ARTICLES_PER_TOPIC_FINAL:
         print(f"[경고] 토픽 {t}는 NewsAPI에 기사가 부족해서 {cnt}개만 표시됩니다.")
 
-# ---------- 한컴 인스페이스 여부 플래그 ----------
+# ---------- 인스페이스 여부 플래그 ----------
 df_final["hancom_priority"] = df_final.apply(detect_hancom_priority, axis=1)
 print("인스페이스 관련 기사 수:", int(df_final["hancom_priority"].sum()))
 
@@ -2880,8 +2880,8 @@ def search_naver_inspace(query: str, min_needed=20, max_calls=3):
 
 
 def collect_inspace_news():
-    """한컴인스페이스 뉴스 수집 및 중복 제거 (오판 방지 강화 버전)"""
-    primary = "한컴인스페이스"
+    """인스페이스 뉴스 수집 및 중복 제거 (오판 방지 강화 버전)"""
+    primary = "인스페이스"
     results = search_naver_inspace(primary, min_needed=50, max_calls=5)
 
     if len(results) < 20:
@@ -4365,7 +4365,7 @@ for topic_num in topic_extra_articles:
     for art in topic_extra_articles[topic_num]:
         all_articles.append((topic_num, art))
 
-# 🔥 추가: 한컴인스페이스 기사도 썸네일 추출 대상에 포함
+# 🔥 추가: 인스페이스 기사도 썸네일 추출 대상에 포함
 for art in inspace_top_articles:
     all_articles.append(("inspace_top", art))
 
@@ -4702,7 +4702,7 @@ def summarize_insight_for_archive(one_to_three_lines: str) -> str:
             "1) 반드시 동향 동사(강화/가속/확산/부상/전환/재편 중 1개 이상)를 포함해, "
             "‘무엇이 어떻게 변하고 있는지’를 흐름 중심으로 말합니다.\n"
             "2) 주제 나열(예: ‘A와 B와 C’)이나 메타 설명(예: ‘~를 다룹니다/소개합니다/요약합니다/전반적으로’)은 금지합니다.\n"
-            "3) 특정 기업/조직/브랜드(한컴인스페이스 등) 직접 지칭은 금지합니다.\n"
+            "3) 특정 기업/조직/브랜드(인스페이스 등) 직접 지칭은 금지합니다.\n"
             "4) 과장, 단정적 예측, 과도한 결론, 불릿/번호는 금지합니다.\n"
             "5) 80자 이내의 한 문장으로 작성합니다.\n"
             "\n"
@@ -5471,7 +5471,7 @@ def build_inspace_more_page_html(more_articles, date_range, newsletter_date):
 
               InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
               본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
-              &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
+              &copy; {now_kst.year}  InSpace Co., Ltd. All Rights Reserved.
 
             </td>
           </tr>
@@ -5978,7 +5978,7 @@ def build_more_page_html(topic_extra_articles, date_range, newsletter_date, head
 
               InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
               본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
-              &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
+              &copy; {now_kst.year}  InSpace Co., Ltd. All Rights Reserved.
 
             </td>
           </tr>
@@ -6437,7 +6437,7 @@ def build_research_more_page_html(extra_articles, date_range, newsletter_date, h
 
               InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
               본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
-              &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
+              &copy; {now_kst.year}  InSpace Co., Ltd. All Rights Reserved.
 
             </td>
           </tr>
@@ -8060,7 +8060,7 @@ newsletter_html = f"""
 
             InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
             본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우, 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
-            &copy; {now_kst.year} Hancom InSpace. All Rights Reserved.
+            &copy; {now_kst.year}  InSpace Co., Ltd. All Rights Reserved.
 
           </td>
         </tr>
