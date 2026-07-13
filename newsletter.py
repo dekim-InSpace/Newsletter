@@ -5683,7 +5683,7 @@ def build_more_page_html(topic_extra_articles, date_range, newsletter_date, head
             if sub_title:
                 sub_block = f"""
         <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
-          {h(sub_title)}
+          {h("" if isinstance(sub_title, float) else str(sub_title))}
         </div>"""
 
             # ✅ 테이블 구조를 올바르게: <tr> 안에 다시 <tr> 넣지 않기
