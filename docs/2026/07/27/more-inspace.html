@@ -1,0 +1,682 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+<title>인스페이스 - 추가 기사</title>
+
+<style>
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-position:center 0 !important;
+    }
+    .hero-header-cell {
+      padding: 14px 0 0 0 !important;
+    }
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background:#f3f4f6;
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","맑은 고딕",system-ui,sans-serif;
+  }
+
+  .content-wrapper {
+    flex: 1;
+  }
+
+  /* ✅ (NEW) 행 전체 클릭 링크 + 행 전체 hover */
+  a.row-link{
+    display:block;
+    width:100%;
+    text-decoration:none;
+    color:inherit;
+  }
+  a.row-link:hover{
+    background:#f3f4f6;
+  }
+
+</style>
+
+</head>
+
+<body>
+
+  <!-- 헤더 -->
+  <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-image:url('https://dekim-inspace.github.io/Newsletter/assets/header_geoint1.png');
+              background-size:cover;
+              background-position:center 52%;
+              background-repeat:no-repeat;">
+    <tr>
+      <td align="center" class="hero-header-cell"
+          bgcolor="#000000"
+          style="padding:8px 24px 8px 24px;
+                 background: linear-gradient(to bottom right,
+                             rgba(255,255,255,0.70),
+                             rgba(255,255,255,0.70));
+                 color:#ffffff;">
+
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="max-width:700px; width:100%;
+                      color:#000000; margin:0 auto;">
+
+          <tr>
+            <td style="padding:16px 24px 8px 24px;">
+              <table width="100%">
+                <tr>
+                  <td align="left">
+                    <img src="https://dekim-inspace.github.io/Newsletter/assets/hlogo1.png" style="max-width:110px; display:block;">
+                  </td>
+                  <td align="right"
+                      style="text-transform:uppercase; font-size:13px; font-weight:500;
+                             color:#000000;">
+                    WWW.INSPACE.CO.KR
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:12px 24px 12px 24px;
+                      font-size:28px; font-weight:700;
+                      font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
+                      color:#000000;">
+              인스페이스 - 추가 기사
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:0 24px 48px 24px;
+                       font-size:14px; font-weight:500; opacity:0.9; line-height:1.5;
+                       color:#000000;">
+              2026년 7월 19일 ~ 2026년 7월 26일<br>
+              7월 4주차 뉴스레터
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+  <div class="content-wrapper">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td style="padding:0 16px 0 16px;">
+
+              <div style="padding-bottom:20px; text-align:left;">
+                <a href="https://dekim-inspace.github.io/Newsletter/2026/07/27/index.html"
+                  style="display:inline-block;
+                          font-size:13px;
+                          padding:6px 12px;
+                          border-radius:999px;
+                          background:#111827;
+                          color:#ffffff;
+                          text-decoration:none;">
+                  ← 메인 뉴스레터로 돌아가기
+                </a>
+              </div>
+
+              
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#ffffff;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;">
+        <tr>
+          <td>
+            <div style="font-size:24px; font-weight:700; color:#111827;
+                        margin-bottom:16px;">
+              🌐 인스페이스 추가 기사
+            </div>
+            
+<div id="inspace-pagination"
+     style="display:flex;
+            justify-content:flex-end;
+            align-items:center;
+            font-size:14px;
+            color:#4b5563;
+            margin-bottom:12px;">
+  <span id="inspace-page-info" style="margin-right:14px;"></span>
+  <a href="#" id="inspace-prev"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;
+            margin-right:4px;">‹</a>
+  <a href="#" id="inspace-next"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;">›</a>
+</div>
+
+            
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  
+                  <tr class="inspace-article-row" data-index="0">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.munhwa.com/article/11604609?ref=naver" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://wimg.munhwa.com/news/cms/2026/07/23/news-p.v1.20260719.fcba164bbefd47498163d6a65b5ed3d0_R.png" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                정부, 민간 위성영상 구매 늘린다…공공시장 마중물 역할
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          간담회에는 나라스페이스와 에스아이아이에스, 인스페이스 , 컨텍, 텔레픽스 등 위성영상 기업 5곳이 참석했다. 위성영상을 활용하거나 구매하는 국가데이터처와 기상청, 농촌진흥청, 산림청, 해양경찰청 등 정부 기관도...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="1">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.m-i.kr/news/articleView.html?idxno=1394723" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.m-i.kr/news/thumbnail/202607/1394723_1182421_444_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                공공 조달로 민간 위성영상 시장 키운다
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          간담회에는 나라스페이스와 에스아이아이에스, 인스페이스 , 컨텍, 텔레픽스 등 위성영상 기업 5곳이 참석했다. 국가데이터처와 기상청, 농촌진흥청, 산림청, 해양경찰청 등 구매 관계기관도 자리를 함께했다. 우주청은...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="2">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.ppss.kr/news/articleView.html?idxno=303021" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.ppss.kr/news/photo/202607/303021_122624_445.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                정부, 우주기업 수요 창출 나선다...위성영상 공공 수요 확대
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          기업 측에서는 나라스페이스와 에스아이아이에스, 인스페이스 , 컨텍, 텔레픽스 등이 참여했다. 우주항공청은 이날 민간 위성영상 구매 확대를 위한 정책 방향을 공유하고, 관계기관과 기업들은 공공 분야에서 민간...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="3">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.dailian.co.kr/news/view/1670049/?sc=Naver" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdnimage.dailian.co.kr/news/202606/news_1780901902_1653660_m_1.jpeg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                우주항공청, 민간 위성영상 공공 구매 확대 추진
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이날 회의에는 나라스페이스, 에스아이아이에스, 인스페이스 , 컨텍, 텔레픽스 등 위성영상 공급 전문 기업 5곳을 비롯해 국가데이터처, 기상청, 농촌진흥청, 산림청, 해양경찰청 등 주요 수요 기관이 참석했다....
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="4">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.etnews.com/20260723000311" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://img.etnews.com/news/article/2026/07/23/news-p.v1.20260723.27c58ed5479249df86f74f2b8ef86504_P1.png" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                우주청, 공공 분야 민간 위성영상 구매 확대 위한 민관 간담회 개최
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이날 간담회에는 나라스페이스, 에스아이아이에스, 인스페이스 , 컨텍, 텔레픽스 등 위성영상 공급 전문성을 보유한 5개 기업과 국가데이터처, 기상청, 농촌진흥청, 산림청, 해양경찰청 등 위성영상 구매 관계기관이...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="5">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.mt.co.kr/tech/2026/07/23/2026072312492652645" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://thumb.mt.co.kr/cdn-cgi/image/f=avif/21/2026/07/2026072312492652645_1.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                &quot;위성 영상 한 장도 못 팔았다&quot;는 기업 대표…이젠 바뀔까
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          간담회에는 나라스페이스테크놀로지·에스아이아이에스(SIIS)· 인스페이스 ·컨텍·텔레픽스 등 국내 인공위성 전문 기업 5곳을 비롯해 영상 실수요처인 항우연 위성정보활용지원센터·국가데이터처·기상청·농촌진흥청...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="6">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://view.asiae.co.kr/article/2026072310235353999" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cwstatic.asiae.co.kr/asiae_v2/asiae_news.png" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                정부, 민간 위성영상 구매 늘린다…공공 수요로 우주산업 키운다
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          간담회에는 나라스페이스, 에스아이아이에스, 인스페이스 , 컨텍, 텔레픽스 등 위성영상 기업과 국가데이터처, 기상청, 농촌진흥청, 산림청, 해양경찰청 등 위성영상 수요기관이 참석했다. 우주항공청은 위성운영 및...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="7">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.news1.kr/it-science/general-science/6236253" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                정부, 민간 위성영상 구매 확대…민·관 간담회 개최
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          간담회에는 나라스페이스와 에스아이아이에스, 인스페이스 , 컨텍, 텔레픽스 등 위성영상 기업 5곳이 참석했다. 국가데이터처와 기상청, 농촌진흥청, 산림청, 해양경찰청 등 위성영상 구매 가능성이 있는 정부기관도...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="8">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.yna.co.kr/view/AKR20260723065900017?input=1195m" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://img2.yna.co.kr/photo/yna/YH/2024/01/29/PYH2024012903510001700_P4.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                정부, 민간 위성영상 구매 확대…우주기업 수요 창출 나선다
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          간담회에는 국가데이터처, 기상청, 농촌진흥청, 산림청, 해양경찰청 관계자와 나라스페이스, 에스아이아이에스, 인스페이스 , 컨텍, 텔레픽스 등 기업 측이 참가했다. 우주항공청은 민간 위성영상 구매 확대를 위한 정책...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="9">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.newsis.com/view/NISX20260723_0003719786" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://img1.newsis.com/2026/07/23/NISI20260723_0002193447_web.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                정부, 민간 위성영상 구매 늘린다…고해상도 영상 규제 완화 추진
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          이날 행사에는 나라스페이스·에스아이아이에스· 인스페이스 ·컨텍·텔레픽스 등 위성영상 공급 전문기업 5곳이 참여했다. 위성영상 구매 관계기관으로는 국가데이터처·기상청·농촌진흥청·산림청·해양경찰청 등이...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="10">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.news2day.co.kr/article/20260722500390" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.news2day.co.kr/data2/content/image/2026/07/22/.cache/512/20260722500387.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                [N2 포커스] 대신증권 IPO 리그 반전 노린다…열쇠는 소노인터내셔널
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          한컴 인스페이스 의 예심 미승인과 유빅스테라퓨틱스의 심사 철회, 여기에 덕산넵코어스와 디티에스의 심사 장기화까지 겹치면서 파이프라인이 실적으로 연결되지 못했던 탓이다. 이와 관련, 대신증권 관계자는...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-23
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="11">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.ebn.co.kr/news/articleView.html?idxno=1716930" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.ebn.co.kr/news/thumbnail/202607/1716930_746664_3820_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                한컴, 공공 AX 타고 질주…&quot;AI 매출 4배 성장 노린다&quot;
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          한컴은 지난달 한컴 인스페이스 주식 약 309만주를 매각해 319억원의 현금을 확보했고, 유럽 사업개발 담당으로 현지 B2B 영업 전문가인 빅터 베네가스 멘도사 이사를 영입했다. 이를 바탕으로 최근 폴란드 연구개발...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-07-21
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+</table>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- 푸터 -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+        style="background:#1e293b; padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td class="inner-padding"
+                style="padding:12px 16px;
+                      font-size:12px;
+                      color:#e2e8f0;
+                      text-align:center;
+                      line-height:1.6;">
+
+              InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
+              &copy; 2026  InSpace Co., Ltd. All Rights Reserved.
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+  (function() {
+    var PAGE_SIZE = 5;
+    var rows = Array.prototype.slice.call(
+      document.querySelectorAll('.inspace-article-row')
+    );
+    var total = rows.length;
+    var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    var currentPage = 1;
+
+    var infoEl = document.getElementById('inspace-page-info');
+    var prevEl = document.getElementById('inspace-prev');
+    var nextEl = document.getElementById('inspace-next');
+
+    function render(page) {
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+
+      var start = (currentPage - 1) * PAGE_SIZE;
+      var end = start + PAGE_SIZE;
+
+      rows.forEach(function(row, idx) {
+        row.style.display = (idx >= start && idx < end) ? '' : 'none';
+      });
+
+      if (infoEl) {
+        var from = total === 0 ? 0 : start + 1;
+        var to = Math.min(end, total);
+        infoEl.textContent = from + '–' + to + ' of ' + total;
+      }
+
+      if (prevEl) {
+        prevEl.style.opacity = currentPage === 1 ? '0.3' : '1';
+        prevEl.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+      }
+
+      if (nextEl) {
+        nextEl.style.opacity = currentPage === totalPages ? '0.3' : '1';
+        nextEl.style.pointerEvents = currentPage === totalPages ? 'none' : 'auto';
+      }
+    }
+
+    if (prevEl) prevEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage - 1);
+    });
+
+    if (nextEl) nextEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage + 1);
+    });
+
+    render(1);
+  })();
+  </script>
+
+</body>
+</html>
