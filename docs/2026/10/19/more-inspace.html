@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+<title>인스페이스 - 추가 기사</title>
+
+<style>
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-position:center 0 !important;
+    }
+    .hero-header-cell {
+      padding: 14px 0 0 0 !important;
+    }
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background:#f3f4f6;
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","맑은 고딕",system-ui,sans-serif;
+  }
+
+  .content-wrapper {
+    flex: 1;
+  }
+
+  /* ✅ (NEW) 행 전체 클릭 링크 + 행 전체 hover */
+  a.row-link{
+    display:block;
+    width:100%;
+    text-decoration:none;
+    color:inherit;
+  }
+  a.row-link:hover{
+    background:#f3f4f6;
+  }
+
+</style>
+
+</head>
+
+<body>
+
+  <!-- 헤더 -->
+  <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-image:url('https://dekim-inspace.github.io/Newsletter/assets/header_geoint1.png');
+              background-size:cover;
+              background-position:center 52%;
+              background-repeat:no-repeat;">
+    <tr>
+      <td align="center" class="hero-header-cell"
+          bgcolor="#000000"
+          style="padding:8px 24px 8px 24px;
+                 background: linear-gradient(to bottom right,
+                             rgba(255,255,255,0.70),
+                             rgba(255,255,255,0.70));
+                 color:#ffffff;">
+
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="max-width:700px; width:100%;
+                      color:#000000; margin:0 auto;">
+
+          <tr>
+            <td style="padding:16px 24px 8px 24px;">
+              <table width="100%">
+                <tr>
+                  <td align="left">
+                    <img src="https://dekim-inspace.github.io/Newsletter/assets/hlogo1.png" style="max-width:110px; display:block;">
+                  </td>
+                  <td align="right"
+                      style="text-transform:uppercase; font-size:13px; font-weight:500;
+                             color:#000000;">
+                    WWW.INSPACE.CO.KR
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:12px 24px 12px 24px;
+                      font-size:28px; font-weight:700;
+                      font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
+                      color:#000000;">
+              인스페이스 - 추가 기사
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:0 24px 48px 24px;
+                       font-size:14px; font-weight:500; opacity:0.9; line-height:1.5;
+                       color:#000000;">
+              2026년 10월 11일 ~ 2026년 10월 18일<br>
+              10월 3주차 뉴스레터
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+  <div class="content-wrapper">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td style="padding:0 16px 0 16px;">
+
+              <div style="padding-bottom:20px; text-align:left;">
+                <a href="https://dekim-inspace.github.io/Newsletter/2026/10/19/index.html"
+                  style="display:inline-block;
+                          font-size:13px;
+                          padding:6px 12px;
+                          border-radius:999px;
+                          background:#111827;
+                          color:#ffffff;
+                          text-decoration:none;">
+                  ← 메인 뉴스레터로 돌아가기
+                </a>
+              </div>
+
+              
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#ffffff;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;">
+        <tr>
+          <td>
+            <div style="font-size:24px; font-weight:700; color:#111827;
+                        margin-bottom:16px;">
+              🌐 인스페이스 추가 기사
+            </div>
+            
+<div id="inspace-pagination"
+     style="display:flex;
+            justify-content:flex-end;
+            align-items:center;
+            font-size:14px;
+            color:#4b5563;
+            margin-bottom:12px;">
+  <span id="inspace-page-info" style="margin-right:14px;"></span>
+  <a href="#" id="inspace-prev"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;
+            margin-right:4px;">‹</a>
+  <a href="#" id="inspace-next"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;">›</a>
+</div>
+
+            
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  
+                  <tr class="inspace-article-row" data-index="0">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.e-science.co.kr/news/articleView.html?idxno=137214" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.e-science.co.kr/news/photo/202610/137214_69964_4820.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                한컴, M&amp;A 영업권 4년간 1059억 원 손상…사업 시너지 중심 포트폴리오 ...
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          한컴 인스페이스 는 올해 상반기 보유 지분 전량을 매각하면서 투자 차익을 실현했다. 인수기업별로 영업권 손상과 투자금 회수 결과가 다르게 나타난 셈이다. 올해 6월 말 기준 한컴의 연결재무제표에 남아 있는...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-10-13
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="1">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.edaily.co.kr/News/Read?newsId=03365286645612592&amp;mediaCodeNo=257" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://image.edaily.co.kr/images/Photo/files/NP/S/2026/10/PS26101300710.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                한국계 4세가 이끄는 &#x27;美무용계 보물&#x27; DTSBDC, 첫 내한
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          솔로 ‘라이트 어게인스트 디 어스’(Light Against the Earth)는 조각가 이사무 노구치 작품에서 느껴지는 무게와 힘을, 듀엣 ‘드로잉 인 스페이스 ’(Drawing in Space)는 ‘루스 아사와’(Ruth Asawa)의 철사 조각에서...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-10-13
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="2">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.bloter.net/news/articleView.html?idxno=675492" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.bloter.net/news/thumbnail/202610/675492_289382_2420_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                한컴, 4년간 M&amp;A 영업권 손상 1058억…인수 기업 줄줄이 감액
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          반면 2022년 처음 투자한 위성 업체 한컴 인스페이스 는 올해 상반기 지분을 전량 매각해 차익을 냈다. 장부에 남은 영업권도 적지 않다. 한컴의 영업권은 올해 6월 말 기준 145억6610만원이다. 인수 기업들의 실적이...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-10-13
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="3">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.digitaltoday.co.kr/news/articleView.html?idxno=706305" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.digitaltoday.co.kr/news/photo/202610/706305_654042_1347.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                달 정착 최대 난관은 &#x27;물&#x27;…대규모 달 도시 유지 불가
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          지난 10일(현지시간) 일본 매체 기가진에 따르면 미국 스미소니언 천체물리관측소의 마틴 엘비스와 조너선 맥도웰 연구팀은 최근 국제학술지 프런티어스 인 스페이스 테크놀로지스(Frontiers in Space Technologies)에 이 같은...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-10-12
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+</table>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- 푸터 -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+        style="background:#1e293b; padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td class="inner-padding"
+                style="padding:12px 16px;
+                      font-size:12px;
+                      color:#e2e8f0;
+                      text-align:center;
+                      line-height:1.6;">
+
+              InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
+              &copy; 2026  InSpace Co., Ltd. All Rights Reserved.
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+  (function() {
+    var PAGE_SIZE = 5;
+    var rows = Array.prototype.slice.call(
+      document.querySelectorAll('.inspace-article-row')
+    );
+    var total = rows.length;
+    var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    var currentPage = 1;
+
+    var infoEl = document.getElementById('inspace-page-info');
+    var prevEl = document.getElementById('inspace-prev');
+    var nextEl = document.getElementById('inspace-next');
+
+    function render(page) {
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+
+      var start = (currentPage - 1) * PAGE_SIZE;
+      var end = start + PAGE_SIZE;
+
+      rows.forEach(function(row, idx) {
+        row.style.display = (idx >= start && idx < end) ? '' : 'none';
+      });
+
+      if (infoEl) {
+        var from = total === 0 ? 0 : start + 1;
+        var to = Math.min(end, total);
+        infoEl.textContent = from + '–' + to + ' of ' + total;
+      }
+
+      if (prevEl) {
+        prevEl.style.opacity = currentPage === 1 ? '0.3' : '1';
+        prevEl.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+      }
+
+      if (nextEl) {
+        nextEl.style.opacity = currentPage === totalPages ? '0.3' : '1';
+        nextEl.style.pointerEvents = currentPage === totalPages ? 'none' : 'auto';
+      }
+    }
+
+    if (prevEl) prevEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage - 1);
+    });
+
+    if (nextEl) nextEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage + 1);
+    });
+
+    render(1);
+  })();
+  </script>
+
+</body>
+</html>
