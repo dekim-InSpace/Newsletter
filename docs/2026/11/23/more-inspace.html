@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+<title>인스페이스 - 추가 기사</title>
+
+<style>
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-position:center 0 !important;
+    }
+    .hero-header-cell {
+      padding: 14px 0 0 0 !important;
+    }
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background:#f3f4f6;
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","맑은 고딕",system-ui,sans-serif;
+  }
+
+  .content-wrapper {
+    flex: 1;
+  }
+
+  /* ✅ (NEW) 행 전체 클릭 링크 + 행 전체 hover */
+  a.row-link{
+    display:block;
+    width:100%;
+    text-decoration:none;
+    color:inherit;
+  }
+  a.row-link:hover{
+    background:#f3f4f6;
+  }
+
+</style>
+
+</head>
+
+<body>
+
+  <!-- 헤더 -->
+  <table class="hero-bg" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background-image:url('https://dekim-inspace.github.io/Newsletter/assets/header_geoint1.png');
+              background-size:cover;
+              background-position:center 52%;
+              background-repeat:no-repeat;">
+    <tr>
+      <td align="center" class="hero-header-cell"
+          bgcolor="#000000"
+          style="padding:8px 24px 8px 24px;
+                 background: linear-gradient(to bottom right,
+                             rgba(255,255,255,0.70),
+                             rgba(255,255,255,0.70));
+                 color:#ffffff;">
+
+        <table cellpadding="0" cellspacing="0" border="0"
+               style="max-width:700px; width:100%;
+                      color:#000000; margin:0 auto;">
+
+          <tr>
+            <td style="padding:16px 24px 8px 24px;">
+              <table width="100%">
+                <tr>
+                  <td align="left">
+                    <img src="https://dekim-inspace.github.io/Newsletter/assets/hlogo1.png" style="max-width:110px; display:block;">
+                  </td>
+                  <td align="right"
+                      style="text-transform:uppercase; font-size:13px; font-weight:500;
+                             color:#000000;">
+                    WWW.INSPACE.CO.KR
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:12px 24px 12px 24px;
+                      font-size:28px; font-weight:700;
+                      font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','맑은 고딕',system-ui,sans-serif;
+                      color:#000000;">
+              인스페이스 - 추가 기사
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center"
+                style="padding:0 24px 48px 24px;
+                       font-size:14px; font-weight:500; opacity:0.9; line-height:1.5;
+                       color:#000000;">
+              2026년 11월 15일 ~ 2026년 11월 22일<br>
+              11월 4주차 뉴스레터
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+  <div class="content-wrapper">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td style="padding:0 16px 0 16px;">
+
+              <div style="padding-bottom:20px; text-align:left;">
+                <a href="https://dekim-inspace.github.io/Newsletter/2026/11/23/index.html"
+                  style="display:inline-block;
+                          font-size:13px;
+                          padding:6px 12px;
+                          border-radius:999px;
+                          background:#111827;
+                          color:#ffffff;
+                          text-decoration:none;">
+                  ← 메인 뉴스레터로 돌아가기
+                </a>
+              </div>
+
+              
+<table width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin-bottom:28px;">
+  <tr>
+    <td align="center">
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="width:100%;
+                    max-width:700px;
+                    background:#ffffff;
+                    border:1px solid #e5e7eb;
+                    border-radius:12px;
+                    padding:20px;
+                    box-sizing:border-box;">
+        <tr>
+          <td>
+            <div style="font-size:24px; font-weight:700; color:#111827;
+                        margin-bottom:16px;">
+              🌐 인스페이스 추가 기사
+            </div>
+            
+<div id="inspace-pagination"
+     style="display:flex;
+            justify-content:flex-end;
+            align-items:center;
+            font-size:14px;
+            color:#4b5563;
+            margin-bottom:12px;">
+  <span id="inspace-page-info" style="margin-right:14px;"></span>
+  <a href="#" id="inspace-prev"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;
+            margin-right:4px;">‹</a>
+  <a href="#" id="inspace-next"
+     style="width:32px; height:32px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            text-decoration:none; color:#374151;">›</a>
+</div>
+
+            
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  
+                  <tr class="inspace-article-row" data-index="0">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.datanet.co.kr/news/articleView.html?idxno=300258" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.datanet.co.kr/news/photo/202611/300258_200252_4523.png" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                한국중부발전, 24시간 발전소 지키는 AI 기반 드론 방호체계 구축
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          인스페이스 (대표 최명진)는 한국중부발전 보령발전본부에 AI 영상분석과 자율비행 드론을 결합한 &#x27;발전소 지능형 AI 방호·안전 표준 플랫폼(이하 PASS)&#x27; 구축을 완료했다고 밝혔다. 인스페이스 는 지난 1월 AI 드론을...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-11-18
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="1">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.ezyeconomy.com/news/articleView.html?idxno=241934" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.ezyeconomy.com/news/thumbnail/202611/241934_143554_5349_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                [EZ 포커스] 오너 3세 김정균, 우주사업 구체화…보령, 사업 다각화 속도
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          보령은 연구과제에 맞는 실증 환경을 제공하고, 우주의학 분야 스타트업과 연구과제를 발굴하는 &#x27;휴먼스 인 스페이스 (HIS)&#x27; 챌린지를 활용한 후속 공동연구도 지원한다. 협약의 성격은 앞선 행보와 견주면 더 뚜렷해진다....
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-11-18
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="2">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.sisaon.co.kr/news/articleView.html?idxno=206134" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.sisaon.co.kr/news/photo/202611/206134_309404_2210.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                &#x27;국민 SW&#x27; 신화에서 글로벌 AI로…한컴 36년史 [옛날신문보기]
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          올해 한컴 인스페이스 와 씽크프리, 매드엑스컴퍼니 등의 지분을 정리하며 AI 사업 중심으로 포트폴리오를... 한컴은 올해 한컴 인스페이스 와 씽크프리 등 비핵심 계열사 지분을 정리했고, 3분기 말 별도 기준...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-11-17
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="3">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.fnnews.com/news/202611170143552782" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://image.fnnews.com/resource/media/image/2026/11/15/202611151811010696_e.JPG" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                &quot;테슬라- 스페이스 X 내년 3월까지 합병 가능성 62%&quot; 예측시장
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          일론 머스크의 양대 빅테크 인 스페이스 X와 테슬라가 내년 3월 이전까지 합병할 확률이 27%에서 62%로 급격히... 머스크의 위성·로켓 업체 스페이스X와 전기차 업체 테슬라가 합병할 것이란 전망은 스페이스X가 상장하기...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-11-17
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="4">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="http://www.newsfarm.co.kr/news/articleView.html?idxno=102947" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.newsfarm.co.kr/news/thumbnail/202611/102947_76110_4321_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                농어촌공사, AI·위성 활용한 농업기반시설 안전관리 방안 모색
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          강애띠 인스페이스 (INSPACE) 소장은 저수지 관리 우선순위를 정하기 위한 &#x27;위성 InSAR 기반 안전관리 방안&#x27;을 발표했다. InSAR는 서로 다른 시점에 얻은 두 장 이상의 레이더 영상 간 위상 차이를 비교해 지표의 미세한...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-11-16
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="inspace-article-row" data-index="5">
+                    <td style="padding:0; border-bottom:1px solid #e5e7eb;">
+                      <a href="https://www.newsfreezone.co.kr/news/articleView.html?idxno=719440" target="_blank"
+                        style="text-decoration:none; color:inherit; display:block; padding:10px 0;
+                              transition:background-color 0.2s ease;"
+                        onmouseover="this.style.backgroundColor='#f3f4f6'"
+                        onmouseout="this.style.backgroundColor='transparent'">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td valign="top" width="96" style="padding-right:8px;">
+                              <img src="https://cdn.newsfreezone.co.kr/news/thumbnail/202611/719440_768901_1255_v150.jpg" width="80" height="80"
+                                  style="display:block; border-radius:10px; object-fit:cover;"
+                                  onerror="this.onerror=null; this.src='https://e0.pxfuel.com/wallpapers/597/629/desktop-wallpaper-fun-funny-funny-funny-space.jpg';">
+                            </td>
+
+                            <td valign="top">
+                              <div style="font-size:14px; line-height:1.5; margin-bottom:2px; color:#111827;">
+                                AI 매출 30% 달성 한컴, 오너 유죄 수습할 밸류업 &#x27;촉각&#x27;
+                              </div>
+                              
+        <div style="font-size:12px; color:#6b7280; margin-top:2px; line-height:1.4;">
+          자회사 실적을 제외한 한컴 본체(별도 기준)의 올해 3분기 AI 매출이 148억원(전체 매출의 30.7%)을 기록하고, 지난 6월 한컴 인스페이스 지분을 매각한 데 이어 씽크프리 등 비핵심 계열사 지분을 추가로 정리해 3분기 말...
+        </div>
+                              <div style="font-size:11px; color:#9ca3af; margin-top:2px;">
+                                2026-11-16
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                
+</table>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- 푸터 -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+        style="background:#1e293b; padding:24px 0 32px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0"
+              style="max-width:700px; width:100%; margin:0 auto;">
+          <tr>
+            <td class="inner-padding"
+                style="padding:12px 16px;
+                      font-size:12px;
+                      color:#e2e8f0;
+                      text-align:center;
+                      line-height:1.6;">
+
+              InSpace Weekly는 인스페이스 구성원 여러분의 산업 동향 파악과 인사이트 함양을 위해 매주 발행되는 사내 주간 브리핑입니다.<br>
+              본 메일의 내용과 관련하여 추가적인 정보가 필요하시거나 의견이 있으신 경우 대외협력실로 문의주시면 성실히 답변드리겠습니다.<br><br>
+              &copy; 2026  InSpace Co., Ltd. All Rights Reserved.
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+  (function() {
+    var PAGE_SIZE = 5;
+    var rows = Array.prototype.slice.call(
+      document.querySelectorAll('.inspace-article-row')
+    );
+    var total = rows.length;
+    var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    var currentPage = 1;
+
+    var infoEl = document.getElementById('inspace-page-info');
+    var prevEl = document.getElementById('inspace-prev');
+    var nextEl = document.getElementById('inspace-next');
+
+    function render(page) {
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+
+      var start = (currentPage - 1) * PAGE_SIZE;
+      var end = start + PAGE_SIZE;
+
+      rows.forEach(function(row, idx) {
+        row.style.display = (idx >= start && idx < end) ? '' : 'none';
+      });
+
+      if (infoEl) {
+        var from = total === 0 ? 0 : start + 1;
+        var to = Math.min(end, total);
+        infoEl.textContent = from + '–' + to + ' of ' + total;
+      }
+
+      if (prevEl) {
+        prevEl.style.opacity = currentPage === 1 ? '0.3' : '1';
+        prevEl.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+      }
+
+      if (nextEl) {
+        nextEl.style.opacity = currentPage === totalPages ? '0.3' : '1';
+        nextEl.style.pointerEvents = currentPage === totalPages ? 'none' : 'auto';
+      }
+    }
+
+    if (prevEl) prevEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage - 1);
+    });
+
+    if (nextEl) nextEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      render(currentPage + 1);
+    });
+
+    render(1);
+  })();
+  </script>
+
+</body>
+</html>
